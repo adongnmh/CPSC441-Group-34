@@ -47,7 +47,7 @@ public class SelectServer {
         //Initialize the UDP Server
         DatagramChannel udpServer = DatagramChannel.open();
         DatagramPacket myPacket = null;
-        byte[] udpBuffer = null;
+        ByteBuffer udpBuffer = null;
 
         //Configure the UDP Server
         udpServer.configureBlocking(false);
@@ -59,7 +59,6 @@ public class SelectServer {
         // Wait for something happen among all registered sockets
         try {
             boolean terminated = false;
-            System.out.println("hello");
             while (!terminated) 
             {
                 if (selector.select(500) < 0)
@@ -72,16 +71,16 @@ public class SelectServer {
                 Set readyKeys = selector.selectedKeys();
                 Iterator readyItor = readyKeys.iterator();
 
+
                 // Walk through the ready set
                 while (readyItor.hasNext()) 
                 {
-                    System.out.println("tcpin");
-
                     // Get key from set
                     SelectionKey key = (SelectionKey)readyItor.next();
 
                     // Remove current entry
                     readyItor.remove();
+
 
                     // Accept new connections, if any
                     if (key.isAcceptable() && (key.channel() == channel))
@@ -94,6 +93,26 @@ public class SelectServer {
                         // Register the new connection for read operation
                         cchannel.register(selector, SelectionKey.OP_READ);
                     } 
+                    else if(key.channel() == udpServer)
+                    {
+                        //Allocate the bytebuffer size
+                        udpBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                        udpBuffer.clear();
+
+                        
+                        // Receive message from the UDP client
+                        SocketAddress remoteAddr = udpServer.receive(udpBuffer);
+                        udpBuffer.flip();
+                        //Convert the byte into appropriate charset
+                        line = new String(udpBuffer.array(), Charset.forName("UTF-8"));
+
+
+                        System.out.println("UDPClient: " + line);
+
+                        // Echo message
+                        udpServer.send(udpBuffer, remoteAddr);
+
+                    }
                     else 
                     {
                         SocketChannel cchannel = (SocketChannel)key.channel();
@@ -118,7 +137,7 @@ public class SelectServer {
                             decoder.decode(inBuffer, cBuffer, false);
                             cBuffer.flip();
                             line = cBuffer.toString();
-                            System.out.print("Client: " + line);
+                            System.out.print("TCPClient: " + line);
                    
                             // Echo the message back
                             inBuffer.flip();

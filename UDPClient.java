@@ -8,6 +8,8 @@
 
 import java.io.*; 
 import java.net.*; 
+import java.nio.charset.*;
+
 
 class UDPClient { 
     public static int BUFFERSIZE = 32;
@@ -49,12 +51,16 @@ class UDPClient {
             
                 // Receive from the UDP socket
                 clientSocket.receive(myPacket);
-            
+
+                byte[] receivedBuffer = myPacket.getData();
+  
+
                 // Convert the packet to a string
-                line = new String(myPacket.getData());
-            
+                line = new String(myPacket.getData(), Charset.forName("UTF-8"));
+                
+
                 // Trim the buffer data and get the actual received data
-                line = line.substring(0, myPacket.getLength());
+                //line = line.substring(0, myPacket.getLength());
                 System.out.println("Server: " + line);
                              
                 System.out.print("Please enter a message to be sent to the server ('logout' to terminate): ");
