@@ -151,6 +151,37 @@ public class SelectServer {
                             
                             if (line.equals("terminate\n"))
                                 terminated = true;
+							else if(line.equalsIgnoreCase("list\n"))
+							{
+								String workingDirect = System.getProperty("user.dir");
+								File folder = new File(workingDirect);
+								//Array of all the files in the current directory 
+								File[] filesInDirectory = folder.listFiles();
+								
+								
+								ByteBuffer[] fileBuffer = filesInDirectory.toString();
+								//List functionality 
+								if(line.equalsIgnoreCase("list"))
+								{
+									System.out.println( "Current Directory:" + workingDirect);
+									
+									//Printing all files and folders in the current directory 
+									for(int i = 0; i < filesInDirectory.length;i++)
+									{
+										//If element i is a folder
+										if(filesInDirectory[i].isDirectory())
+										{
+											System.out.println(filesInDirectory[i].getName());
+										}
+										else if(filesInDirectory[i].isFile())
+										{
+											System.out.println(filesInDirectory[i].getName());
+										}
+									}
+									
+									cchannel.write(fileBuffer);
+								}	
+							}
                          }
                     }
                 } // end of while (readyItor.hasNext()) 
