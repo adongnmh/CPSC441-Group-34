@@ -51,6 +51,7 @@ class TCPClient {
         line = inFromUser.readLine(); 
         while (!line.equals("logout"))
         {
+			//List functionality 
 			if(line.equalsIgnoreCase("list"))
 			{
 				System.out.println( "Current Directory:" + workingDirect);
