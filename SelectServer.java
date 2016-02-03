@@ -33,7 +33,7 @@ public class SelectServer {
         // Initialize the selector
         Selector selector = Selector.open();
 
-        // Create a server channel and make it non-blocking
+        // Create a tcp server channel and make it non-blocking
         ServerSocketChannel channel = ServerSocketChannel.open();
         channel.configureBlocking(false);
        
@@ -44,9 +44,22 @@ public class SelectServer {
         // Register that the server selector is interested in connection requests
         channel.register(selector, SelectionKey.OP_ACCEPT);
 
+        //Initialize the UDP Server
+        DatagramChannel udpServer = DatagramChannel.open();
+        DatagramPacket myPacket = null;
+        byte[] udpBuffer = null;
+
+        //Configure the UDP Server
+        udpServer.configureBlocking(false);
+        udpServer.register(selector, SelectionKey.OP_READ);
+        udpServer.socket().bind(isa);
+
+
+
         // Wait for something happen among all registered sockets
         try {
             boolean terminated = false;
+            System.out.println("hello");
             while (!terminated) 
             {
                 if (selector.select(500) < 0)
@@ -54,7 +67,7 @@ public class SelectServer {
                     System.out.println("select() failed");
                     System.exit(1);
                 }
-                
+
                 // Get set of ready sockets
                 Set readyKeys = selector.selectedKeys();
                 Iterator readyItor = readyKeys.iterator();
@@ -62,6 +75,8 @@ public class SelectServer {
                 // Walk through the ready set
                 while (readyItor.hasNext()) 
                 {
+                    System.out.println("tcpin");
+
                     // Get key from set
                     SelectionKey key = (SelectionKey)readyItor.next();
 
@@ -69,7 +84,7 @@ public class SelectServer {
                     readyItor.remove();
 
                     // Accept new connections, if any
-                    if (key.isAcceptable())
+                    if (key.isAcceptable() && (key.channel() == channel))
                     {
                         
                         SocketChannel cchannel = ((ServerSocketChannel)key.channel()).accept();
