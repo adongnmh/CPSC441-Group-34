@@ -12,7 +12,7 @@ import java.nio.charset.*;
 import java.util.*;
 
 public class SelectServer {
-    public static int BUFFERSIZE = 10000;
+    public static int BUFFERSIZE = 32;
     public static void main(String args[]) throws Exception 
     {
         if (args.length != 1)
@@ -108,7 +108,10 @@ public class SelectServer {
 
 
                         System.out.println("UDPClient: " + line);
-
+                        if(line.equals("hello"))
+                        {
+                            System.out.println("we in");
+                        }
                         // Echo message
                         udpServer.send(udpBuffer, remoteAddr);
 
@@ -140,41 +143,17 @@ public class SelectServer {
                             System.out.print("TCPClient: " + line);
                    
                             // Echo the message back
-                            //inBuffer.flip();
-                            //bytesSent = cchannel.write(inBuffer); 
-                            /*if (bytesSent != bytesRecv)
+                            inBuffer.flip();
+                            bytesSent = cchannel.write(inBuffer); 
+                            if (bytesSent != bytesRecv)
                             {
                                 System.out.println("write() error, or connection closed");
                                 key.cancel();  // deregister the socket
                                 continue;
-                            }*/
+                            }
                             
                             if (line.equals("terminate\n"))
                                 terminated = true;
-							else if(line.equalsIgnoreCase("list\n"))
-							{
-								String workingDirect = System.getProperty("user.dir");
-								File folder = new File(workingDirect);
-								//Array of all the files in the current directory 
-								File[] filesInDirectory = folder.listFiles();
-								
-								
-								ByteBuffer fileBuffer = null;
-                                fileBuffer = ByteBuffer.allocate(20000);
-                                String[] fileArray = folder.list();
-                                String fileList = "";
-                                for(int i = 0; i < fileArray.length; i++)
-                                {
-                                        fileList = fileList + fileArray[i] + " ";
-                                }
-                                fileList = fileList + "\n";
-                                fileBuffer = encoder.encode(CharBuffer.wrap(fileList));
-
-                                System.out.println(fileList);
-                                bytesSent = cchannel.write(fileBuffer);
-                                //fileBuffer = encoder.encode(CharBuffer.filesInDirectory.)
-								//List functionality 
-							}
                          }
                     }
                 } // end of while (readyItor.hasNext()) 
