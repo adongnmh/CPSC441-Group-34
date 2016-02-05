@@ -163,7 +163,7 @@ public class SelectServer {
 							}
 
                             // Get file from server and send to client
-                            else if(line.substring(0, 3).equalsIgnoreCase("get"))
+                            else if(line.length() > 4 && line.substring(0, 3).equalsIgnoreCase("get"))
                             {
                                 FileInputStream fis = null;
                                 BufferedInputStream bis = null;
