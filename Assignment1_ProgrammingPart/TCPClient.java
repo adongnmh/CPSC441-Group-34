@@ -31,6 +31,7 @@ class TCPClient {
           int bytesRead;
 
         // Initialize user input stream
+        String outputLine;
         String line; 
         BufferedReader inFromUser = 
         new BufferedReader(new InputStreamReader(System.in)); 
@@ -43,20 +44,29 @@ class TCPClient {
         // Get user input and send to the server
         // Display the echo meesage from the server
         System.out.print("Please enter a message to be sent to the server ('logout' to terminate): ");
-        line = inFromUser.readLine(); 
-        while (!line.equals("logout"))
+        outputLine = inFromUser.readLine(); 
+        while (!outputLine.equals("logout"))
         {
             // Send to the server
-            outBuffer.writeBytes(line + "\n"); 
-            if(line.substring(0, 3).equalsIgnoreCase("get"))
-            {
-                fileName = line.substring(4, line.length()) + "-" + args[1];
-            }
+            outBuffer.writeBytes(outputLine + "\n"); 
+
             line = inBuffer.readLine();
-            String textFile = "";
-            String lineAppender = "";
-            if(line.equals("start file transfer"))
+
+            // Check if command is "list" -- outputs the list of files in current directory of server
+            if(outputLine.equals("list"))
             {
+                while(!line.equals(""))
+                {
+                    System.out.println(line);
+                    line = inBuffer.readLine();
+                }
+            }
+            // Starts file transfer
+            else if(line.equals("start file transfer"))
+            {
+                String textFile = "";
+                String lineAppender = "";
+                fileName = outputLine.substring(4, outputLine.length()) + "-" + args[1];
                 while(!line.equals("done"))
                 {
                     line = inBuffer.readLine();
@@ -73,18 +83,17 @@ class TCPClient {
                     fos = new FileOutputStream(fileName);
                 } 
                 fos.write(textFile.getBytes());
+                fos.close();
+                outputFile = new File(fileName);
+                System.out.println("File saved in " + fileName + " ("+outputFile.length() + " bytes)");
             }
             else {
                 System.out.println(line);
             }
-            //char[] mybytearray  = new char [6022386];
-            //line = inBuffer.readLine();
-            //System.out.println(line);
-            // Getting response from the server
-            //bytesRead = inBuffer.read(mybytearray,0,mybytearray.length);
-            
+
+            // Get input from client
             System.out.print("Please enter a message to be sent to the server ('logout' to terminate): ");
-            line = inFromUser.readLine();
+            outputLine = inFromUser.readLine();
         }
 
         // Close the socket

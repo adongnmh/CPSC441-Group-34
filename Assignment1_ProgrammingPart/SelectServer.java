@@ -150,20 +150,16 @@ public class SelectServer {
 								
 								
 								ByteBuffer fileBuffer = null;
-                                fileBuffer = ByteBuffer.allocate(20000);
+                                fileBuffer = ByteBuffer.allocate(2000);
                                 String[] fileArray = folder.list();
                                 String fileList = "";
                                 for(int i = 0; i < fileArray.length; i++)
                                 {
-                                    fileList +=  fileArray[i] + " ";
+                                    fileList +=  fileArray[i] + "\n";
                                 }
                                 fileList = fileList + "\n";
                                 fileBuffer = encoder.encode(CharBuffer.wrap(fileList));
-
-                                System.out.println(fileList);
-                                bytesSent = cchannel.write(fileBuffer);
-                                //fileBuffer = encoder.encode(CharBuffer.filesInDirectory.)
-								//List functionality 
+                                bytesSent = cchannel.write(fileBuffer); 
 							}
 
                             // Get file from server and send to client
@@ -176,11 +172,14 @@ public class SelectServer {
                                 //Array of all the files in the current directory 
                                 File[] filesInDirectory = folder.listFiles();
                                 String fileName = line.substring(4, line.length()-1);
+                                File checkFile = new File(fileName);
+
+                                // Loop through the file directory, if file exists send the file
                                 for(int i = 0; i < filesInDirectory.length;i++)
                                 {
                                     if(fileName.equalsIgnoreCase(filesInDirectory[i].getName()))
                                     {
-                                        System.out.println("Starting file transfer. ");
+                                        //Start transfer
                                         String startMessage = "start file transfer\n";
                                         ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
                                         outputBuffer = encoder.encode(CharBuffer.wrap(startMessage));
@@ -194,21 +193,20 @@ public class SelectServer {
                                         bytesSent = cchannel.write(buf);
 
                                         // End of file
-                                        String unknownMessage = "done\n";
+                                        String fileDoneMessage = "done\n";
                                         outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
-                                        outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
+                                        outputBuffer = encoder.encode(CharBuffer.wrap(fileDoneMessage));
                                         bytesSent = cchannel.write(outputBuffer);
-
                                     }
-                                    // If file is not found in directory, send error message to client
-                                    /*else if ((i == filesInDirectory.length-1) && !fileName.equalsIgnoreCase(filesInDirectory[i].getName()))
-                                    {
-                                        System.out.println("IN ERROR");
-                                        String unknownMessage = "Error in opening file " + fileName + "\n";
-                                        ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
-                                        outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
-                                        bytesSent = cchannel.write(outputBuffer);
-                                    }*/
+                                }
+                                // If file does not exist, send error message to client
+                                if(!checkFile.exists())
+                                {
+                                    System.out.println("IN ERROR");
+                                    String unknownMessage = "Error in opening file " + fileName + "\n";
+                                    ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                                    outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
+                                    bytesSent = cchannel.write(outputBuffer);
                                 }
 
                             }
@@ -219,7 +217,6 @@ public class SelectServer {
                                 ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
                                 outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
                                 bytesSent = cchannel.write(outputBuffer);
-                                System.out.println(line.substring(0, 2));
                             }
                          }
                     }
