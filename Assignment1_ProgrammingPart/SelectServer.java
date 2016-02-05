@@ -138,16 +138,6 @@ public class SelectServer {
                             cBuffer.flip();
                             line = cBuffer.toString();
                             System.out.print("TCPClient: " + line);
-                   
-                            // Echo the message back
-                            //inBuffer.flip();
-                            //bytesSent = cchannel.write(inBuffer); 
-                            /*if (bytesSent != bytesRecv)
-                            {
-                                System.out.println("write() error, or connection closed");
-                                key.cancel();  // deregister the socket
-                                continue;
-                            }*/
                             
                             if (line.equals("terminate\n"))
                                 terminated = true;
@@ -165,7 +155,7 @@ public class SelectServer {
                                 String fileList = "";
                                 for(int i = 0; i < fileArray.length; i++)
                                 {
-                                        fileList = fileList + fileArray[i] + " ";
+                                    fileList +=  fileArray[i] + " ";
                                 }
                                 fileList = fileList + "\n";
                                 fileBuffer = encoder.encode(CharBuffer.wrap(fileList));
@@ -175,6 +165,62 @@ public class SelectServer {
                                 //fileBuffer = encoder.encode(CharBuffer.filesInDirectory.)
 								//List functionality 
 							}
+
+                            // Get file from server and send to client
+                            else if(line.substring(0, 3).equalsIgnoreCase("get"))
+                            {
+                                FileInputStream fis = null;
+                                BufferedInputStream bis = null;
+                                String workingDirect = System.getProperty("user.dir");
+                                File folder = new File(workingDirect);
+                                //Array of all the files in the current directory 
+                                File[] filesInDirectory = folder.listFiles();
+                                String fileName = line.substring(4, line.length()-1);
+                                for(int i = 0; i < filesInDirectory.length;i++)
+                                {
+                                    if(fileName.equalsIgnoreCase(filesInDirectory[i].getName()))
+                                    {
+                                        System.out.println("Starting file transfer. ");
+                                        String startMessage = "start file transfer\n";
+                                        ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                                        outputBuffer = encoder.encode(CharBuffer.wrap(startMessage));
+                                        bytesSent = cchannel.write(outputBuffer);
+
+                                        byte[] fileBuffer = new byte[(int)filesInDirectory[i].length()];
+                                        fis = new FileInputStream(filesInDirectory[i]);
+                                        bis = new BufferedInputStream(fis);
+                                        bis.read(fileBuffer, 0, fileBuffer.length);
+                                        ByteBuffer buf = ByteBuffer.wrap(fileBuffer);
+                                        bytesSent = cchannel.write(buf);
+
+                                        // End of file
+                                        String unknownMessage = "done\n";
+                                        outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                                        outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
+                                        bytesSent = cchannel.write(outputBuffer);
+
+                                    }
+                                    // If file is not found in directory, send error message to client
+                                    /*else if ((i == filesInDirectory.length-1) && !fileName.equalsIgnoreCase(filesInDirectory[i].getName()))
+                                    {
+                                        System.out.println("IN ERROR");
+                                        String unknownMessage = "Error in opening file " + fileName + "\n";
+                                        ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                                        outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
+                                        bytesSent = cchannel.write(outputBuffer);
+                                    }*/
+                                }
+
+                            }
+                            // Unknown command from client -- send message back 
+                            else
+                            {
+                                String unknownMessage = "Unknown Command: " + line;
+                                ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                                outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
+                                bytesSent = cchannel.write(outputBuffer);
+                                System.out.println(line.substring(0, 2));
+                            }
                          }
                     }
                 } // end of while (readyItor.hasNext()) 
