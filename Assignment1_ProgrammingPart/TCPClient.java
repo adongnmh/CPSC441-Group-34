@@ -32,7 +32,7 @@ class TCPClient {
 
         // Initialize user input stream
         String outputLine;
-        String line; 
+        String line = ""; 
         BufferedReader inFromUser = 
         new BufferedReader(new InputStreamReader(System.in)); 
         String workingDirect = System.getProperty("user.dir");
@@ -47,10 +47,21 @@ class TCPClient {
         outputLine = inFromUser.readLine(); 
         while (!outputLine.equals("logout"))
         {
-            // Send to the server
-            outBuffer.writeBytes(outputLine + "\n"); 
 
-            line = inBuffer.readLine();
+
+            // Send to the server
+            if(!clientSocket.isClosed())
+                outBuffer.writeBytes(outputLine + "\n"); 
+
+            // check if client socket is closed
+            if(!outputLine.equals("terminate") && !clientSocket.isClosed())
+                line = inBuffer.readLine();
+            else
+            {
+                outBuffer.close();
+                inBuffer.close();
+            }
+                
 
             // Check if command is "list" -- outputs the list of files in current directory of server
             if(outputLine.equals("list"))
@@ -87,8 +98,12 @@ class TCPClient {
                 outputFile = new File(fileName);
                 System.out.println("File saved in " + fileName + " ("+outputFile.length() + " bytes)");
             }
+            else if(clientSocket.isClosed())
+            {
+                System.out.println("Not connected");
+            }
             else {
-                System.out.println(line);
+                System.out.println("Server: " + line);
             }
 
             // Get input from client

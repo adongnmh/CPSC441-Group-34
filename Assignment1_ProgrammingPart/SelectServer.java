@@ -99,7 +99,6 @@ public class SelectServer {
                         udpBuffer = ByteBuffer.allocate(BUFFERSIZE);
                         udpBuffer.clear();
 
-                        
                         // Receive message from the UDP client
                         SocketAddress remoteAddr = udpServer.receive(udpBuffer);
                         udpBuffer.flip();
@@ -140,7 +139,9 @@ public class SelectServer {
                             System.out.print("TCPClient: " + line);
                             
                             if (line.equals("terminate\n"))
+                            {
                                 terminated = true;
+                            }
 							else if(line.equalsIgnoreCase("list\n"))
 							{
 								String workingDirect = System.getProperty("user.dir");
@@ -150,7 +151,7 @@ public class SelectServer {
 								
 								
 								ByteBuffer fileBuffer = null;
-                                fileBuffer = ByteBuffer.allocate(2000);
+                                fileBuffer = ByteBuffer.allocate(BUFFERSIZE);
                                 String[] fileArray = folder.list();
                                 String fileList = "";
                                 for(int i = 0; i < fileArray.length; i++)
@@ -174,38 +175,33 @@ public class SelectServer {
                                 String fileName = line.substring(4, line.length()-1);
                                 File checkFile = new File(fileName);
 
-                                // Loop through the file directory, if file exists send the file
-                                for(int i = 0; i < filesInDirectory.length;i++)
-                                {
-                                    if(fileName.equalsIgnoreCase(filesInDirectory[i].getName()))
-                                    {
-                                        //Start transfer
-                                        String startMessage = "start file transfer\n";
-                                        ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
-                                        outputBuffer = encoder.encode(CharBuffer.wrap(startMessage));
-                                        bytesSent = cchannel.write(outputBuffer);
-
-                                        byte[] fileBuffer = new byte[(int)filesInDirectory[i].length()];
-                                        fis = new FileInputStream(filesInDirectory[i]);
-                                        bis = new BufferedInputStream(fis);
-                                        bis.read(fileBuffer, 0, fileBuffer.length);
-                                        ByteBuffer buf = ByteBuffer.wrap(fileBuffer);
-                                        bytesSent = cchannel.write(buf);
-
-                                        // End of file
-                                        String fileDoneMessage = "done\n";
-                                        outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
-                                        outputBuffer = encoder.encode(CharBuffer.wrap(fileDoneMessage));
-                                        bytesSent = cchannel.write(outputBuffer);
-                                    }
-                                }
                                 // If file does not exist, send error message to client
                                 if(!checkFile.exists())
                                 {
-                                    System.out.println("IN ERROR");
                                     String unknownMessage = "Error in opening file " + fileName + "\n";
                                     ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
                                     outputBuffer = encoder.encode(CharBuffer.wrap(unknownMessage));
+                                    bytesSent = cchannel.write(outputBuffer);
+                                }
+                                else
+                                {
+                                    //Start transfer
+                                    String startMessage = "start file transfer\n";
+                                    ByteBuffer outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                                    outputBuffer = encoder.encode(CharBuffer.wrap(startMessage));
+                                    bytesSent = cchannel.write(outputBuffer);
+
+                                    byte[] fileBuffer = new byte[(int)checkFile.length()];
+                                    fis = new FileInputStream(checkFile);
+                                    bis = new BufferedInputStream(fis);
+                                    bis.read(fileBuffer, 0, fileBuffer.length);
+                                    ByteBuffer buf = ByteBuffer.wrap(fileBuffer);
+                                    bytesSent = cchannel.write(buf);
+
+                                    // End of file
+                                    String fileDoneMessage = "done\n";
+                                    outputBuffer = ByteBuffer.allocate(BUFFERSIZE);
+                                    outputBuffer = encoder.encode(CharBuffer.wrap(fileDoneMessage));
                                     bytesSent = cchannel.write(outputBuffer);
                                 }
 
@@ -227,6 +223,7 @@ public class SelectServer {
             System.out.println(e);
         }
  
+
         // close all connections
         Set keys = selector.keys();
         Iterator itr = keys.iterator();
@@ -234,10 +231,8 @@ public class SelectServer {
         {
             SelectionKey key = (SelectionKey)itr.next();
             //itr.remove();
-            if (key.isAcceptable())
+            if ((key.channel() == channel))
                 ((ServerSocketChannel)key.channel()).socket().close();
-            else if (key.isValid())
-                ((SocketChannel)key.channel()).socket().close();
         }
     }
 }
