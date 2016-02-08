@@ -99,7 +99,11 @@ public class DrawingCanvas extends javax.swing.JPanel
         g.drawImage(image, 0, 0, null);
   }
  
-  // now we create exposed methods
+  /**
+   * Clear method will clear the whole canvas. This will be implemented with the
+   * clear button
+   * Date Last Modified: 02/07/2016
+   */
   public void clear() {
     drawing.setPaint(Color.white);
     // draw white on entire draw area to clear
