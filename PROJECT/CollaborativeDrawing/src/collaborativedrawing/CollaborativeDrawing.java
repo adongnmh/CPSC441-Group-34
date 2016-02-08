@@ -9,8 +9,10 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 
 /**
- *
- * @author Andrew Dong
+ * Controller of the application. Will Create/Initialize a Frame 
+ * for the whole application
+ * @author CPSC 441 Group 34
+ * Date Last Modified: 02/07/2016
  */
 public class CollaborativeDrawing 
 {

@@ -8,8 +8,9 @@ package GUI;
 
 
 /**
- *
- * @author Andrew Dong
+ * This Class will initialize the Frame of the application.
+ * @author CPSC 441 Group 34
+ * Date Last Modified: 02/07/2016
  */
 public class DrawingScreenFrame extends javax.swing.JFrame {
     

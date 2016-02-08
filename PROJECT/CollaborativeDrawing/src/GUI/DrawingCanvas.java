@@ -87,10 +87,10 @@ public class DrawingCanvas extends javax.swing.JPanel
     protected void paintComponent(Graphics g) 
     {
         if (image == null) {
-          // image to draw null ==> we create
+          // image to draw null initializing the image
           image = createImage(getSize().width, getSize().height);
           drawing = (Graphics2D) image.getGraphics();
-          // enable antialiasing
+          // enable antialiasing - smoother Lines
           drawing.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
           // clear draw area
           clear();
