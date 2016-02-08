@@ -82,6 +82,36 @@ public class DrawingCanvas extends javax.swing.JPanel
             }
           }
         });
+        
+
+        // Listening for whenever the mouse is being dragged across the JPanel
+        // new cordinates of the image/line will be calculated using the get methods
+        // SOURCE: http://www.tutorialspoint.com/awt/awt_mouseadapter.htm
+        addMouseListener(new MouseAdapter() 
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+            // coord x,y when drag mouse
+            currentXCoord = e.getX();
+            currentYCoord = e.getY();
+
+            if (drawing != null) 
+            {
+              // draw line if drawing context not null
+              drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+              // refresh draw area to repaint
+              repaint();
+
+              // Storing the old x and y coordinates as the current x and y 
+              // coordinates
+              oldXCoord = currentXCoord;
+              oldYCoord = currentYCoord;
+            }
+                
+            }
+            
+        });
+
     }
     
     protected void paintComponent(Graphics g) 
