@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 public class DrawingCanvas extends JPanel {
 	
@@ -153,15 +155,15 @@ public class DrawingCanvas extends JPanel {
      */
 	 public void InitializeCanvas()
 	 {
-        setBackground(Color.WHITE);
+        setBackground(Color.LIGHT_GRAY);
         GroupLayout groupLayout = new GroupLayout(this);
         groupLayout.setHorizontalGroup(
         	groupLayout.createParallelGroup(Alignment.LEADING)
-        		.addGap(0, 510, Short.MAX_VALUE)
+        		.addGap(0, 700, Short.MAX_VALUE)
         );
         groupLayout.setVerticalGroup(
         	groupLayout.createParallelGroup(Alignment.LEADING)
-        		.addGap(0, 198, Short.MAX_VALUE)
+        		.addGap(0, 700, Short.MAX_VALUE)
         );
         setLayout(groupLayout);
 
@@ -170,5 +172,4 @@ public class DrawingCanvas extends JPanel {
 		
 
 	}
-
 }
