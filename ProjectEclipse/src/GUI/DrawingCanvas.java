@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -15,8 +17,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import javax.swing.JButton;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class DrawingCanvas extends JPanel {
+public class DrawingCanvas extends JPanel implements ActionListener {
 	
 	 // Image that we will draw using the paint.
     private Image image;
@@ -30,6 +34,12 @@ public class DrawingCanvas extends JPanel {
     private int currentXCoord;
     private int currentYCoord;
     private String paintColor;
+    private JButton btnRed;
+    private JButton btnBlue;
+    private JButton btnGreen;
+    private JButton btnClear;
+    private JButton btnEraser;
+
     
     
     /**
@@ -39,8 +49,9 @@ public class DrawingCanvas extends JPanel {
      */
     public DrawingCanvas()
     {
-        // Initializing the JPANEL this is done automatically by netbeans design.
-        // DO NOT touch the initCOmponents method!
+    	
+
+
     	InitializeCanvas();
 
 
@@ -117,6 +128,8 @@ public class DrawingCanvas extends JPanel {
             }
 
         });
+        
+        
 
     }
 
@@ -155,21 +168,95 @@ public class DrawingCanvas extends JPanel {
      */
 	 public void InitializeCanvas()
 	 {
-        setBackground(Color.LIGHT_GRAY);
-        GroupLayout groupLayout = new GroupLayout(this);
-        groupLayout.setHorizontalGroup(
-        	groupLayout.createParallelGroup(Alignment.LEADING)
-        		.addGap(0, 700, Short.MAX_VALUE)
-        );
-        groupLayout.setVerticalGroup(
-        	groupLayout.createParallelGroup(Alignment.LEADING)
-        		.addGap(0, 700, Short.MAX_VALUE)
-        );
-        setLayout(groupLayout);
 
- 
+		 	// Initializing the header bar
+	    	JPanel panel = new JPanel();
+	    	panel.setBackground(Color.LIGHT_GRAY);
+	    	GroupLayout groupLayout = new GroupLayout(this);
+	    	groupLayout.setHorizontalGroup(
+	    		groupLayout.createParallelGroup(Alignment.LEADING)
+	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	    	);
+	    	groupLayout.setVerticalGroup(
+	    		groupLayout.createParallelGroup(Alignment.LEADING)
+	    			.addGroup(groupLayout.createSequentialGroup()
+	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(424, Short.MAX_VALUE))
+	    	);
+	    	
+	    	// Initializing Buttons and adding an actionListener to the corresponding button
+			btnRed = new JButton("RED");
+			btnRed.addActionListener(this);
+			
+			btnBlue = new JButton("BLUE");
+			btnBlue.addActionListener(this);
+			
+			btnGreen = new JButton("GREEN");
+			btnGreen.addActionListener(this);
+			
+			btnClear = new JButton("Clear");
+			btnClear.addActionListener(this);
+	    	
+	    	btnEraser = new JButton("Eraser");
+	    	btnEraser.addActionListener(this);
+			
+			
+	    	GroupLayout gl_panel = new GroupLayout(panel);
+	    	gl_panel.setHorizontalGroup(
+	    		gl_panel.createParallelGroup(Alignment.LEADING)
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addGap(19)
+	    				.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+	    				.addPreferredGap(ComponentPlacement.UNRELATED)
+	    				.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+	    				.addPreferredGap(ComponentPlacement.RELATED)
+	    				.addComponent(btnGreen)
+	    				.addPreferredGap(ComponentPlacement.RELATED, 218, Short.MAX_VALUE)
+	    				.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+	    				.addPreferredGap(ComponentPlacement.UNRELATED)
+	    				.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap())
+	    	);
+	    	gl_panel.setVerticalGroup(
+	    		gl_panel.createParallelGroup(Alignment.LEADING)
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addContainerGap()
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+	    					.addComponent(btnRed)
+	    					.addComponent(btnGreen)
+	    					.addComponent(btnBlue)
+	    					.addComponent(btnClear)
+	    					.addComponent(btnEraser))
+	    				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	    	);
+	    	panel.setLayout(gl_panel);
+	    	setLayout(groupLayout);
+	 }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == btnRed)
+		{
+	        drawing.setPaint(Color.RED);
+		}
+		else if(e.getSource() == btnBlue)
+		{
+	        drawing.setPaint(Color.BLUE);
+		}
+		else if(e.getSource() == btnGreen)
+		{
+	        drawing.setPaint(Color.GREEN);
+		}
+		else if(e.getSource() == btnEraser)
+		{
+			drawing.setPaint(Color.WHITE);
+		}
+		else if(e.getSource() == btnClear)
+		{
+			clear();
+		}
 		
 		
-
 	}
 }

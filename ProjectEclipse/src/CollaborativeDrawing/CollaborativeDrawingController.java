@@ -21,10 +21,17 @@ public class CollaborativeDrawingController
 
         Container content = newFrame.getContentPane();
         content.setLayout(new BorderLayout());
+        
+        
         DrawingCanvas newPiece = new DrawingCanvas();
         content.add(newPiece, BorderLayout.CENTER);
         content.setVisible(true);
         newFrame.setVisible(true);
+        
+        /*TestCanvas newpiece = new TestCanvas();
+        content.add(newpiece,BorderLayout.CENTER);
+        content.setVisible(true);
+        newFrame.setVisible(true);*/
     }
 
 }
