@@ -9,9 +9,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class ApplicationMainScreenPanel extends JPanel implements ActionListener{
 
+	
+	// Variables for the main 
+	JButton createAccountbtn;
+	JButton loginBtn;
+	
+	
 	/**
 	 * Create the panel.
 	 */
@@ -23,6 +31,8 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 	
 	public void initializeMainScreenPanel()
 	{
+		
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -35,37 +45,44 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
 		);
 		
-		JButton btnNewButton = new JButton("Create Account");
-		btnNewButton.addActionListener(new ActionListener() {
+		createAccountbtn = new JButton("Create Account");
+		createAccountbtn.addActionListener(this);
+		
+		createAccountbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		
-		JTextPane txtpnCollaboratriveDrawing = new JTextPane();
-		txtpnCollaboratriveDrawing.setBackground(Color.WHITE);
-		txtpnCollaboratriveDrawing.setText("COLLABORATRIVE DRAWING");
+		loginBtn = new JButton("Login");
+		loginBtn.addActionListener(this);
 		
-		JButton btnConnectToFriend = new JButton("Connect to Friend ");
+		JLabel lblCollaborativeDrawing = new JLabel("COLLABORATIVE DRAWING");
+		lblCollaborativeDrawing.setFont(new Font("Tahoma", Font.BOLD, 18));
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(158)
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnConnectToFriend, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnCollaboratriveDrawing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(183, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(161)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+								.addComponent(createAccountbtn, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(111)
+							.addComponent(lblCollaborativeDrawing)))
+					.addContainerGap(126, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(74)
-					.addComponent(txtpnCollaboratriveDrawing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(54)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+					.addGap(56)
+					.addComponent(lblCollaborativeDrawing)
+					.addGap(78)
+					.addComponent(createAccountbtn, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnConnectToFriend, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+					.addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(61, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
@@ -73,8 +90,20 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * 
+	 */
+	public void actionPerformed(ActionEvent e) 
+	{
+		if(e.getSource() == createAccountbtn)
+		{
+			System.out.println("Create Account button!");
+			CreateAccountFrame newAccount = new CreateAccountFrame();
+			newAccount.setVisible(true);
+		}
+		else if(e.getSource() == loginBtn);
+		{
+			System.out.println("YES");
+		}
 	}
 }
