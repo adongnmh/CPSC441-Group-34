@@ -104,6 +104,8 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 		else if(e.getSource() == loginBtn);
 		{
 			System.out.println("YES");
+			LoginScreenFrame newLoginScreen = new LoginScreenFrame();
+			newLoginScreen.setVisible(true);
 		}
 	}
 }
