@@ -19,6 +19,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 
 public class DrawingCanvas extends JPanel implements ActionListener {
 	
@@ -174,14 +177,14 @@ public class DrawingCanvas extends JPanel implements ActionListener {
 	    	panel.setBackground(Color.LIGHT_GRAY);
 	    	GroupLayout groupLayout = new GroupLayout(this);
 	    	groupLayout.setHorizontalGroup(
-	    		groupLayout.createParallelGroup(Alignment.LEADING)
-	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	    		groupLayout.createParallelGroup(Alignment.TRAILING)
+	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE)
 	    	);
 	    	groupLayout.setVerticalGroup(
 	    		groupLayout.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(groupLayout.createSequentialGroup()
 	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(424, Short.MAX_VALUE))
+	    				.addContainerGap(352, Short.MAX_VALUE))
 	    	);
 	    	
 	    	// Initializing Buttons and adding an actionListener to the corresponding button

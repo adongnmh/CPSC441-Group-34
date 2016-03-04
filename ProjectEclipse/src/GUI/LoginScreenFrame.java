@@ -106,20 +106,13 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 		if(e.getSource() == btnLogin)
 		{
 			System.out.println("Loggin in");
-			this.dispose();
-			DrawingScreenFrame newFrame = new DrawingScreenFrame();
-
-	        Container content = newFrame.getContentPane();
-	        content.setLayout(new BorderLayout());
-	        
-	        
-	        DrawingCanvas newPiece = new DrawingCanvas();
-	        content.add(newPiece, BorderLayout.CENTER);
-	        content.setVisible(true);
-	        newFrame.setVisible(true);
+			CreatingCanvas createDrawing = new CreatingCanvas();
+			createDrawing.setVisible(true);
+			
 		}
 		else if(e.getSource() == btnBack)
 		{
+			this.dispose();
 			System.out.println("Going back to main Screen");
 		}
 	}

@@ -101,7 +101,7 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 			CreateAccountFrame newAccount = new CreateAccountFrame();
 			newAccount.setVisible(true);
 		}
-		else if(e.getSource() == loginBtn);
+		else if(e.getSource() == loginBtn)
 		{
 			System.out.println("YES");
 			LoginScreenFrame newLoginScreen = new LoginScreenFrame();
