@@ -30,7 +30,7 @@ public class DrawingCanvas extends JPanel implements ActionListener {
     // Graphics2D object this is what we will use to draw on
     private Graphics2D drawing;
 
-    //Corrdinates of the mouse X/Y old and new coordinates used
+    //Coordinates of the mouse X/Y old and new coordinates used
     // for drawing the image of the user
     private int oldXCoord;
     private int oldYCoord;
@@ -70,6 +70,8 @@ public class DrawingCanvas extends JPanel implements ActionListener {
         //SOURCE: http://www.tutorialspoint.com/awt/awt_mouseadapter.htm
         addMouseListener(new MouseAdapter()
         {
+        	// ActionListener for when the user presses the mouse this will get the coordinates of when the user
+        	// presses the mouse so that it can be paired with the end point of the line
             public void mousePressed(MouseEvent e)
             {
                 // save coord x,y when mouse is pressed
@@ -83,6 +85,8 @@ public class DrawingCanvas extends JPanel implements ActionListener {
         // SOURCE: http://www.tutorialspoint.com/awt/awt_mouseadapter.htm
         addMouseMotionListener(new MouseMotionAdapter()
         {
+        	// ActionListener for the mouse dragged event. Calculates the the current X and Y coordinates when
+        	// the mouse has stop 
             public void mouseDragged(MouseEvent e)
             {
                 // coord x,y when drag mouse
@@ -93,6 +97,7 @@ public class DrawingCanvas extends JPanel implements ActionListener {
                 {
                     // draw line if drawing context not null
                     drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+                    drawing.fillOval(oldXCoord, oldYCoord, 15, 15);
                     // refresh draw area to repaint
                     repaint();
 
