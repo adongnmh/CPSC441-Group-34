@@ -15,15 +15,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JSlider;
 
-public class DrawingCanvas extends JPanel implements ActionListener {
+public class DrawingCanvas extends JPanel implements ActionListener, ChangeListener {
 	
 	 // Image that we will draw using the paint.
     private Image image;
@@ -42,22 +47,20 @@ public class DrawingCanvas extends JPanel implements ActionListener {
     private JButton btnGreen;
     private JButton btnClear;
     private JButton btnEraser;
+    private JSlider penSlider;
+    private int intSizeOfPen = 5;
+    private double doubleSizeOfPen;
 
     
     
     /**
-     * Creates new form DrawingCanvase
-     *
-     * @param currentFrame
+     * This method will first initialize the canvas and all the GUI components of the JPanel
+     * such as the Buttons, slider,etc. The method will also initialize all the ActionListener and 
+     * ChangeListener for all the mouse events and all the action events.
      */
     public DrawingCanvas()
     {
-    	
-
-
     	InitializeCanvas();
-
-
         System.out.println(paintColor);
         if ("blue".equals(paintColor))
         {
@@ -77,6 +80,7 @@ public class DrawingCanvas extends JPanel implements ActionListener {
                 // save coord x,y when mouse is pressed
                 oldXCoord = e.getX();
                 oldYCoord = e.getY();
+
             }
         });
 
@@ -96,8 +100,10 @@ public class DrawingCanvas extends JPanel implements ActionListener {
                 if (drawing != null)
                 {
                     // draw line if drawing context not null
-                    drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
-                    drawing.fillOval(oldXCoord, oldYCoord, 15, 15);
+                    drawing.setStroke(new BasicStroke(intSizeOfPen));
+                	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+                    
+                	//drawing.fillOval(currentXCoord, currentYCoord, sizeOfPen, sizeOfPen);
                     // refresh draw area to repaint
                     repaint();
 
@@ -143,6 +149,7 @@ public class DrawingCanvas extends JPanel implements ActionListener {
 
     protected void paintComponent(Graphics g)
     {
+    	super.paintComponent(g);
         if (image == null)
         {
             // image to draw null initializing the image
@@ -155,6 +162,7 @@ public class DrawingCanvas extends JPanel implements ActionListener {
         }
 
         g.drawImage(image, 0, 0, null);
+        repaint();
     }
 
     /**
@@ -169,12 +177,19 @@ public class DrawingCanvas extends JPanel implements ActionListener {
         drawing.setPaint(Color.black);
         repaint();
     }
+    
+    public void ChangePenSize(int penSize)
+    {
+    	doubleSizeOfPen = (penSize)/10;
+    	intSizeOfPen = (int) Math.round(doubleSizeOfPen);
+    	System.out.println(doubleSizeOfPen);
+    }
 
 
     /**
      * Initializes canvas
      */
-	 public void InitializeCanvas()
+    public void InitializeCanvas()
 	 {
 
 		 	// Initializing the header bar
@@ -183,13 +198,13 @@ public class DrawingCanvas extends JPanel implements ActionListener {
 	    	GroupLayout groupLayout = new GroupLayout(this);
 	    	groupLayout.setHorizontalGroup(
 	    		groupLayout.createParallelGroup(Alignment.TRAILING)
-	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE)
+	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
 	    	);
 	    	groupLayout.setVerticalGroup(
 	    		groupLayout.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(groupLayout.createSequentialGroup()
-	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(352, Short.MAX_VALUE))
+	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(380, Short.MAX_VALUE))
 	    	);
 	    	
 	    	// Initializing Buttons and adding an actionListener to the corresponding button
@@ -207,6 +222,9 @@ public class DrawingCanvas extends JPanel implements ActionListener {
 	    	
 	    	btnEraser = new JButton("Eraser");
 	    	btnEraser.addActionListener(this);
+	    	
+	    	penSlider = new JSlider();
+	    	penSlider.addChangeListener(this);
 			
 			
 	    	GroupLayout gl_panel = new GroupLayout(panel);
@@ -214,15 +232,18 @@ public class DrawingCanvas extends JPanel implements ActionListener {
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(gl_panel.createSequentialGroup()
 	    				.addGap(19)
-	    				.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-	    				.addPreferredGap(ComponentPlacement.UNRELATED)
-	    				.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(btnGreen)
-	    				.addPreferredGap(ComponentPlacement.RELATED, 218, Short.MAX_VALUE)
-	    				.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-	    				.addPreferredGap(ComponentPlacement.UNRELATED)
-	    				.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.UNRELATED)
+	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.RELATED)
+	    						.addComponent(btnGreen)
+	    						.addPreferredGap(ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
+	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.UNRELATED)
+	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)))
 	    				.addContainerGap())
 	    	);
 	    	gl_panel.setVerticalGroup(
@@ -235,14 +256,17 @@ public class DrawingCanvas extends JPanel implements ActionListener {
 	    					.addComponent(btnBlue)
 	    					.addComponent(btnClear)
 	    					.addComponent(btnEraser))
-	    				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	    				.addPreferredGap(ComponentPlacement.UNRELATED)
+	    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(18, Short.MAX_VALUE))
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
 	 }
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnRed)
 		{
@@ -267,4 +291,26 @@ public class DrawingCanvas extends JPanel implements ActionListener {
 		
 		
 	}
-}
+
+	@Override
+	public void stateChanged(ChangeEvent e) 
+	{
+		JSlider source = (JSlider)e.getSource();
+		int sliderNum;
+		if(source.getValueIsAdjusting())
+		{
+			if((int)source.getValue() == 0)
+			{
+				sliderNum = 10;
+				ChangePenSize(sliderNum);
+			}
+			else
+			{	
+				sliderNum = (int)source.getValue();
+				ChangePenSize(sliderNum);
+			}
+		}
+
+		
+	}
+	}
