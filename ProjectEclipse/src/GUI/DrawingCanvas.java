@@ -13,20 +13,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
 import javax.swing.JSlider;
+
+import Network.*;
 
 public class DrawingCanvas extends JPanel implements ActionListener, ChangeListener {
 	
@@ -51,6 +50,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private int intSizeOfPen = 5;
     private double doubleSizeOfPen;
 
+
     
     
     /**
@@ -61,11 +61,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     public DrawingCanvas()
     {
     	InitializeCanvas();
-        System.out.println(paintColor);
-        if ("blue".equals(paintColor))
-        {
-            drawing.setPaint(Color.blue);
-        }
+
 
         // Listening for whenever the mouse is pressed. If the mouse is pressed,
         // when pressed we will know where on the canvas the line will start using
@@ -80,6 +76,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                 // save coord x,y when mouse is pressed
                 oldXCoord = e.getX();
                 oldYCoord = e.getY();
+                
+
 
             }
         });
@@ -129,6 +127,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                 if (drawing != null)
                 {
                     // draw line if drawing context not null
+                    drawing.setStroke(new BasicStroke(intSizeOfPen));
                     drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
                     // refresh draw area to repaint
                     repaint();
@@ -155,7 +154,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
             // image to draw null initializing the image
             image = createImage(getSize().width, getSize().height);
             drawing = (Graphics2D) image.getGraphics();
-            // enable antialiasing - smoother Lines
+            // enable initializing - smoother Lines
             drawing.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // clear draw area
             clear();
@@ -190,7 +189,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
      * Initializes canvas
      */
     public void InitializeCanvas()
-	 {
+    {
 
 		 	// Initializing the header bar
 	    	JPanel panel = new JPanel();
@@ -313,4 +312,4 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 
 		
 	}
-	}
+}
