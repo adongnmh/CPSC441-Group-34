@@ -9,16 +9,26 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Network.*;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 
-public class CreatingCanvas extends JFrame implements ActionListener{
+
+public class CreatingCanvas extends JFrame implements ActionListener
+{
 
 	private JPanel contentPane;
 	private JButton btnCreateNewCanvas;
 	private JButton btnJoinExistingCanvas;
+	//private TCPClient client;
+	//private TCPServer server;
 
+	private int srcPort = 9000;
+	private int dstPort = 8000;
+	private String stringIP = "192.168.0.5";
 
 	/**
 	 * Create the frame.
@@ -70,7 +80,7 @@ public class CreatingCanvas extends JFrame implements ActionListener{
 
 
 	@Override()
-	public void actionPerformed(ActionEvent e) 
+	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource() == btnCreateNewCanvas)
 		{
@@ -81,16 +91,25 @@ public class CreatingCanvas extends JFrame implements ActionListener{
 	        content.setLayout(new BorderLayout());
 	        
 	        
-	        DrawingCanvas newPiece = new DrawingCanvas();
+	        DrawingCanvas newPiece = null;
+			try {
+				newPiece = new DrawingCanvas(stringIP,srcPort,dstPort);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	        content.add(newPiece, BorderLayout.CENTER);
 	        content.setVisible(true);
 	        newFrame.setVisible(true);
+	        
+
 		}
 		else if(e.getSource() == btnJoinExistingCanvas)
 		{
 			this.dispose();
-			SelectCanvasServer toJoinCanvas = new SelectCanvasServer();
+			SelectCanvasServer toJoinCanvas = new SelectCanvasServer(stringIP,srcPort,dstPort);
 			toJoinCanvas.setVisible(true);
+			
 		}
 		
 	}

@@ -31,12 +31,22 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	JButton btnJoin;
 	JButton btnBack;
+	String IP;
+	int sPort;
+	int dPort;
 
 
 	/**
 	 * Create the frame.
+	 * @param dstPort 
+	 * @param srcPort 
+	 * @param stringIP 
 	 */
-	public SelectCanvasServer() {
+	public SelectCanvasServer(String stringIP, int srcPort, int dstPort) 
+	{
+		IP = stringIP;
+		sPort = srcPort;
+		dPort = dstPort;
 		initialize();
 	}
 	
@@ -124,7 +134,13 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	        content.setLayout(new BorderLayout());
 	        
 	        
-	        DrawingCanvas newPiece = new DrawingCanvas();
+	        DrawingCanvas newPiece = null;
+			try {
+				newPiece = new DrawingCanvas(IP,sPort,dPort);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	        content.add(newPiece, BorderLayout.CENTER);
 	        content.setVisible(true);
 	        newFrame.setVisible(true);

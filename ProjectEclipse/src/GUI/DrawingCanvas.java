@@ -13,6 +13,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -40,7 +44,6 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private int oldYCoord;
     private int currentXCoord;
     private int currentYCoord;
-    private String paintColor;
     private JButton btnRed;
     private JButton btnBlue;
     private JButton btnGreen;
@@ -49,6 +52,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private JSlider penSlider;
     private int intSizeOfPen = 5;
     private double doubleSizeOfPen;
+    
+    
+    //Adding network stuff here:
+    private int destinationPort;
+    private int sourcePort;
+    private String IPAddress;
+    private Sender sender;
+    private Receiver receiver;
+    
+
 
 
     
@@ -57,9 +70,31 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
      * This method will first initialize the canvas and all the GUI components of the JPanel
      * such as the Buttons, slider,etc. The method will also initialize all the ActionListener and 
      * ChangeListener for all the mouse events and all the action events.
+     * @param dstPort 
+     * @param srcPort 
+     * @param stringIP 
+     * @throws Exception 
      */
-    public DrawingCanvas()
+    public DrawingCanvas(String stringIP, int srcPort, int dstPort) throws Exception
     {
+    	destinationPort = dstPort;
+    	sourcePort = srcPort;
+    	IPAddress = stringIP;
+    	
+    	InetAddress ip = InetAddress.getByName(IPAddress);
+    	
+    	sender = new Sender(ip, destinationPort);
+    	receiver = new Receiver(sourcePort,this);
+    	receiver.start();
+    	
+        WindowAdapter closeWindow=new WindowAdapter() {
+            public void windowClosing(WindowEvent e){
+                sender.closeSendSocket();
+                receiver.closeReceiveSocket();
+                System.exit(0);
+            } 
+        };
+    	
     	InitializeCanvas();
 
 

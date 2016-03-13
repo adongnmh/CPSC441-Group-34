@@ -14,26 +14,14 @@ import java.awt.event.ActionEvent;
 public class CollaborativeDrawingController
 {
 
+	private int srcPort = 9000;
+	private int dstPort = 8000;
+	private String stringIP = "192.168.0.5";
+	
     public static void main(String[] args)
     {
         // TODO code application logic here
     	
-    	
-        /*DrawingScreenFrame newFrame = new DrawingScreenFrame();
-
-        Container content = newFrame.getContentPane();
-        content.setLayout(new BorderLayout());
-        
-        
-        DrawingCanvas newPiece = new DrawingCanvas();
-        content.add(newPiece, BorderLayout.CENTER);
-        content.setVisible(true);
-        newFrame.setVisible(true);*/
-        
-        /*TestCanvas newpiece = new TestCanvas();
-        content.add(newpiece,BorderLayout.CENTER);
-        content.setVisible(true);
-        newFrame.setVisible(true);*/
     	
     	
     	// Initializing Main Screen

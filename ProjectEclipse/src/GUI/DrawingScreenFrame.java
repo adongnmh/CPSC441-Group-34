@@ -14,6 +14,9 @@ public class DrawingScreenFrame extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param dstPort 
+	 * @param srcPort 
+	 * @param stringIP 
 	 */
 	public DrawingScreenFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
