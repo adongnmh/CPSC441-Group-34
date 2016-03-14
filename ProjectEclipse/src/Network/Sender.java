@@ -21,15 +21,21 @@ public class Sender {
     }
     
     /*Sends datagram packets*/
-    public  void sendAway(Point p) {
+    public  void sendAway(int oldX, int oldY, int newX, int newY) {
         
         try {
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
             DataOutputStream dos=new DataOutputStream(baos);
-            dos.writeInt(p.x);
+            dos.writeInt(oldX);
             dos.writeChar('\t');//the tab character is used as a separator
-            dos.writeInt(p.y);
+            dos.writeInt(oldY);
+            
+            dos.writeInt(newX);
+            dos.writeChar('\t');//the tab character is used as a separator
+            dos.writeInt(newY);
+            
             dos.close();
+            
             byte[]data=baos.toByteArray();
             DatagramPacket packet=new DatagramPacket(data,
             data.length, toAdr, toPort);

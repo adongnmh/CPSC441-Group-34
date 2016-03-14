@@ -27,8 +27,10 @@ public class Receiver extends Thread {
     //Receives datagram packets
     public void run() {
         
-     byte[] buffer = new byte[512];
+     byte[] buffer = new byte[5000];
+     System.out.println("Yes Recieve");
         while(true) {
+            System.out.println("Yes Recieve while");
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(packet);
@@ -37,11 +39,15 @@ public class Receiver extends Thread {
                 DataInputStream din=new DataInputStream(in);
                     
                 //Reads 3 values: an int, then a char, and then an int again
-                int x = din.readInt(); // x-position of a dot/point
-                char c = din.readChar(); //reads away the tab character
-                int y = din.readInt(); // y-position of a dot/point
-                Point p = new Point(x , y);
-                //paper.addPoint(p);
+                int oldx = din.readInt(); // x-position of a dot/point
+                char tabOne = din.readChar(); //reads away the tab character
+                int oldy = din.readInt(); // y-position of a dot/point
+                
+                int newX = din.readInt();
+                char tabTwo = din.readChar();
+                int newY = din.readInt();
+                
+                paper.UpdatedLine(oldx, oldy, newX, newY);
                 din.close();
             }	
             catch(IOException iE) {

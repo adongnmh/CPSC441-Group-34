@@ -111,9 +111,6 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                 // save coord x,y when mouse is pressed
                 oldXCoord = e.getX();
                 oldYCoord = e.getY();
-                
-
-
             }
         });
 
@@ -135,6 +132,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // draw line if drawing context not null
                     drawing.setStroke(new BasicStroke(intSizeOfPen));
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+                    sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
                     
                 	//drawing.fillOval(currentXCoord, currentYCoord, sizeOfPen, sizeOfPen);
                     // refresh draw area to repaint
@@ -144,6 +142,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // coordinates
                     oldXCoord = currentXCoord;
                     oldYCoord = currentYCoord;
+                    
+                    sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
                 }
             }
         });
@@ -165,12 +165,15 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     drawing.setStroke(new BasicStroke(intSizeOfPen));
                     drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
                     // refresh draw area to repaint
+                    
                     repaint();
 
                     // Storing the old x and y coordinates as the current x and y
                     // coordinates
                     oldXCoord = currentXCoord;
                     oldYCoord = currentYCoord;
+                    
+                    sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
                 }
 
             }
@@ -181,7 +184,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 
     }
 
-    protected void paintComponent(Graphics g)
+    protected  synchronized void paintComponent(Graphics g)
     {
     	super.paintComponent(g);
         if (image == null)
@@ -217,6 +220,17 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     	doubleSizeOfPen = (penSize)/10;
     	intSizeOfPen = (int) Math.round(doubleSizeOfPen);
     	System.out.println(doubleSizeOfPen);
+    }
+    
+    public void UpdatedLine(int oldX, int oldY, int newX, int newY)
+    {
+    	System.out.println("UPDATELINE");
+    	if(image != null)
+    	{
+	        drawing.setStroke(new BasicStroke(intSizeOfPen));
+	    	drawing.drawLine(oldX, oldY, newX, newY);
+	    	repaint();
+    	}
     }
 
 

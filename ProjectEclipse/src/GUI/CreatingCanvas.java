@@ -28,7 +28,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 
 	private int srcPort = 9000;
 	private int dstPort = 8000;
-	private String stringIP = "192.168.0.5";
+	private String stringIP = "10.13.70.99";
 
 	/**
 	 * Create the frame.
@@ -107,7 +107,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		else if(e.getSource() == btnJoinExistingCanvas)
 		{
 			this.dispose();
-			SelectCanvasServer toJoinCanvas = new SelectCanvasServer(stringIP,srcPort,dstPort);
+			SelectCanvasServer toJoinCanvas = new SelectCanvasServer(stringIP,dstPort,srcPort);
 			toJoinCanvas.setVisible(true);
 			
 		}

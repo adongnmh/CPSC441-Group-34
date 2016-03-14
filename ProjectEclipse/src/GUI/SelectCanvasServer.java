@@ -128,6 +128,7 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	{
 		if(e.getSource() == btnJoin)
 		{
+			this.dispose();
 			DrawingScreenFrame newFrame = new DrawingScreenFrame();
 
 	        Container content = newFrame.getContentPane();

@@ -105,6 +105,7 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 	{
 		if(e.getSource() == btnLogin)
 		{
+			this.dispose();
 			System.out.println("Loggin in");
 			CreatingCanvas createDrawing = new CreatingCanvas();
 			createDrawing.setVisible(true);
