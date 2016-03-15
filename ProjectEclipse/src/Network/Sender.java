@@ -37,6 +37,9 @@ public class Sender {
             dos.close();
             
             byte[]data=baos.toByteArray();
+            
+            System.out.println(data);
+            
             DatagramPacket packet=new DatagramPacket(data,
             data.length, toAdr, toPort);
             socket.send(packet);

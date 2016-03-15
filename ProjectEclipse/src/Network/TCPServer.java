@@ -7,23 +7,25 @@ package Network;
 import java.io.*;
 import java.net.*;
 
-public class TCPServer {
+import GUI.DrawingCanvas;
+
+public class TCPServer extends Thread{
+	
+	private static final String DataInputStream = null;
+	private Socket clientSocket;
+	private ServerSocket echoServer;
+	private DrawingCanvas paper;
 	
 	private int port = 9000;
-	private String stringIP = "192.168.0.5";
 	
-	public  TCPServer() throws Exception
+	public  TCPServer(int myPort, DrawingCanvas paper) throws Exception
 	{
+		
 		System.out.println("Hi");
-		 // Initialize a server socket and a client socket for the server
-        ServerSocket echoServer = null;
-        Socket clientSocket = null;
-
-        // Initialize an input and an output stream
-        String line = "";
-        BufferedReader inBuffer;
-        DataOutputStream outBuffer;
-
+		
+        this.port = myPort;
+        this.paper = paper;
+        this.echoServer = echoServer;
         
         // Try to open a server socket on the given port
         // Note that we can't choose a port less than 1023 if we are not
@@ -34,35 +36,55 @@ public class TCPServer {
         catch (IOException e) {
             System.out.println(e);
         }
-   
-        try {
-            // Create a socket object from the ServerSocket to listen and accept 
-            // connections.
-            clientSocket = echoServer.accept();
-            System.out.println("Accept connection from " + clientSocket.toString());
 
-            // Open input and output streams
-            inBuffer = new BufferedReader(new
-                 InputStreamReader(clientSocket.getInputStream()));
-            outBuffer = new DataOutputStream(clientSocket.getOutputStream());
-
-            // As long as we receive data, echo that data back to the client.
-            while (!line.equals("terminate")) {
-                line = inBuffer.readLine();
-                System.out.println("Client: " + line);
-                outBuffer.writeBytes(line + "\n"); 
-            }
-            
-            // Close the connections
-            inBuffer.close();
-            outBuffer.close();
-            clientSocket.close();
-            echoServer.close();
-        }   
-        catch (IOException e) {
-            System.out.println(e);
-        }
 	}
 	
+	public void run()
+	{
+		try {
+			clientSocket = echoServer.accept();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	     byte[] buffer = new byte[5000];
+	     System.out.println("Yes Recieve");
+         InputStream in=new ByteArrayInputStream(buffer);
 
+         try {
+			DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         DataInputStream din = new DataInputStream(in);
+         
+
+	     while(true)
+	     {
+	    	 try
+	    	 {
+             int oldx = din.readInt(); // x-position of a dot/point
+             char tabOne = din.readChar(); //reads away the tab character
+             int oldy = din.readInt(); // y-position of a dot/point
+             
+             int newX = din.readInt();
+             char tabTwo = din.readChar();
+             int newY = din.readInt();
+             
+             // Updates the canvas with the line that we got from the client to the server.
+             
+             paper.UpdatedLine(oldx, oldy, newX, newY);
+             din.close();
+	    	 }
+	            catch(IOException iE) {
+	            }
+             
+	     }
+	}
+	
 }
+
+        
+

@@ -61,6 +61,11 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private Sender sender;
     private Receiver receiver;
     
+    
+    // TCP network variables here
+    private TCPServer server;
+    private TCPClient client;
+    
 
 
 
@@ -81,13 +86,25 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     	sourcePort = srcPort;
     	IPAddress = stringIP;
     	
+
     	InetAddress ip = InetAddress.getByName(IPAddress);
     	
+    	//TCP
+    	/*
+    	client = new TCPClient(ip, dstPort);
+    	server = new TCPServer(sourcePort, this);
+    	server.start();*/
+    	
+    	
+    	//UDP
     	sender = new Sender(ip, destinationPort);
     	receiver = new Receiver(sourcePort,this);
     	receiver.start();
     	
-        WindowAdapter closeWindow=new WindowAdapter() {
+        
+    	// Windows listener for the canvas. Will close the connections if a window 
+    	// is closed.
+    	WindowAdapter closeWindow=new WindowAdapter() {
             public void windowClosing(WindowEvent e){
                 sender.closeSendSocket();
                 receiver.closeReceiveSocket();
@@ -132,7 +149,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // draw line if drawing context not null
                     drawing.setStroke(new BasicStroke(intSizeOfPen));
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
-                    sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+                    
+                	sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+                	
+
                     
                 	//drawing.fillOval(currentXCoord, currentYCoord, sizeOfPen, sizeOfPen);
                     // refresh draw area to repaint
@@ -144,6 +164,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
                     
                     sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+                    
+  
                 }
             }
         });
@@ -174,6 +196,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
                     
                     sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+                    
+
                 }
 
             }

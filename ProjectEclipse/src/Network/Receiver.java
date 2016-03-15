@@ -47,6 +47,8 @@ public class Receiver extends Thread {
                 char tabTwo = din.readChar();
                 int newY = din.readInt();
                 
+                // Updates the canvas with the line that we got from the client to the server.
+                
                 paper.UpdatedLine(oldx, oldy, newX, newY);
                 din.close();
             }	
