@@ -280,13 +280,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	);
 	    	
 	    	// Initializing Buttons and adding an actionListener to the corresponding button
-			btnRed = new JButton("RED");
+			btnRed = new JButton("");
+			btnRed.setBackground(Color.RED);
 			btnRed.addActionListener(this);
 			
-			btnBlue = new JButton("BLUE");
+			btnBlue = new JButton("");
+			btnBlue.setBackground(Color.BLUE);
 			btnBlue.addActionListener(this);
 			
-			btnGreen = new JButton("GREEN");
+			btnGreen = new JButton("");
+			btnGreen.setBackground(Color.GREEN);
 			btnGreen.addActionListener(this);
 			
 			btnClear = new JButton("Clear");
@@ -303,34 +306,36 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	gl_panel.setHorizontalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGap(19)
+	    				.addContainerGap()
 	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.UNRELATED)
-	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+	    						.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnGreen)
-	    						.addPreferredGap(ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
+	    						.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.RELATED)
+	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
 	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
-	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)))
+	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
 	    				.addContainerGap())
 	    	);
 	    	gl_panel.setVerticalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addContainerGap()
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-	    					.addComponent(btnRed)
-	    					.addComponent(btnGreen)
-	    					.addComponent(btnBlue)
-	    					.addComponent(btnClear)
-	    					.addComponent(btnEraser))
-	    				.addPreferredGap(ComponentPlacement.UNRELATED)
-	    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(18, Short.MAX_VALUE))
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addContainerGap()
+	    						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+	    							.addComponent(btnClear)
+	    							.addComponent(btnEraser)))
+	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+	    				.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+	    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap())
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);

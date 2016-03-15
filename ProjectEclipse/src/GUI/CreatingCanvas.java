@@ -5,6 +5,8 @@ import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,12 +30,22 @@ public class CreatingCanvas extends JFrame implements ActionListener
 
 	private int srcPort = 9000;
 	private int dstPort = 8000;
-	private String stringIP = "192.168.0.5";
+	private String stringIP = "";
 
 	/**
 	 * Create the frame.
 	 */
 	public CreatingCanvas() {
+		InetAddress addr = null;
+		try {
+			addr = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String ip = addr.getHostAddress();
+		System.out.println("Ip: " + ip);
+		stringIP = ip;
 		initialiaze();
 	}
 

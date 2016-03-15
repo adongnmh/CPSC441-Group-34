@@ -16,7 +16,7 @@ public class Receiver extends Thread {
     
         this.myPort = myPort;
         this.paper = paper;
-        this.socket = socket;
+        
         try {
             socket = new DatagramSocket(myPort);
         }
