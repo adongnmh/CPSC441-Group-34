@@ -6,6 +6,9 @@ package GUI;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Network.CanvasClient;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -101,14 +104,25 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) 
+	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource() == btnLogin)
 		{
 			this.dispose();
 			System.out.println("Loggin in");
-			CreatingCanvas createDrawing = new CreatingCanvas();
-			createDrawing.setVisible(true);
+			// Create a socket connection with the mainserver
+			try {
+				System.out.println("hello");
+				CanvasClient client1 = new CanvasClient();
+				//System.out.println("hello");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			// Send over the username and password to the server
+			// receive a message from the server indicating whether to create new canvas or not
+			//CreatingCanvas createDrawing = new CreatingCanvas();
+			//createDrawing.setVisible(true);
 			
 		}
 		else if(e.getSource() == btnBack)

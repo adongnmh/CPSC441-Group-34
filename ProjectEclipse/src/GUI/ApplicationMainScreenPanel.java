@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import com.sun.security.ntlm.Client;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 
