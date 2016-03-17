@@ -34,22 +34,18 @@ public class CollaborativeDrawingController
     	content.setLayout(new BorderLayout());
     	ApplicationMainScreenPanel mainPanel = new ApplicationMainScreenPanel();
     	content.add(mainPanel, BorderLayout.CENTER);
-    	
+
     	//Initialize the main server
-    	if(!hostAvailabilityCheck())
-    	{
-    		System.out.println("available");
-    		MainServer server = new MainServer();
-    		CanvasClient client = new CanvasClient();
-    	}
-    	else
-    	{
-    		System.out.println("Client");
-    		CanvasClient client = new CanvasClient();
-    	}
+    	System.out.println("available");
+    	MainServer server = new MainServer();
+    	server.start();
+
+
     	
     	content.setVisible(true);
     	mainScreenFrame.setVisible(true);
+    	//CanvasClient client = new CanvasClient();
+    	//client.start();
     }
     
     // Checks if the main server is already created 

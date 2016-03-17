@@ -8,17 +8,45 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.*;
 
-public class CanvasClient {
+public class CanvasClient extends Thread{
 
 	private int port = 9000;
+	private Socket clientSocket;
 	
-	public CanvasClient() throws Exception{
+	public CanvasClient () 
+	{
+		try {
+			clientSocket = new Socket("169.254.245.161", 9000);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void run()
+	{
 		
-		Socket clientSocket = new Socket("169.254.245.161", 9000);
-		if(clientSocket.isConnected())
-			System.out.println("connected");
-		else
-			System.out.println("not connected");
+	}
+
+	
+	//Send the username and password to the server for validation
+	public boolean loginRequest(String username, String password) throws IOException
+	{
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream()); 
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
+		outBuffer.writeBytes(username + " " + password + '\n'); 
 		
+		// Getting response from the server
+        String line = inBuffer.readLine();
+        System.out.println("Server: " + line);
+        
+        if(line.equals("Tan Quach"))
+		{
+        	System.out.println("we innn");
+			return true;
+		}
+		return false;
 	}
 }

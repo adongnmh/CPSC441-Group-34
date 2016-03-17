@@ -110,19 +110,25 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 		{
 			this.dispose();
 			System.out.println("Loggin in");
-			// Create a socket connection with the mainserver
+			// Send over the username and password to the server
+			// receive a message from the server indicating whether to create new canvas or not
 			try {
-				System.out.println("hello");
-				CanvasClient client1 = new CanvasClient();
+				//Get username and password
+				String username = usernameField.getText();
+				String password = passwordField.getText();
+				CanvasClient newClient = new CanvasClient();
+				if(newClient.loginRequest(username, password))
+				{
+					System.out.println("hello");
+					CreatingCanvas createDrawing = new CreatingCanvas();
+					createDrawing.setVisible(true);
+				}
+				
 				//System.out.println("hello");
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			// Send over the username and password to the server
-			// receive a message from the server indicating whether to create new canvas or not
-			//CreatingCanvas createDrawing = new CreatingCanvas();
-			//createDrawing.setVisible(true);
 			
 		}
 		else if(e.getSource() == btnBack)

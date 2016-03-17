@@ -6,65 +6,140 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.util.*;
 
 public class MainServer extends Thread{
-
-	private Selector selector;
-	private ServerSocketChannel channel;
+	public static int BUFFERSIZE = 32;
 	private int port = 9000;
+	private ServerSocketChannel serverChannel;
+	private Selector selector;
+	private ByteBuffer inBuffer = null;
+    private CharBuffer cBuffer = null;
+    private CharsetDecoder decoder;
+    private CharsetEncoder encoder;
+
 	
-	public MainServer() throws Exception{
-		//Initialize
-		Selector selector = Selector.open();
+	public void run(){
 		
-		ServerSocketChannel channel = ServerSocketChannel.open();
-		channel.configureBlocking(false);
-		
-		// bind the port number
-		
-		InetSocketAddress isa = new InetSocketAddress(port);
-		channel.socket().bind(isa);
-		
-		//register that the server selector is interested in connection requests
-		channel.register(selector, SelectionKey.OP_ACCEPT);
-		
-		try {
-			boolean terminated = false;
-			while(!terminated) {
+		try
+		{
+			Charset charset = Charset.forName( "us-ascii" );  
+	        decoder = charset.newDecoder();  
+	        encoder = charset.newEncoder();
+			selector = Selector.open();
+			serverChannel = ServerSocketChannel.open();
+			serverChannel.configureBlocking(false);
+			serverChannel.socket().bind(new InetSocketAddress(port));
+			
+			serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+			while(true)
+			{
+				System.out.println("Waiting for select...");
+				int noOfKeys = selector.select();
 				
-				if(selector.select(500) < 0) {
-					System.out.println("select failed");
-					System.exit(1);
-				}
-				//Get set of ready sockets
-				Set readyKeys = selector.selectedKeys();
-				Iterator readyItor = readyKeys.iterator();
-				System.out.println("wein");
-				//Walk through the ready set
-				while(readyItor.hasNext()); {
-					//Get Key from set
-					SelectionKey key = (SelectionKey)readyItor.next();
-					readyItor.remove();
-					
-					//Accept new connections
-					if(key.isAcceptable()) {
-						System.out.println("hello");
-						SocketChannel cchannel = ((ServerSocketChannel)key.channel()).accept();
-						cchannel.configureBlocking(false);
-						System.out.println("Accept connection from" + cchannel.socket().toString());
-						
-						//register new channel
-						cchannel.register(selector, SelectionKey.OP_READ);
+				System.out.println("Number of selected keys: " + noOfKeys);
+				Set selectedKeys = selector.selectedKeys();
+				Iterator iter = selectedKeys.iterator();
+				
+				while(iter.hasNext()) 
+				{
+					SelectionKey key = (SelectionKey)iter.next();
+					iter.remove();
+					if(key.isAcceptable()) 
+					{
+						addClient(key);
 					}
+					else if(key.isReadable())
+					{
+						readKey(key);
+					}
+					
 				}
 			}
 		}
-		catch(Exception e)
+		catch(IOException e)
 		{
 			System.out.println(e);
 		}
 	}
-
 	
+	private void addClient(SelectionKey key) throws IOException
+	{
+		ServerSocketChannel acceptSocket = (ServerSocketChannel) key.channel();
+		SocketChannel newClient = acceptSocket.accept();
+		SelectionKey clientKey;
+		
+		newClient.configureBlocking(false);
+		clientKey = newClient.register(this.selector, SelectionKey.OP_READ);
+		System.out.println("Accepted new connection from client " + newClient);
+	}
+	
+	private void readKey(SelectionKey key) throws IOException
+	{
+		SocketChannel cchannel = (SocketChannel)key.channel();
+		Socket socket = cchannel.socket();
+		inBuffer = ByteBuffer.allocateDirect(BUFFERSIZE);
+        cBuffer = CharBuffer.allocate(BUFFERSIZE);
+        
+        // Read from socket
+        int bytesRecv = cchannel.read(inBuffer);
+        if (bytesRecv <= 0)
+        {
+            System.out.println("read() error, or connection closed");
+            key.cancel();  // deregister the socket
+        }
+        inBuffer.flip();      // make buffer available  
+        decoder.decode(inBuffer, cBuffer, false);
+        cBuffer.flip();
+        String line = "";
+        line = cBuffer.toString();
+        System.out.print("Client: " + line);
+        
+
+        if(checkCredentials(line))
+        {
+        	inBuffer.flip();
+            cchannel.write(inBuffer);
+        }
+        
+        inBuffer.flip();
+        cchannel.write(inBuffer);
+	}
+	
+	private boolean checkCredentials(String username)
+	{
+		if(username.equals("Tan Quach" + '\n'))
+		{
+			System.out.println(username);
+			return true;
+		}
+		return false;
+	}
+	
+
+		
+		
+		
+		
+		
+		
+		/*try {
+			
+				ServerSocket serverSocket = new ServerSocket(port);
+				ArrayList<Socket> clients = new ArrayList<Socket>();
+				while (true) {
+					//connectionSocket = serverSocket.accept();
+					
+				    clients.add(connectionSocket);    
+				    System.out.println(clients.size());
+				}
+			
+		}
+		catch(IOException e)
+		{
+			
+		}*/
 }
