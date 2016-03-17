@@ -16,25 +16,36 @@ public class MainServer extends Thread{
 	private int port = 9000;
 	private ServerSocketChannel serverChannel;
 	private Selector selector;
-	private ByteBuffer inBuffer = null;
-    private CharBuffer cBuffer = null;
-    private CharsetDecoder decoder;
-    private CharsetEncoder encoder;
+	private HashMap<Integer, SocketChannel> clientList;
+	private int numberOfClients = 1;
+	private HashMap<String, String> userAccounts;
+
+	private static final String LOGIN_REQUEST = "0x02";
+	private static final String CREATE_CANVAS_REQUEST = "0x04";
+	private static final String INVITE_FRIEND_REQUEST = "0x06";
+	private static final String CANVAS_ACCEPT = "0x09";
+	private static final String EDIT_CANVAS = "0x11";
+	private static final String BAN_REQUSET = "0x13";
+	private static final String FRIEND_REQUEST = "0x16";
+	private static final String LIST_REQUEST = "0x18";
+	private static final String DISCONNECT = "0x20";
+
 
 	
 	public void run(){
 		
 		try
 		{
-			Charset charset = Charset.forName( "us-ascii" );  
-	        decoder = charset.newDecoder();  
-	        encoder = charset.newEncoder();
+			//Initializing the server on startup
 			selector = Selector.open();
 			serverChannel = ServerSocketChannel.open();
 			serverChannel.configureBlocking(false);
 			serverChannel.socket().bind(new InetSocketAddress(port));
-			
 			serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+			clientList = new HashMap<>();
+			userAccounts = new HashMap<>();
+			userAccounts.put("Tan", "Quach");
+
 			while(true)
 			{
 				System.out.println("Waiting for select...");
@@ -48,10 +59,12 @@ public class MainServer extends Thread{
 				{
 					SelectionKey key = (SelectionKey)iter.next();
 					iter.remove();
+					//Accept new connections
 					if(key.isAcceptable()) 
 					{
 						addClient(key);
 					}
+					//Read incoming messages
 					else if(key.isReadable())
 					{
 						readKey(key);
@@ -65,7 +78,9 @@ public class MainServer extends Thread{
 			System.out.println(e);
 		}
 	}
-	
+
+	//Used to add new client to the server channel
+	//Will add the new client along with an integer to the clientList
 	private void addClient(SelectionKey key) throws IOException
 	{
 		ServerSocketChannel acceptSocket = (ServerSocketChannel) key.channel();
@@ -74,6 +89,8 @@ public class MainServer extends Thread{
 		
 		newClient.configureBlocking(false);
 		clientKey = newClient.register(this.selector, SelectionKey.OP_READ);
+		clientList.put(numberOfClients, newClient);
+		numberOfClients++;
 		System.out.println("Accepted new connection from client " + newClient);
 	}
 	
@@ -81,8 +98,11 @@ public class MainServer extends Thread{
 	{
 		SocketChannel cchannel = (SocketChannel)key.channel();
 		Socket socket = cchannel.socket();
-		inBuffer = ByteBuffer.allocateDirect(BUFFERSIZE);
-        cBuffer = CharBuffer.allocate(BUFFERSIZE);
+		Charset charset = Charset.forName( "us-ascii" );
+		ByteBuffer inBuffer = ByteBuffer.allocateDirect(BUFFERSIZE);
+        CharBuffer cBuffer = CharBuffer.allocate(BUFFERSIZE);
+		CharsetDecoder decoder = charset.newDecoder();
+		CharsetEncoder encoder = charset.newEncoder();
         
         // Read from socket
         int bytesRecv = cchannel.read(inBuffer);
@@ -94,52 +114,70 @@ public class MainServer extends Thread{
         inBuffer.flip();      // make buffer available  
         decoder.decode(inBuffer, cBuffer, false);
         cBuffer.flip();
-        String line = "";
-        line = cBuffer.toString();
-        System.out.print("Client: " + line);
-        
+        String request;
+        request = cBuffer.toString();
+		//Parse the message code
+		String[] code = request.split("\t");
+		ByteBuffer responseMessage;
 
-        if(checkCredentials(line))
-        {
-        	inBuffer.flip();
-            cchannel.write(inBuffer);
-        }
-        
-        inBuffer.flip();
-        cchannel.write(inBuffer);
-	}
-	
-	private boolean checkCredentials(String username)
-	{
-		if(username.equals("Tan Quach" + '\n'))
+		switch(code[0])
 		{
-			System.out.println(username);
-			return true;
-		}
-		return false;
-	}
-	
-
-		
-		
-		
-		
-		
-		
-		/*try {
-			
-				ServerSocket serverSocket = new ServerSocket(port);
-				ArrayList<Socket> clients = new ArrayList<Socket>();
-				while (true) {
-					//connectionSocket = serverSocket.accept();
-					
-				    clients.add(connectionSocket);    
-				    System.out.println(clients.size());
+			case LOGIN_REQUEST:
+			{
+				//Do the login request
+				if(checkCredentials(code[1], code[2]))
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
+					cchannel.write(responseMessage);
 				}
-			
+				else
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("1" + '\n'));
+					cchannel.write(responseMessage);
+				}
+			}
+			case CREATE_CANVAS_REQUEST:
+			{
+				//Create a new canvas
+			}
+			case INVITE_FRIEND_REQUEST:
+			{
+				//Send invite to the list of clients
+			}
+			case CANVAS_ACCEPT:
+			{
+				//Send request to client to join the canvas
+			}
+			case EDIT_CANVAS:
+			{
+
+			}
+			case BAN_REQUSET:
+			{
+
+			}
+			case FRIEND_REQUEST:
+			{
+
+			}
+			case LIST_REQUEST:
+			{
+
+			}
+			case DISCONNECT:
+			{
+
+			}
 		}
-		catch(IOException e)
-		{
-			
-		}*/
+	}
+
+	//Check the username and password with the list of users
+	private boolean checkCredentials(String username, String password)
+	{
+		//make sure to check that if username doesnt exist first else null pointer exception
+		if(userAccounts.get(username).equals(password))
+			return true;
+		else
+			return false;
+	}
 }

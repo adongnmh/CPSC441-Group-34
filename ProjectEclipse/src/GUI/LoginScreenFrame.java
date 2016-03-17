@@ -117,12 +117,7 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 				String username = usernameField.getText();
 				String password = passwordField.getText();
 				CanvasClient newClient = new CanvasClient();
-				if(newClient.loginRequest(username, password))
-				{
-					System.out.println("hello");
-					CreatingCanvas createDrawing = new CreatingCanvas();
-					createDrawing.setVisible(true);
-				}
+				newClient.loginRequest(username, password);
 				
 				//System.out.println("hello");
 			} catch (Exception e1) {
