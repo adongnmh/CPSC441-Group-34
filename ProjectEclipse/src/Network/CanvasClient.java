@@ -12,6 +12,8 @@ public class CanvasClient extends Thread{
 	private int port = 9000;
 	private Socket clientSocket;
 	private String school_IP = "127.0.0.1";
+
+	private static final String CREATE_ACCOUNT = "0x00";
 	private static final String LOGIN_REQUEST = "0x02";
 	public CanvasClient () 
 	{
@@ -27,7 +29,12 @@ public class CanvasClient extends Thread{
 	}
 	public void run()
 	{
-		
+
+	}
+
+	public void close() throws IOException
+	{
+		clientSocket.close();
 	}
 
 	
@@ -44,6 +51,30 @@ public class CanvasClient extends Thread{
 
 		//Check the response from the server
         if(line.equals("0"))
+		{
+			CreatingCanvas createDrawing = new CreatingCanvas();
+			createDrawing.setVisible(true);
+		}
+		else if(line.equals("1"))
+		{
+			System.out.println("invalid credentials");
+			//SHOULD OUTPUT AN ERROR MESSAGE
+		}
+	}
+
+	//send message to server for account creation
+	public void createAccount(String username, String password) throws IOException
+	{
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outBuffer.writeBytes(CREATE_ACCOUNT + '\t' + username + '\t' + password + '\t');
+
+		// Getting response from the server
+		String line = inBuffer.readLine();
+		System.out.println("Server: " + line);
+
+		//Check the response from the server
+		if(line.equals("0"))
 		{
 			CreatingCanvas createDrawing = new CreatingCanvas();
 			createDrawing.setVisible(true);

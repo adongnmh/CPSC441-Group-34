@@ -17,9 +17,10 @@ public class MainServer extends Thread{
 	private ServerSocketChannel serverChannel;
 	private Selector selector;
 	private HashMap<Integer, SocketChannel> clientList;
-	private int numberOfClients = 1;
+	private int numberOfClients = 0;
 	private HashMap<String, String> userAccounts;
 
+	private static final String CREATE_ACCOUNT = "0x00";
 	private static final String LOGIN_REQUEST = "0x02";
 	private static final String CREATE_CANVAS_REQUEST = "0x04";
 	private static final String INVITE_FRIEND_REQUEST = "0x06";
@@ -105,23 +106,37 @@ public class MainServer extends Thread{
 		CharsetEncoder encoder = charset.newEncoder();
         
         // Read from socket
-        int bytesRecv = cchannel.read(inBuffer);
-        if (bytesRecv <= 0)
-        {
-            System.out.println("read() error, or connection closed");
-            key.cancel();  // deregister the socket
-        }
-        inBuffer.flip();      // make buffer available  
-        decoder.decode(inBuffer, cBuffer, false);
-        cBuffer.flip();
-        String request;
-        request = cBuffer.toString();
+		int bytesRecv = cchannel.read(inBuffer);
+		if (bytesRecv <= 0)
+		{
+			System.out.println("read() error, or connection closed");
+			key.cancel();  // deregister the socket
+		}
+		inBuffer.flip();      // make buffer available
+		decoder.decode(inBuffer, cBuffer, false);
+		cBuffer.flip();
+		String request;
+		request = cBuffer.toString();
 		//Parse the message code
 		String[] code = request.split("\t");
 		ByteBuffer responseMessage;
 
 		switch(code[0])
 		{
+			case CREATE_ACCOUNT:
+			{
+				if(checkUserAccount(code[1]))
+				{
+					userAccounts.put(code[1], code[2]);
+					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
+					cchannel.write(responseMessage);
+				}
+				else
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("1" + '\n'));
+					cchannel.write(responseMessage);
+				}
+			}
 			case LOGIN_REQUEST:
 			{
 				//Do the login request
@@ -179,5 +194,16 @@ public class MainServer extends Thread{
 			return true;
 		else
 			return false;
+	}
+
+	//check if username is already taken
+	private boolean checkUserAccount(String username)
+	{
+		for(String key : userAccounts.keySet())
+		{
+			if(key.equalsIgnoreCase(username))
+				return false;
+		}
+		return true;
 	}
 }

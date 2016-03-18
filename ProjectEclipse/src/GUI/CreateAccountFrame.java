@@ -1,6 +1,8 @@
 package GUI;
 
 
+import Network.CanvasClient;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,6 +16,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.JButton;
 
 public class CreateAccountFrame extends JFrame implements ActionListener {
@@ -131,7 +134,24 @@ public class CreateAccountFrame extends JFrame implements ActionListener {
 			System.out.println("Register Successful");
 			//Logic for the register account will be done here
 			//Logic methods will be implemented later on in the project
-			
+
+			//Grab the passwords
+			String password = passwordField.getText();
+			String confirmPassword = passwordFieldConfirm.getText();
+			String username = usernameField.getText();
+			//Check if the password is same
+			if(password.equals(confirmPassword))
+			{
+				try
+				{
+					CanvasClient newClient = new CanvasClient();
+					newClient.createAccount(username, password);
+				}
+				catch(IOException f)
+				{
+					//ignore
+				}
+			}
 			// Closes current frame, bring the user back to the main screen
 			this.dispose();
 		}
