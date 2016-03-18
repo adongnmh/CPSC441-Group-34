@@ -18,14 +18,25 @@ public class CanvasClient extends Thread{
 
 	private int port = 9000;
 	private Socket clientSocket;
-	private String school_IP = "127.0.0.1";
+	private String currentMachineIP = "";
 
 	private static final String CREATE_ACCOUNT = "0x00";
 	private static final String LOGIN_REQUEST = "0x02";
 	public CanvasClient () 
 	{
+		InetAddress addr = null;
 		try {
-			clientSocket = new Socket(school_IP, 9000);
+			addr = InetAddress.getLocalHost();
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		currentMachineIP = addr.getHostAddress();
+		
+
+		
+		try {
+			clientSocket = new Socket(currentMachineIP, 9000);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,13 +44,16 @@ public class CanvasClient extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mainGUI = new ApplicationMainScreenPanel(this);
+		
+		
+
 		/*loginGUI = new LoginScreenFrame(this);
 		createAccGUI = new CreateAccountFrame(this);
 		createCanvasGUI = new CreatingCanvas(this);
 		canvasGUI = new DrawingCanvas(this);*/
 
 		ApplicationMainScreen mainScreenFrame = new ApplicationMainScreen();
+		mainGUI = new ApplicationMainScreenPanel(this,mainScreenFrame);
 		Container content = mainScreenFrame.getContentPane();
 		content.setLayout(new BorderLayout());
 
