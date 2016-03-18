@@ -3,7 +3,7 @@ package GUI;
 
 import Network.CanvasClient;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,7 +13,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -27,13 +26,14 @@ public class CreateAccountFrame extends JFrame implements ActionListener {
 	private JTextField passwordFieldConfirm;
 	private JButton btnRegister;
 	private JButton btnBack;
+	private CanvasClient client;
 
 	/**
 	 * Create the frame.
 	 */
-	public CreateAccountFrame() 
-	{
+	public CreateAccountFrame(CanvasClient c) {
 		initialize();
+		client = c;
 	}
 	
 	/**
@@ -144,8 +144,7 @@ public class CreateAccountFrame extends JFrame implements ActionListener {
 			{
 				try
 				{
-					CanvasClient newClient = new CanvasClient();
-					newClient.createAccount(username, password);
+					client.createAccount(username, password);
 				}
 				catch(IOException f)
 				{

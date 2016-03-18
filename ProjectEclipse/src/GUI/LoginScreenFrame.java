@@ -14,9 +14,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,14 +28,15 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 	private JTextField passwordField;
 	private JButton btnLogin;
 	private JButton btnBack;
+	private CanvasClient client;
 
 
 	/**
 	 * Create the frame.
 	 */
-	public LoginScreenFrame() {
-
+	public LoginScreenFrame(CanvasClient c) {
 		initialize();
+		client = c;
 	}
 	
 	public void initialize()
@@ -116,10 +115,7 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 				//Get username and password
 				String username = usernameField.getText();
 				String password = passwordField.getText();
-				CanvasClient newClient = new CanvasClient();
-				newClient.loginRequest(username, password);
-				
-				//System.out.println("hello");
+				client.loginRequest(username, password);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

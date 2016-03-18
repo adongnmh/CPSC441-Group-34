@@ -54,17 +54,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private double doubleSizeOfPen;
     
     
-    //Adding network stuff here:
-    private int destinationPort;
-    private int sourcePort;
-    private String IPAddress;
-    private Sender sender;
-    private Receiver receiver;
-    
-    
-    // TCP network variables here
-    private TCPServer server;
-    private TCPClient client;
+
+	private CanvasClient client;
     
 
 
@@ -80,46 +71,17 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
      * @param stringIP 
      * @throws Exception 
      */
-    public DrawingCanvas(String stringIP, int srcPort, int dstPort) throws Exception
-    {
-    	destinationPort = dstPort;
-    	sourcePort = srcPort;
-    	IPAddress = stringIP;
-    	
+    public DrawingCanvas(CanvasClient c) {
+		client = c;
 
-    	InetAddress ip = InetAddress.getByName(IPAddress);
-    	
-    	//TCP
-    	/*
-    	client = new TCPClient(ip, dstPort);
-    	server = new TCPServer(sourcePort, this);
-    	server.start();*/
-    	
-    	
-    	//UDP
-    	sender = new Sender(ip, destinationPort);
-    	receiver = new Receiver(sourcePort,this);
-    	receiver.start();
-    	
-        
-    	// Windows listener for the canvas. Will close the connections if a window 
-    	// is closed.
-    	WindowAdapter closeWindow=new WindowAdapter() {
-            public void windowClosing(WindowEvent e){
-                sender.closeSendSocket();
-                receiver.closeReceiveSocket();
-                System.exit(0);
-            } 
-        };
-    	
-    	InitializeCanvas();
+		InitializeCanvas();
 
-
+	}
         // Listening for whenever the mouse is pressed. If the mouse is pressed,
         // when pressed we will know where on the canvas the line will start using
         // the get methods.
         //SOURCE: http://www.tutorialspoint.com/awt/awt_mouseadapter.htm
-        addMouseListener(new MouseAdapter()
+        /*addMouseListener(new MouseAdapter()
         {
         	// ActionListener for when the user presses the mouse this will get the coordinates of when the user
         	// presses the mouse so that it can be paired with the end point of the line
@@ -202,7 +164,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 
             }
 
-        });
+        });/*
         
         
 

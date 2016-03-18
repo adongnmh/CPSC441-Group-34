@@ -1,6 +1,7 @@
 package Network;
-import GUI.CreatingCanvas;
+import GUI.*;
 
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
@@ -8,6 +9,12 @@ import java.nio.channels.*;
 import java.util.*;
 
 public class CanvasClient extends Thread{
+
+	private ApplicationMainScreenPanel mainGUI;
+	private LoginScreenFrame loginGUI;
+	private CreateAccountFrame createAccGUI;
+	private CreatingCanvas createCanvasGUI;
+	private DrawingCanvas canvasGUI;
 
 	private int port = 9000;
 	private Socket clientSocket;
@@ -26,6 +33,19 @@ public class CanvasClient extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		mainGUI = new ApplicationMainScreenPanel(this);
+		/*loginGUI = new LoginScreenFrame(this);
+		createAccGUI = new CreateAccountFrame(this);
+		createCanvasGUI = new CreatingCanvas(this);
+		canvasGUI = new DrawingCanvas(this);*/
+
+		ApplicationMainScreen mainScreenFrame = new ApplicationMainScreen();
+		Container content = mainScreenFrame.getContentPane();
+		content.setLayout(new BorderLayout());
+
+		content.add(mainGUI, BorderLayout.CENTER);
+		content.setVisible(true);
+		mainScreenFrame.setVisible(true);
 	}
 	public void run()
 	{
@@ -43,7 +63,7 @@ public class CanvasClient extends Thread{
 	{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream()); 
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
-		outBuffer.writeBytes(LOGIN_REQUEST + '\t' + username + '\t' + password + '\t');
+		outBuffer.writeBytes(LOGIN_REQUEST + '\t' + username + '\t' + password);
 		
 		// Getting response from the server
         String line = inBuffer.readLine();
@@ -52,7 +72,7 @@ public class CanvasClient extends Thread{
 		//Check the response from the server
         if(line.equals("0"))
 		{
-			CreatingCanvas createDrawing = new CreatingCanvas();
+			CreatingCanvas createDrawing = new CreatingCanvas(this);
 			createDrawing.setVisible(true);
 		}
 		else if(line.equals("1"))
@@ -67,7 +87,7 @@ public class CanvasClient extends Thread{
 	{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		outBuffer.writeBytes(CREATE_ACCOUNT + '\t' + username + '\t' + password + '\t');
+		outBuffer.writeBytes(CREATE_ACCOUNT + '\t' + username + '\t' + password);
 
 		// Getting response from the server
 		String line = inBuffer.readLine();
@@ -76,8 +96,9 @@ public class CanvasClient extends Thread{
 		//Check the response from the server
 		if(line.equals("0"))
 		{
-			CreatingCanvas createDrawing = new CreatingCanvas();
-			createDrawing.setVisible(true);
+			mainGUI.setVisible(true);
+			//CreatingCanvas createDrawing = new CreatingCanvas();
+			//createDrawing.setVisible(true);
 		}
 		else if(line.equals("1"))
 		{

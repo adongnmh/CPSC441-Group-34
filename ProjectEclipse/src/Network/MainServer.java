@@ -16,7 +16,7 @@ public class MainServer extends Thread{
 	private int port = 9000;
 	private ServerSocketChannel serverChannel;
 	private Selector selector;
-	private HashMap<Integer, SocketChannel> clientList;
+	private HashMap<String, SocketChannel> clientList;
 	private int numberOfClients = 0;
 	private HashMap<String, String> userAccounts;
 
@@ -80,8 +80,8 @@ public class MainServer extends Thread{
 		}
 	}
 
-	//Used to add new client to the server channel
-	//Will add the new client along with an integer to the clientList
+	//Create a new client on startup of each application
+	//Does not mean that the client is "logged" into the server
 	private void addClient(SelectionKey key) throws IOException
 	{
 		ServerSocketChannel acceptSocket = (ServerSocketChannel) key.channel();
@@ -90,8 +90,6 @@ public class MainServer extends Thread{
 		
 		newClient.configureBlocking(false);
 		clientKey = newClient.register(this.selector, SelectionKey.OP_READ);
-		clientList.put(numberOfClients, newClient);
-		numberOfClients++;
 		System.out.println("Accepted new connection from client " + newClient);
 	}
 	
@@ -136,6 +134,7 @@ public class MainServer extends Thread{
 					responseMessage = encoder.encode(CharBuffer.wrap("1" + '\n'));
 					cchannel.write(responseMessage);
 				}
+				break;
 			}
 			case LOGIN_REQUEST:
 			{
@@ -144,12 +143,18 @@ public class MainServer extends Thread{
 				{
 					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
 					cchannel.write(responseMessage);
+					//Store the username and the socket information to hashmap
+					clientList.put(code[1], cchannel);
+					System.out.println("NUMBER OF CLIENTS LOGGED IN: " + clientList.size());
 				}
 				else
 				{
+					System.out.println("why not");
 					responseMessage = encoder.encode(CharBuffer.wrap("1" + '\n'));
 					cchannel.write(responseMessage);
+					System.out.println("NUMBER OF CLIENTS LOGGED IN: " + clientList.size());
 				}
+				break;
 			}
 			case CREATE_CANVAS_REQUEST:
 			{
@@ -190,7 +195,7 @@ public class MainServer extends Thread{
 	private boolean checkCredentials(String username, String password)
 	{
 		//make sure to check that if username doesnt exist first else null pointer exception
-		if(userAccounts.get(username).equals(password))
+		if((userAccounts.containsKey(username)) && (userAccounts.get(username).equals(password)))
 			return true;
 		else
 			return false;
