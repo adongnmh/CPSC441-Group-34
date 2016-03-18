@@ -35,8 +35,10 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	 * Create the frame.
 	 */
 	public CreatingCanvas(CanvasClient c) {
-		initialiaze();
+		
 		client = c;
+		initialiaze();
+
 	}
 
 

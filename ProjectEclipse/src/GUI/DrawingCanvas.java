@@ -107,12 +107,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // draw line if drawing context not null
                     drawing.setStroke(new BasicStroke(intSizeOfPen));
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
-                    
-
-                	
-
-                    
-                	//drawing.fillOval(currentXCoord, currentYCoord, sizeOfPen, sizeOfPen);
+                 
                     // refresh draw area to repaint
                     repaint();
 

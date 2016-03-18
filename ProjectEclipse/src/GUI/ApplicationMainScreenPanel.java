@@ -107,13 +107,13 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 	{
 		if(e.getSource() == createAccountbtn)
 		{
-			frame.setVisible(false);
+
 			CreateAccountFrame newAccount = new CreateAccountFrame(client);
 			newAccount.setVisible(true);
 		}
 		else if(e.getSource() == loginBtn)
 		{
-			frame.setVisible(false);
+
 			LoginScreenFrame newLoginScreen = new LoginScreenFrame(client);
 			newLoginScreen.setVisible(true);
 		}
