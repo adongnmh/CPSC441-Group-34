@@ -56,11 +56,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     
 
 	private CanvasClient client;
-    
 
-
-
-    
     
     /**
      * This method will first initialize the canvas and all the GUI components of the JPanel
@@ -71,17 +67,17 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
      * @param stringIP 
      * @throws Exception 
      */
-    public DrawingCanvas(CanvasClient c) {
+    public DrawingCanvas(CanvasClient c) 
+    {
 		client = c;
 
 		InitializeCanvas();
-
-	}
-        // Listening for whenever the mouse is pressed. If the mouse is pressed,
+		
+		// Listening for whenever the mouse is pressed. If the mouse is pressed,
         // when pressed we will know where on the canvas the line will start using
         // the get methods.
         //SOURCE: http://www.tutorialspoint.com/awt/awt_mouseadapter.htm
-        /*addMouseListener(new MouseAdapter()
+		addMouseListener(new MouseAdapter()
         {
         	// ActionListener for when the user presses the mouse this will get the coordinates of when the user
         	// presses the mouse so that it can be paired with the end point of the line
@@ -112,7 +108,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     drawing.setStroke(new BasicStroke(intSizeOfPen));
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
                     
-                	sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+
                 	
 
                     
@@ -123,11 +119,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // Storing the old x and y coordinates as the current x and y
                     // coordinates
                     oldXCoord = currentXCoord;
-                    oldYCoord = currentYCoord;
-                    
-                    sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
-                    
-  
+                    oldYCoord = currentYCoord;                    
                 }
             }
         });
@@ -156,19 +148,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // coordinates
                     oldXCoord = currentXCoord;
                     oldYCoord = currentYCoord;
-                    
-                    sender.sendAway(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
-                    
-
                 }
-
             }
-
-        });/*
-        
-        
-
+        });
     }
+
+	
+       
 
     protected  synchronized void paintComponent(Graphics g)
     {
