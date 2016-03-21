@@ -4,10 +4,13 @@ package GUI;
 
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,13 +18,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
+import java.awt.AWTException;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -50,6 +60,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private JButton btnClear;
     private JButton btnEraser;
     private JSlider penSlider;
+    private JButton btnExport;
     private int intSizeOfPen = 5;
     private double doubleSizeOfPen;
     
@@ -199,6 +210,23 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	repaint();
     	}
     }
+    
+    public void save()
+    {
+
+    	BufferedImage bi = new BufferedImage(this.getSize().width,this.getSize().height, BufferedImage.TYPE_INT_ARGB);	
+    	drawing = bi.createGraphics();
+    	drawing.drawImage(image, 0, 0, null);
+        try {
+			ImageIO.write(bi, "PNG", new File("yourImageName.PNG"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        repaint();
+
+    }
 
 
     /**
@@ -243,6 +271,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	
 	    	penSlider = new JSlider();
 	    	penSlider.addChangeListener(this);
+	    	
+	    	btnExport = new JButton("Export");
+	    	btnExport.addActionListener(this);
 			
 			
 	    	GroupLayout gl_panel = new GroupLayout(panel);
@@ -256,12 +287,15 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addPreferredGap(ComponentPlacement.RELATED)
 	    						.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
+	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
+	    				.addPreferredGap(ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    					.addGroup(gl_panel.createSequentialGroup()
 	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
 	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(btnExport))
 	    				.addContainerGap())
 	    	);
 	    	gl_panel.setVerticalGroup(
@@ -276,9 +310,15 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-	    				.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-	    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap())
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+	    						.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+	    						.addContainerGap())
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addPreferredGap(ComponentPlacement.UNRELATED)
+	    						.addComponent(btnExport)
+	    						.addContainerGap())))
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
@@ -307,6 +347,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		else if(e.getSource() == btnClear)
 		{
 			clear();
+		}
+		else if(e.getSource() == btnExport)
+		{
+			save();
 		}
 		
 		
