@@ -276,6 +276,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	btnExport = new JButton("Export");
 	    	btnExport.addActionListener(this);
 	    	btnUpload = new JButton("Upload");
+	    	btnUpload.addActionListener(this);
 			
 			
 	    	GroupLayout gl_panel = new GroupLayout(panel);
