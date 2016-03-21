@@ -61,6 +61,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private JButton btnEraser;
     private JSlider penSlider;
     private JButton btnExport;
+    private JButton btnUpload;
     private int intSizeOfPen = 5;
     private double doubleSizeOfPen;
     
@@ -274,6 +275,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	
 	    	btnExport = new JButton("Export");
 	    	btnExport.addActionListener(this);
+	    	btnUpload = new JButton("Upload");
 			
 			
 	    	GroupLayout gl_panel = new GroupLayout(panel);
@@ -295,7 +297,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
 	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-	    					.addComponent(btnExport))
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addComponent(btnExport)
+	    						.addPreferredGap(ComponentPlacement.RELATED)
+	    						.addComponent(btnUpload)))
 	    				.addContainerGap())
 	    	);
 	    	gl_panel.setVerticalGroup(
@@ -317,7 +322,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addContainerGap())
 	    					.addGroup(gl_panel.createSequentialGroup()
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
-	    						.addComponent(btnExport)
+	    						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+	    							.addComponent(btnExport)
+	    							.addComponent(btnUpload))
 	    						.addContainerGap())))
 	    	);
 	    	panel.setLayout(gl_panel);
