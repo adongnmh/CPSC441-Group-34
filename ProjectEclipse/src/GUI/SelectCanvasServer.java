@@ -5,28 +5,19 @@ import Network.CanvasClient;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JInternalFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JCheckBox;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JRadioButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
 
 public class SelectCanvasServer extends JFrame implements ActionListener{
 
@@ -37,14 +28,10 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	int sPort;
 	int dPort;
 	private CanvasClient client;
+	private ButtonGroup radioGroup;
 
 
-	/**
-	 * Create the frame.
-	 * @param dstPort 
-	 * @param srcPort 
-	 * @param stringIP 
-	 */
+
 	public SelectCanvasServer(CanvasClient c)
 	{
 		client = c;
@@ -58,21 +45,30 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
+		radioGroup = new ButtonGroup();
 		JLabel lblSelectAServer = new JLabel("Select A Server to Join:");
 		lblSelectAServer.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		JRadioButton rdbtnServer = new JRadioButton("Server#1");
 		rdbtnServer.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
+		rdbtnServer.setActionCommand(rdbtnServer.getText());
+
 		JRadioButton rdbtnServer_1 = new JRadioButton("Server#2");
 		rdbtnServer_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		rdbtnServer_1.setActionCommand(rdbtnServer_1.getText());
 		
 		JRadioButton rdbtnServer_2 = new JRadioButton("Server#3");
 		rdbtnServer_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+		rdbtnServer_2.setActionCommand(rdbtnServer_2.getText());
 		
 		JRadioButton rdbtnServer_3 = new JRadioButton("Server#4");
 		rdbtnServer_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+		rdbtnServer_3.setActionCommand(rdbtnServer_3.getText());
+		radioGroup.add(rdbtnServer);
+		radioGroup.add(rdbtnServer_1);
+		radioGroup.add(rdbtnServer_2);
+		radioGroup.add(rdbtnServer_3);
 		
 		btnJoin = new JButton("Join Canvas");
 		btnJoin.addActionListener(this);
@@ -129,7 +125,23 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	{
 		if(e.getSource() == btnJoin)
 		{
-			this.dispose();
+			System.out.println(radioGroup.getSelection().getActionCommand());
+			try
+			{
+				if(radioGroup.getSelection().getActionCommand() == "Server#1")
+					this.client.joinRequest("1");
+				else if(radioGroup.getSelection().getActionCommand() == "Server#2")
+					this.client.joinRequest("2");
+				else if(radioGroup.getSelection().getActionCommand() == "Server#3")
+					this.client.joinRequest("3");
+				else if(radioGroup.getSelection().getActionCommand() == "Server#4")
+					this.client.joinRequest("4");
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
+			/*this.dispose();
 			DrawingScreenFrame newFrame = new DrawingScreenFrame();
 
 	        Container content = newFrame.getContentPane();
@@ -145,7 +157,7 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 			}
 	        content.add(newPiece, BorderLayout.CENTER);
 	        content.setVisible(true);
-	        newFrame.setVisible(true);
+	        newFrame.setVisible(true);*/
 		}
 		else if(e.getSource() == btnBack)
 		{
