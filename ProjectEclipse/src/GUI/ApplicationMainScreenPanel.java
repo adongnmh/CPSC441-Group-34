@@ -9,6 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import Network.CanvasClient;
+import com.sun.security.ntlm.Client;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 
@@ -16,16 +20,22 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 
 	
 	// Variables for the main 
-	JButton createAccountbtn;
-	JButton loginBtn;
+	private JButton createAccountbtn;
+	private JButton loginBtn;
+	private CanvasClient client;
+	private ApplicationMainScreen frame;
 	
 	
 	/**
 	 * Create the panel.
+	 * @param mainScreenFrame 
 	 */
-	public ApplicationMainScreenPanel() {
+	public ApplicationMainScreenPanel(CanvasClient c, ApplicationMainScreen mainScreenFrame) 
+	{
 		
 		initializeMainScreenPanel();
+		frame = mainScreenFrame;
+		client = c;
 
 	}
 	
@@ -97,14 +107,14 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 	{
 		if(e.getSource() == createAccountbtn)
 		{
-			System.out.println("Create Account button!");
-			CreateAccountFrame newAccount = new CreateAccountFrame();
+
+			CreateAccountFrame newAccount = new CreateAccountFrame(client);
 			newAccount.setVisible(true);
 		}
 		else if(e.getSource() == loginBtn)
 		{
-			System.out.println("YES");
-			LoginScreenFrame newLoginScreen = new LoginScreenFrame();
+
+			LoginScreenFrame newLoginScreen = new LoginScreenFrame(client);
 			newLoginScreen.setVisible(true);
 		}
 	}

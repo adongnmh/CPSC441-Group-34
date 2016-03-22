@@ -25,8 +25,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	private JPanel contentPane;
 	private JButton btnCreateNewCanvas;
 	private JButton btnJoinExistingCanvas;
-	//private TCPClient client;
-	//private TCPServer server;
+	private CanvasClient client;
 
 	private int srcPort = 9000;
 	private int dstPort = 8000;
@@ -35,18 +34,11 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	/**
 	 * Create the frame.
 	 */
-	public CreatingCanvas() {
-		InetAddress addr = null;
-		try {
-			addr = InetAddress.getLocalHost();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String ip = addr.getHostAddress();
-		System.out.println("Ip: " + ip);
-		stringIP = ip;
+	public CreatingCanvas(CanvasClient c) {
+		
+		client = c;
 		initialiaze();
+
 	}
 
 
@@ -105,7 +97,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	        
 	        DrawingCanvas newPiece = null;
 			try {
-				newPiece = new DrawingCanvas(stringIP,srcPort,dstPort);
+				newPiece = new DrawingCanvas(client);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -119,7 +111,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		else if(e.getSource() == btnJoinExistingCanvas)
 		{
 			this.dispose();
-			SelectCanvasServer toJoinCanvas = new SelectCanvasServer(stringIP,dstPort,srcPort);
+			SelectCanvasServer toJoinCanvas = new SelectCanvasServer(client);
 			toJoinCanvas.setVisible(true);
 			
 		}
