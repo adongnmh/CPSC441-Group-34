@@ -57,11 +57,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private JButton btnRed;
     private JButton btnBlue;
     private JButton btnGreen;
+    private JButton btnBlack; //black button
+    private JButton btnMagenta; //purple button
     private JButton btnClear;
     private JButton btnEraser;
     private JSlider penSlider;
     private JButton btnExport;
-    private JButton btnUpload;
+    private JButton btnUpload; //upload button
     private int intSizeOfPen = 5;
     private double doubleSizeOfPen;
     
@@ -228,7 +230,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
         repaint();
 
     }
-
+    //upload function
+    public void upload() {
+    	repaint();
+    }
 
     /**
      * Initializes canvas
@@ -264,6 +269,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 			btnGreen.setBackground(Color.GREEN);
 			btnGreen.addActionListener(this);
 			
+			//black
+			btnBlack = new JButton("");
+			btnBlack.setBackground(Color.BLACK);
+			btnBlack.addActionListener(this);
+			
+			//Magenta
+			btnMagenta = new JButton("");
+			btnMagenta.setBackground(Color.MAGENTA);
+			btnMagenta.addActionListener(this);	
+			
 			btnClear = new JButton("Clear");
 			btnClear.addActionListener(this);
 	    	
@@ -275,7 +290,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	
 	    	btnExport = new JButton("Export");
 	    	btnExport.addActionListener(this);
+	    	
+	    	//upload
 	    	btnUpload = new JButton("Upload");
+	    	btnUpload.addActionListener(this);
 			
 			
 	    	GroupLayout gl_panel = new GroupLayout(panel);
@@ -289,6 +307,12 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addPreferredGap(ComponentPlacement.RELATED)
 	    						.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.RELATED)
+	    						//black
+	    						.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.RELATED)
+	    						//magenta
+	    						.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+	    						//.addPreferredGap(ComponentPlacement.RELATED)
 	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
 	    				.addPreferredGap(ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
@@ -297,10 +321,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
 	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addComponent(btnExport)
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnUpload)))
+	    					.addComponent(btnExport)
+	    					//upload
+	    					//.addPreferredGap(ComponentPlacement.UNRELATED)
+	    					.addComponent(btnUpload))
 	    				.addContainerGap())
 	    	);
 	    	gl_panel.setVerticalGroup(
@@ -314,7 +338,12 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    							.addComponent(btnEraser)))
 	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+	    					//black
+	    					.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+	    					//magenta
+	    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+	    						)
 	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 	    					.addGroup(gl_panel.createSequentialGroup()
 	    						.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
@@ -322,9 +351,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addContainerGap())
 	    					.addGroup(gl_panel.createSequentialGroup()
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-	    							.addComponent(btnExport)
-	    							.addComponent(btnUpload))
+	    						.addComponent(btnExport)
+	    						.addComponent(btnUpload)
 	    						.addContainerGap())))
 	    	);
 	    	panel.setLayout(gl_panel);
@@ -346,6 +374,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		else if(e.getSource() == btnGreen)
 		{
 	        drawing.setPaint(Color.GREEN);
+		}
+		//black
+		else if(e.getSource() == btnBlack)
+		{
+	        drawing.setPaint(Color.BLACK);
+		}
+		//magenta
+		else if(e.getSource() == btnMagenta)
+		{
+	        drawing.setPaint(Color.MAGENTA);
 		}
 		else if(e.getSource() == btnEraser)
 		{
