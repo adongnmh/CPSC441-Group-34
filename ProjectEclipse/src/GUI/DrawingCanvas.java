@@ -330,12 +330,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addPreferredGap(ComponentPlacement.RELATED)
 	    						.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						//black
 	    						.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						//magenta
 	    						.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-	    						//.addPreferredGap(ComponentPlacement.RELATED)
 	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
 	    				.addPreferredGap(ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
@@ -345,8 +342,6 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
 	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
 	    					.addComponent(btnExport)
-	    					//upload
-	    					//.addPreferredGap(ComponentPlacement.UNRELATED)
 	    					.addComponent(btnUpload))
 	    				.addContainerGap())
 	    	);
@@ -362,21 +357,15 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					//black
 	    					.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					//magenta
-	    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    						)
+	    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+	    				.addGap(18)
 	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-	    						.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-	    						.addContainerGap())
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addPreferredGap(ComponentPlacement.UNRELATED)
 	    						.addComponent(btnExport)
-	    						.addComponent(btnUpload)
-	    						.addContainerGap())))
+	    						.addComponent(btnUpload))
+	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+	    				.addContainerGap())
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
