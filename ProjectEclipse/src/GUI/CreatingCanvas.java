@@ -89,24 +89,14 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		if(e.getSource() == btnCreateNewCanvas)
 		{
 			this.dispose();
-			DrawingScreenFrame newFrame = new DrawingScreenFrame();
-
-	        Container content = newFrame.getContentPane();
-	        content.setLayout(new BorderLayout());
-	        
-	        
-	        DrawingCanvas newPiece = null;
-			try {
-				newPiece = new DrawingCanvas(client);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			try
+			{
+				this.client.createCanvasRequest();
 			}
-	        content.add(newPiece, BorderLayout.CENTER);
-	        content.setVisible(true);
-	        newFrame.setVisible(true);
-	        
-
+			catch(Exception ex)
+			{
+				//IGNORE
+			}
 		}
 		else if(e.getSource() == btnJoinExistingCanvas)
 		{

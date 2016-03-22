@@ -19,6 +19,7 @@ public class MainServer extends Thread{
 	private HashMap<String, SocketChannel> clientList;
 	private int numberOfClients = 0;
 	private HashMap<String, String> userAccounts;
+	private HashMap<String, String> userServer;
 
 	private static final String CREATE_ACCOUNT = "0x00";
 	private static final String LOGIN_REQUEST = "0x02";
@@ -30,6 +31,13 @@ public class MainServer extends Thread{
 	private static final String FRIEND_REQUEST = "0x16";
 	private static final String LIST_REQUEST = "0x18";
 	private static final String DISCONNECT = "0x20";
+	private static final String JOIN_REQUEST = "0x21";
+
+	//Canvas Servers
+	private List<String> server1 = new ArrayList<String>();
+	private List<String> server2 = new ArrayList<String>();
+	private List<String> server3 = new ArrayList<String>();
+	private List<String> server4 = new ArrayList<String>();
 
 
 	
@@ -159,6 +167,27 @@ public class MainServer extends Thread{
 			case CREATE_CANVAS_REQUEST:
 			{
 				//Create a new canvas
+				//Check available 4 canvas servers
+				if(checkServers(code[1]))
+				{
+					System.out.println("succesfully created canvas");
+					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
+					cchannel.write(responseMessage);
+				}
+				else
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("1" + '\n'));
+					cchannel.write(responseMessage);
+				}
+				break;
+			}
+			//TODO: check if joining is available
+			case JOIN_REQUEST:
+			{
+				joinServer(code[1], code[2]);
+				responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
+				cchannel.write(responseMessage);
+				break;
 			}
 			case INVITE_FRIEND_REQUEST:
 			{
@@ -210,5 +239,45 @@ public class MainServer extends Thread{
 				return false;
 		}
 		return true;
+	}
+
+	//Check the server to see if it has been used as a host already
+	private boolean checkServers(String username)
+	{
+		if(server1.size() == 0)
+		{
+			server1.add(username);
+			return true;
+		}
+		else if(server2.size() == 0)
+		{
+			server2.add(username);
+			return true;
+		}
+		else if(server3.size() == 0)
+		{
+			server3.add(username);
+			return true;
+		}
+		else if(server4.size() == 0)
+		{
+			server4.add(username);
+			return true;
+		}
+		return false;
+	}
+
+	// Add the username to the requested server
+	//TODO: add a limit to each server so there will be a check for number of users
+	private void joinServer(String serverNum, String username)
+	{
+		if(serverNum.equals("1"))
+			server1.add(username);
+		else if(serverNum.equals("2"))
+			server2.add(username);
+		else if(serverNum.equals("3"))
+			server3.add(username);
+		else if(serverNum.equals("4"))
+			server4.add(username);
 	}
 }

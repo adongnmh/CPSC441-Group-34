@@ -15,6 +15,7 @@ public class CanvasClient extends Thread{
 	private CreateAccountFrame createAccGUI;
 	private CreatingCanvas createCanvasGUI;
 	private DrawingCanvas canvasGUI;
+	private String username;
 
 	private int port = 9000;
 	private Socket clientSocket;
@@ -22,6 +23,9 @@ public class CanvasClient extends Thread{
 
 	private static final String CREATE_ACCOUNT = "0x00";
 	private static final String LOGIN_REQUEST = "0x02";
+	private static final String CREATE_CANVAS_REQUEST = "0x04";
+	private static final String JOIN_REQUEST = "0x21";
+
 	public CanvasClient () 
 	{
 		InetAddress addr = null;
@@ -86,6 +90,7 @@ public class CanvasClient extends Thread{
 		//Check the response from the server
         if(line.equals("0"))
 		{
+			this.username = username;
 			CreatingCanvas createDrawing = new CreatingCanvas(this);
 			createDrawing.setVisible(true);
 		}
@@ -119,5 +124,77 @@ public class CanvasClient extends Thread{
 			System.out.println("invalid credentials");
 			//SHOULD OUTPUT AN ERROR MESSAGE
 		}
+	}
+
+	public void createCanvasRequest() throws Exception
+	{
+		//Send request to the server
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outBuffer.writeBytes(CREATE_CANVAS_REQUEST + '\t' + this.username);
+
+		//Getting response from the server
+		String line = inBuffer.readLine();
+		System.out.println("Server: " + line);
+
+		if(line.equals("0"))
+		{
+			System.out.println("canvas createdddd");
+			DrawingScreenFrame newFrame = new DrawingScreenFrame();
+
+			Container content = newFrame.getContentPane();
+			content.setLayout(new BorderLayout());
+
+
+			DrawingCanvas newPiece = null;
+			try {
+				newPiece = new DrawingCanvas(this);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			content.add(newPiece, BorderLayout.CENTER);
+			content.setVisible(true);
+			newFrame.setVisible(true);
+		}
+		//TODO: Add an error message saying that all servers are currently taken
+		else if(line.equals("1"))
+		{
+			//SHOULD OUTPUT AN ERROR MESSAGE
+		}
+	}
+
+	public void joinRequest(String serverNumber) throws Exception
+	{
+		//Send request to the server
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outBuffer.writeBytes(JOIN_REQUEST + '\t' + serverNumber + '\t' + this.username);
+
+		//Getting response from the server
+		String line = inBuffer.readLine();
+		System.out.println("Server: " + line);
+		if(line.equals("0"))
+		{
+			System.out.println("joining canvas");
+			DrawingScreenFrame newFrame = new DrawingScreenFrame();
+
+			Container content = newFrame.getContentPane();
+			content.setLayout(new BorderLayout());
+
+
+			DrawingCanvas newPiece = null;
+			try {
+				newPiece = new DrawingCanvas(this);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			content.add(newPiece, BorderLayout.CENTER);
+			content.setVisible(true);
+			newFrame.setVisible(true);
+			//TODO: UPDATE REQUEST IMMEDIATELY JOINING TO GET THE CANVAS
+		}
+
 	}
 }
