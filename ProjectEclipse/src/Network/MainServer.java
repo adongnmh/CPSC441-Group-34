@@ -55,6 +55,10 @@ public class MainServer extends Thread{
 			userAccounts = new HashMap<>();
 			userAccounts.put("Tan", "Quach");
 			userAccounts.put("asdf", "asdf");
+			userAccounts.put("1", "1");
+			userAccounts.put("2", "2");
+			userAccounts.put("3", "3");
+
 
 			while(true)
 			{
@@ -190,9 +194,16 @@ public class MainServer extends Thread{
 			//TODO: check if joining is available
 			case JOIN_REQUEST:
 			{
-				joinServer(code[1], code[2]);
-				responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
-				cchannel.write(responseMessage);
+				if(joinServer(code[1], code[2]))
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
+					cchannel.write(responseMessage);
+				}
+				else
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("1" + '\n'));
+					cchannel.write(responseMessage);
+				}
 				break;
 			}
 			case INVITE_FRIEND_REQUEST:
@@ -282,15 +293,32 @@ public class MainServer extends Thread{
 
 	// Add the username to the requested server
 	//TODO: add a limit to each server so there will be a check for number of users
-	private void joinServer(String serverNum, String username)
+	private boolean joinServer(String serverNum, String username)
 	{
-		if(serverNum.equals("1"))
+		if(serverNum.equals("1") && server1.size() < 4)
+		{
 			server1.add(username);
-		else if(serverNum.equals("2"))
+			for(int i = 0; i < server1.size(); i++)
+			{
+				System.out.println(server1.get(i));
+			}
+			return true;
+		}
+		else if(serverNum.equals("2") && server2.size() < 4)
+		{
 			server2.add(username);
-		else if(serverNum.equals("3"))
+			return true;
+		}
+		else if(serverNum.equals("3") && server3.size() < 4)
+		{
 			server3.add(username);
-		else if(serverNum.equals("4"))
+			return true;
+		}
+		else if(serverNum.equals("4") && server4.size() < 4)
+		{
 			server4.add(username);
+			return true;
+		}
+		return false;
 	}
 }

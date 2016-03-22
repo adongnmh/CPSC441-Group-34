@@ -174,6 +174,7 @@ public class CanvasClient extends Thread{
 		//TODO: Add an error message saying that all servers are currently taken
 		else if(line.equals("1"))
 		{
+			System.out.println("ALL SERVERS ARE TAKEN");
 			//SHOULD OUTPUT AN ERROR MESSAGE
 		}
 	}
@@ -207,6 +208,11 @@ public class CanvasClient extends Thread{
 			content.setVisible(true);
 			newFrame.setVisible(true);
 			//TODO: UPDATE REQUEST IMMEDIATELY JOINING TO GET THE CANVAS
+		}
+		else if(line.equals("1"))
+		{
+			//TODO: ADD MESSAGE SAYING THAT SERVER IS FULL
+			System.out.println("Server is full");
 		}
 	}
 
