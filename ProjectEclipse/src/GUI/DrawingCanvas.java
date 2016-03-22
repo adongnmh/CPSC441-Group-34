@@ -82,8 +82,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     public DrawingCanvas(CanvasClient c) 
     {
 		client = c;
-
 		InitializeCanvas();
+		c.start();
 		
 		// Listening for whenever the mouse is pressed. If the mouse is pressed,
         // when pressed we will know where on the canvas the line will start using
@@ -119,14 +119,29 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // draw line if drawing context not null
                     drawing.setStroke(new BasicStroke(intSizeOfPen));
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
-                 
+					try
+					{
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+					}
+					catch(Exception ex)
+					{
+						//ignore
+					}
                     // refresh draw area to repaint
                     repaint();
 
                     // Storing the old x and y coordinates as the current x and y
                     // coordinates
                     oldXCoord = currentXCoord;
-                    oldYCoord = currentYCoord;                    
+                    oldYCoord = currentYCoord;
+					try
+					{
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+					}
+					catch(Exception ex)
+					{
+						//ignore
+					}
                 }
             }
         });
@@ -155,6 +170,14 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     // coordinates
                     oldXCoord = currentXCoord;
                     oldYCoord = currentYCoord;
+					try
+					{
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+					}
+					catch(Exception ex)
+					{
+						//ignore
+					}
                 }
             }
         });

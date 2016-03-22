@@ -12,7 +12,7 @@ import java.nio.charset.CharsetEncoder;
 import java.util.*;
 
 public class MainServer extends Thread{
-	public static int BUFFERSIZE = 32;
+	public static int BUFFERSIZE = 1000;
 	private int port = 9000;
 	private ServerSocketChannel serverChannel;
 	private Selector selector;
@@ -54,6 +54,7 @@ public class MainServer extends Thread{
 			clientList = new HashMap<>();
 			userAccounts = new HashMap<>();
 			userAccounts.put("Tan", "Quach");
+			userAccounts.put("asdf", "asdf");
 
 			while(true)
 			{
@@ -125,8 +126,13 @@ public class MainServer extends Thread{
 		request = cBuffer.toString();
 		//Parse the message code
 		String[] code = request.split("\t");
-		ByteBuffer responseMessage;
-
+		ByteBuffer responseMessage = ByteBuffer.allocate(BUFFERSIZE);
+		//TODO: SOMETIMES IT READS NOTHING SO IT CAUSES NULL REFERENCE -- NEED TO DEBUG (temporary fix)
+		if(code.length == 0)
+		{
+			System.out.println("outtaaa bounds");
+			return;
+		}
 		switch(code[0])
 		{
 			case CREATE_ACCOUNT:
@@ -199,7 +205,14 @@ public class MainServer extends Thread{
 			}
 			case EDIT_CANVAS:
 			{
-
+				if(code.length != 5)
+					return;
+				responseMessage = encoder.encode(CharBuffer.wrap(code[1] + '\t' + code[2] + '\t' + code[3] + '\t' +  code[4] +'\n'));
+				SocketChannel channel1 = clientList.get("asdf");
+				channel1.write(responseMessage);
+				//cchannel.write(responseMessage);
+				System.out.println(code[1] + " " + code[2] + " " + code[3] + " " + code[4]);
+				break;
 			}
 			case BAN_REQUSET:
 			{
