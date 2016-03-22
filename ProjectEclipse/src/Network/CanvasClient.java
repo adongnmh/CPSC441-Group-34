@@ -24,6 +24,7 @@ public class CanvasClient extends Thread{
 	private static final String CREATE_ACCOUNT = "0x00";
 	private static final String LOGIN_REQUEST = "0x02";
 	private static final String CREATE_CANVAS_REQUEST = "0x04";
+	private static final String EDIT_CANVAS = "0x11";
 	private static final String JOIN_REQUEST = "0x21";
 
 	public CanvasClient () 
@@ -65,9 +66,24 @@ public class CanvasClient extends Thread{
 		content.setVisible(true);
 		mainScreenFrame.setVisible(true);
 	}
+	@Override
 	public void run()
 	{
-
+		while(true)
+		{
+			try
+			{
+				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				String line = inBuffer.readLine();
+				String[] code = line.split("\t");
+				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
+				System.out.println("LOLOLOLOL: " + line);
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
+		}
 	}
 
 	public void close() throws IOException
@@ -131,11 +147,10 @@ public class CanvasClient extends Thread{
 		//Send request to the server
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		outBuffer.writeBytes(CREATE_CANVAS_REQUEST + '\t' + this.username);
+		outBuffer.writeBytes(CREATE_CANVAS_REQUEST + '\t' + username + '\t');
 
 		//Getting response from the server
 		String line = inBuffer.readLine();
-		System.out.println("Server: " + line);
 
 		if(line.equals("0"))
 		{
@@ -146,14 +161,13 @@ public class CanvasClient extends Thread{
 			content.setLayout(new BorderLayout());
 
 
-			DrawingCanvas newPiece = null;
 			try {
-				newPiece = new DrawingCanvas(this);
+				canvasGUI = new DrawingCanvas(this);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			content.add(newPiece, BorderLayout.CENTER);
+			content.add(canvasGUI, BorderLayout.CENTER);
 			content.setVisible(true);
 			newFrame.setVisible(true);
 		}
@@ -183,18 +197,23 @@ public class CanvasClient extends Thread{
 			content.setLayout(new BorderLayout());
 
 
-			DrawingCanvas newPiece = null;
 			try {
-				newPiece = new DrawingCanvas(this);
+				canvasGUI = new DrawingCanvas(this);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			content.add(newPiece, BorderLayout.CENTER);
+			content.add(canvasGUI, BorderLayout.CENTER);
 			content.setVisible(true);
 			newFrame.setVisible(true);
 			//TODO: UPDATE REQUEST IMMEDIATELY JOINING TO GET THE CANVAS
 		}
+	}
 
+	public void updateCanvas(int oldX, int oldY, int newX, int newY) throws Exception
+	{
+		System.out.println("original coords: " + oldX + " " + oldY + " " + newX + " " + newY);
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		outBuffer.writeBytes(EDIT_CANVAS + '\t' + oldX + '\t' + oldY + '\t' + newX + '\t' + newY + '\t');
 	}
 }
