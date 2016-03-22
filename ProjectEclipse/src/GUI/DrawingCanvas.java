@@ -28,6 +28,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 
 import java.awt.AWTException;
 import java.awt.BasicStroke;
@@ -45,6 +46,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	
 	 // Image that we will draw using the paint.
     private Image image;
+    
+    private Image imageToUpload;
     // Graphics2D object this is what we will use to draw on
     private Graphics2D drawing;
 
@@ -67,7 +70,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private int intSizeOfPen = 5;
     private double doubleSizeOfPen;
     
+    private UploadImageFrame uploadFrame;
+    String currentDir = "";
     
+    private String imageToUploadPath;
 
 	private CanvasClient client;
 
@@ -254,8 +260,12 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 
     }
     //upload function
-    public void upload() {
-    	repaint();
+    public void upload(String path)
+    {
+    	ImageIcon img = new ImageIcon(path);
+		imageToUpload = img.getImage();
+		drawing.drawImage(imageToUpload,450,0,null);
+		repaint();
     }
 
     /**
@@ -333,6 +343,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.RELATED)
 	    						.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.RELATED)
 	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
 	    				.addPreferredGap(ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
@@ -341,8 +352,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 	    						.addPreferredGap(ComponentPlacement.UNRELATED)
 	    						.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-	    					.addComponent(btnExport)
-	    					.addComponent(btnUpload))
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addComponent(btnExport)
+	    						.addPreferredGap(ComponentPlacement.RELATED)
+	    						.addComponent(btnUpload)))
 	    				.addContainerGap())
 	    	);
 	    	gl_panel.setVerticalGroup(
@@ -356,16 +369,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    							.addComponent(btnEraser)))
 	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 	    				.addGap(18)
 	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addGroup(gl_panel.createSequentialGroup()
+	    					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 	    						.addComponent(btnExport)
 	    						.addComponent(btnUpload))
 	    					.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-	    				.addContainerGap())
+	    				.addGap(23))
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
@@ -408,6 +421,11 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		else if(e.getSource() == btnExport)
 		{
 			save();
+		}
+		else if(e.getSource() == btnUpload)
+		{
+	    	uploadFrame = new UploadImageFrame(this);
+	    	uploadFrame.setVisible(true);
 		}
 		
 		
