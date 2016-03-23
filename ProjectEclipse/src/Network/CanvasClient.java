@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.*;
 import java.nio.channels.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class CanvasClient extends Thread{
@@ -220,6 +221,6 @@ public class CanvasClient extends Thread{
 	{
 		System.out.println("original coords: " + oldX + " " + oldY + " " + newX + " " + newY);
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
-		outBuffer.writeBytes(EDIT_CANVAS + '\t' + oldX + '\t' + oldY + '\t' + newX + '\t' + newY + '\t');
+		outBuffer.write((EDIT_CANVAS + '\t' + oldX + '\t' + oldY + '\t' + newX + '\t' + newY + '\t').getBytes(Charset.forName("us-ascii")));
 	}
 }
