@@ -1,5 +1,7 @@
 package GUI;
 
+import Network.CanvasClient;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -34,6 +36,7 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	String IP;
 	int sPort;
 	int dPort;
+	private CanvasClient client;
 
 
 	/**
@@ -42,11 +45,9 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	 * @param srcPort 
 	 * @param stringIP 
 	 */
-	public SelectCanvasServer(String stringIP, int srcPort, int dstPort) 
+	public SelectCanvasServer(CanvasClient c)
 	{
-		IP = stringIP;
-		sPort = srcPort;
-		dPort = dstPort;
+		client = c;
 		initialize();
 	}
 	
@@ -137,7 +138,7 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	        
 	        DrawingCanvas newPiece = null;
 			try {
-				newPiece = new DrawingCanvas(IP,sPort,dPort);
+				newPiece = new DrawingCanvas(client);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

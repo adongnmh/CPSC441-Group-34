@@ -1,9 +1,14 @@
 package CollaborativeDrawing;
 
 import GUI.*;
+import Network.CanvasClient;
+import Network.MainServer;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.Socket;
 
 /**
  * Controller of the application. Will Create/Initialize a Frame for the whole
@@ -14,25 +19,17 @@ import java.awt.event.ActionEvent;
 public class CollaborativeDrawingController
 {
 
-	private int srcPort = 9000;
-	private int dstPort = 8000;
-	private String stringIP = "192.168.0.5";
-	
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        // TODO code application logic here
-    	
-    	
-    	
-    	// Initializing Main Screen
-    	ApplicationMainScreen mainScreenFrame = new ApplicationMainScreen();
-    	Container content = mainScreenFrame.getContentPane();
-    	content.setLayout(new BorderLayout());
-    	ApplicationMainScreenPanel mainPanel = new ApplicationMainScreenPanel();
-    	content.add(mainPanel, BorderLayout.CENTER);
-    	
-    	content.setVisible(true);
-    	mainScreenFrame.setVisible(true);
+
+		//Initialize the main server
+    	System.out.println("available");
+    	MainServer server = new MainServer();
+    	server.start();
+
+		//Connect the client to the server -- does not mean that the client is "logged" in
+		CanvasClient client = new CanvasClient();
     }
+
 
 }
