@@ -8,6 +8,7 @@ import java.nio.*;
 import java.nio.channels.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.List;
 
 public class CanvasClient extends Thread{
 
@@ -26,6 +27,7 @@ public class CanvasClient extends Thread{
 	private static final String LOGIN_REQUEST = "0x02";
 	private static final String CREATE_CANVAS_REQUEST = "0x04";
 	private static final String EDIT_CANVAS = "0x11";
+	private static final String LIST_REQUEST = "0x18";
 	private static final String JOIN_REQUEST = "0x21";
 
 	public CanvasClient () 
@@ -77,7 +79,11 @@ public class CanvasClient extends Thread{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				String line = inBuffer.readLine();
 				String[] code = line.split("\t");
-				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
+				if(code[0] == "0")
+					System.out.println("lol");
+				else
+					canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
+
 				System.out.println("LOLOLOLOL: " + line);
 			}
 			catch(Exception ex)
@@ -223,4 +229,23 @@ public class CanvasClient extends Thread{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		outBuffer.write((EDIT_CANVAS + '\t' + oldX + '\t' + oldY + '\t' + newX + '\t' + newY + '\t').getBytes(Charset.forName("us-ascii")));
 	}
+
+	//Retrieve a list of friends for the specific client from the server -- will display on the DrawingCanvas
+	public void listFriends() throws  Exception
+	{
+		//Send request to the server
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outBuffer.writeBytes(LIST_REQUEST + '\t' + this.username);
+
+		//Getting response from the server
+		//String line = inBuffer.readLine();
+		//System.out.println("Server: " + line);
+		//canvasGUI.listFriends(line);
+
+
+
+	}
+
+
 }

@@ -20,6 +20,7 @@ public class MainServer extends Thread{
 	private int numberOfClients = 0;
 	private HashMap<String, String> userAccounts;
 	private HashMap<String, String> userServer;
+	private HashMap<String, List<String>> userFriendsList;
 
 	private static final String CREATE_ACCOUNT = "0x00";
 	private static final String LOGIN_REQUEST = "0x02";
@@ -32,6 +33,7 @@ public class MainServer extends Thread{
 	private static final String LIST_REQUEST = "0x18";
 	private static final String DISCONNECT = "0x20";
 	private static final String JOIN_REQUEST = "0x21";
+
 
 	//Canvas Servers
 	private List<String> server1 = new ArrayList<String>();
@@ -53,11 +55,16 @@ public class MainServer extends Thread{
 			serverChannel.register(selector, SelectionKey.OP_ACCEPT);
 			clientList = new HashMap<>();
 			userAccounts = new HashMap<>();
+			userFriendsList = new HashMap<>();
 			userAccounts.put("Tan", "Quach");
 			userAccounts.put("asdf", "asdf");
 			userAccounts.put("1", "1");
 			userAccounts.put("2", "2");
 			userAccounts.put("3", "3");
+			List<String> testList1 = new ArrayList<>();
+			testList1.add("bob");
+			testList1.add("jim");
+			userFriendsList.put("Tan", testList1);
 
 
 			while(true)
@@ -235,7 +242,10 @@ public class MainServer extends Thread{
 			}
 			case LIST_REQUEST:
 			{
-
+				responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
+				System.out.println(getFriendsList(code[1]));
+				cchannel.write(responseMessage);
+				break;
 			}
 			case DISCONNECT:
 			{
@@ -320,5 +330,18 @@ public class MainServer extends Thread{
 			return true;
 		}
 		return false;
+	}
+
+	private String getFriendsList(String username)
+	{
+		String friendString = "0 \t";
+		List<String> friendList = userFriendsList.get(username);
+		for(int i = 0; i < friendList.size(); i++)
+		{
+			friendString += friendList.get(i) + '\t';
+		}
+
+
+		return friendString;
 	}
 }

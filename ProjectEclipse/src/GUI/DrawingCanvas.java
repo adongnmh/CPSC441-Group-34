@@ -2,7 +2,7 @@ package GUI;
 
 
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -26,24 +26,21 @@ import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 
 import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 
-import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.JSlider;
 
 import Network.*;
-import javax.swing.JLabel;
+
 import java.awt.Font;
-import javax.swing.JTextField;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DrawingCanvas extends JPanel implements ActionListener, ChangeListener {
 	
@@ -90,15 +87,15 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	private JButton btnBanUser;
 	private JTextField textField;
 	private JPanel friendPanel;
-
+	private List<String> friendsList = new ArrayList<String>();
     
     /**
      * This method will first initialize the canvas and all the GUI components of the JPanel
      * such as the Buttons, slider,etc. The method will also initialize all the ActionListener and 
      * ChangeListener for all the mouse events and all the action events.
-     * @param dstPort 
-     * @param srcPort 
-     * @param stringIP 
+     * @param dstPort
+     * @param srcPort
+     * @param stringIP
      * @throws Exception 
      */
     public DrawingCanvas(CanvasClient c) 
@@ -291,7 +288,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	panel = new JPanel();
 	    	panel.setBackground(Color.LIGHT_GRAY);
 	    	
-	    	friendPanel = new JPanel();
+	    	friendPanel = new JPanel(new BorderLayout());
 	    	friendPanel.setBackground(Color.GREEN);
 	    	friendPanel.setVisible(false);
 	    	GroupLayout groupLayout = new GroupLayout(this);
@@ -525,6 +522,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		
 		else if(e.getSource() == btnListFriends)
 		{
+			try{
+				client.listFriends();
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
 	    	friendPanel.setVisible(true);
 		}
 		else if(e.getSource() == btnBanUser)
@@ -557,7 +561,17 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 				ChangePenSize(sliderNum);
 			}
 		}
+	}
 
-		
+	//Populate the friends list array with string from server
+	public void listFriends(String list)
+	{
+		String[] friendsList = list.split("\t");
+		System.out.println(friendsList[0]);
+		//ListModel model = new DefaultListModel();
+		//friendPanel.add(new JScrollPane(new JList(friendsList)));
+		//friendPanel.add(new JList(friendsList));
+
+
 	}
 }
