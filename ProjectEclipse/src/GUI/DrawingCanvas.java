@@ -2,7 +2,7 @@ package GUI;
 
 
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -26,25 +26,21 @@ import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 
 import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 
-import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.JSlider;
 
 import Network.*;
-import javax.swing.JLabel;
+
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DrawingCanvas extends JPanel implements ActionListener, ChangeListener {
 	
@@ -90,17 +86,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	private JButton btnListFriends;
 	private JButton btnBanUser;
 	private JTextField textField;
-	private JTextPane friendsTextPane;
-	private boolean friendsTextPaneFlag = false;
-
+	private JPanel friendPanel;
+	private List<String> friendsList = new ArrayList<String>();
     
     /**
      * This method will first initialize the canvas and all the GUI components of the JPanel
      * such as the Buttons, slider,etc. The method will also initialize all the ActionListener and 
      * ChangeListener for all the mouse events and all the action events.
-     * @param dstPort 
-     * @param srcPort 
-     * @param stringIP 
+     * @param dstPort
+     * @param srcPort
+     * @param stringIP
      * @throws Exception 
      */
     public DrawingCanvas(CanvasClient c) 
@@ -292,16 +287,25 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	
 	    	panel = new JPanel();
 	    	panel.setBackground(Color.LIGHT_GRAY);
+	    	
+	    	friendPanel = new JPanel(new BorderLayout());
+	    	friendPanel.setBackground(Color.GREEN);
+	    	friendPanel.setVisible(false);
 	    	GroupLayout groupLayout = new GroupLayout(this);
 	    	groupLayout.setHorizontalGroup(
 	    		groupLayout.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(groupLayout.createSequentialGroup()
 	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(854, Short.MAX_VALUE))
+	    				.addPreferredGap(ComponentPlacement.RELATED)
+	    				.addComponent(friendPanel, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(731, Short.MAX_VALUE))
 	    	);
 	    	groupLayout.setVerticalGroup(
 	    		groupLayout.createParallelGroup(Alignment.LEADING)
 	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+	    			.addGroup(groupLayout.createSequentialGroup()
+	    				.addComponent(friendPanel, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(400, Short.MAX_VALUE))
 	    	);
 	    	
 	    	btnBlack = new JButton("");
@@ -370,11 +374,6 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	
 	    	textField = new JTextField();
 	    	textField.setColumns(10);
-	    	
-	    	friendsTextPane = new JTextPane();
-	    	friendsTextPane.setText("Hello\nYes");
-	    	friendsTextPane.setVisible(false);
-	    	friendsTextPane.setEditable(false);
 	    	GroupLayout gl_panel = new GroupLayout(panel);
 	    	gl_panel.setHorizontalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
@@ -427,9 +426,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    				.addContainerGap(51, Short.MAX_VALUE))
 	    			.addGroup(gl_panel.createSequentialGroup()
 	    				.addContainerGap()
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-	    					.addComponent(friendsTextPane, Alignment.LEADING)
-	    					.addComponent(btnListFriends, Alignment.LEADING))
+	    				.addComponent(btnListFriends)
 	    				.addContainerGap(21, Short.MAX_VALUE))
 	    	);
 	    	gl_panel.setVerticalGroup(
@@ -471,20 +468,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    				.addComponent(btnBanUser)
 	    				.addGap(4)
 	    				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
+	    				.addGap(107)
 	    				.addComponent(btnListFriends)
-	    				.addPreferredGap(ComponentPlacement.UNRELATED)
-	    				.addComponent(friendsTextPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(86, Short.MAX_VALUE))
+	    				.addContainerGap(112, Short.MAX_VALUE))
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
 	 }
-    
-    public void updateFriendsList()
-    {
-    	// Code to update friends list here
-    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) 
@@ -532,16 +522,14 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		
 		else if(e.getSource() == btnListFriends)
 		{
-			if(friendsTextPaneFlag == false)
-			{
-				friendsTextPane.setVisible(true);
-				friendsTextPaneFlag = true;
+			try{
+				client.listFriends();
 			}
-			else if(friendsTextPaneFlag == true)
+			catch(Exception ex)
 			{
-				friendsTextPane.setVisible(false);
-				friendsTextPaneFlag = false;
+				//ignore
 			}
+	    	friendPanel.setVisible(true);
 		}
 		else if(e.getSource() == btnBanUser)
 		{
@@ -573,7 +561,17 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 				ChangePenSize(sliderNum);
 			}
 		}
+	}
 
-		
+	//Populate the friends list array with string from server
+	public void listFriends(String list)
+	{
+		String[] friendsList = list.split("\t");
+		System.out.println(friendsList[0]);
+		//ListModel model = new DefaultListModel();
+		//friendPanel.add(new JScrollPane(new JList(friendsList)));
+		//friendPanel.add(new JList(friendsList));
+
+
 	}
 }
