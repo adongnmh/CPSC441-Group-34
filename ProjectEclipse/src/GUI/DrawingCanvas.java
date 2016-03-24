@@ -44,6 +44,7 @@ import Network.*;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 public class DrawingCanvas extends JPanel implements ActionListener, ChangeListener {
 	
@@ -89,7 +90,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	private JButton btnListFriends;
 	private JButton btnBanUser;
 	private JTextField textField;
-	private JPanel friendPanel;
+	private JTextPane friendsTextPane;
+	private boolean friendsTextPaneFlag = false;
 
     
     /**
@@ -290,25 +292,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	
 	    	panel = new JPanel();
 	    	panel.setBackground(Color.LIGHT_GRAY);
-	    	
-	    	friendPanel = new JPanel();
-	    	friendPanel.setBackground(Color.GREEN);
-	    	friendPanel.setVisible(false);
 	    	GroupLayout groupLayout = new GroupLayout(this);
 	    	groupLayout.setHorizontalGroup(
 	    		groupLayout.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(groupLayout.createSequentialGroup()
 	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(friendPanel, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(731, Short.MAX_VALUE))
+	    				.addContainerGap(854, Short.MAX_VALUE))
 	    	);
 	    	groupLayout.setVerticalGroup(
 	    		groupLayout.createParallelGroup(Alignment.LEADING)
 	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-	    			.addGroup(groupLayout.createSequentialGroup()
-	    				.addComponent(friendPanel, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(400, Short.MAX_VALUE))
 	    	);
 	    	
 	    	btnBlack = new JButton("");
@@ -377,6 +370,11 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	
 	    	textField = new JTextField();
 	    	textField.setColumns(10);
+	    	
+	    	friendsTextPane = new JTextPane();
+	    	friendsTextPane.setText("Hello\nYes");
+	    	friendsTextPane.setVisible(false);
+	    	friendsTextPane.setEditable(false);
 	    	GroupLayout gl_panel = new GroupLayout(panel);
 	    	gl_panel.setHorizontalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
@@ -429,7 +427,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    				.addContainerGap(51, Short.MAX_VALUE))
 	    			.addGroup(gl_panel.createSequentialGroup()
 	    				.addContainerGap()
-	    				.addComponent(btnListFriends)
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+	    					.addComponent(friendsTextPane, Alignment.LEADING)
+	    					.addComponent(btnListFriends, Alignment.LEADING))
 	    				.addContainerGap(21, Short.MAX_VALUE))
 	    	);
 	    	gl_panel.setVerticalGroup(
@@ -471,13 +471,20 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    				.addComponent(btnBanUser)
 	    				.addGap(4)
 	    				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addGap(107)
+	    				.addPreferredGap(ComponentPlacement.RELATED)
 	    				.addComponent(btnListFriends)
-	    				.addContainerGap(112, Short.MAX_VALUE))
+	    				.addPreferredGap(ComponentPlacement.UNRELATED)
+	    				.addComponent(friendsTextPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(86, Short.MAX_VALUE))
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
 	 }
+    
+    public void updateFriendsList()
+    {
+    	// Code to update friends list here
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) 
@@ -525,7 +532,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		
 		else if(e.getSource() == btnListFriends)
 		{
-	    	friendPanel.setVisible(true);
+			if(friendsTextPaneFlag == false)
+			{
+				friendsTextPane.setVisible(true);
+				friendsTextPaneFlag = true;
+			}
+			else if(friendsTextPaneFlag == true)
+			{
+				friendsTextPane.setVisible(false);
+				friendsTextPaneFlag = false;
+			}
 		}
 		else if(e.getSource() == btnBanUser)
 		{

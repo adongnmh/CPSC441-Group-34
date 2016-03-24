@@ -13,7 +13,7 @@ public class ApplicationMainScreen extends JFrame {
 
 
 	/**
-	 * Create the frame.
+	 * Create the frame of the main application.
 	 */
 	public ApplicationMainScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

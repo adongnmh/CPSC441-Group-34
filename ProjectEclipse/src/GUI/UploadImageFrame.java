@@ -16,6 +16,12 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * This class will upload the image to the canvas
+ * @author Group 34
+ * Last Modified: March 24th 2016
+ *
+ */
 public class UploadImageFrame extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
