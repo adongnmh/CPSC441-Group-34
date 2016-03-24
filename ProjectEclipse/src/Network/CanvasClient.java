@@ -80,7 +80,7 @@ public class CanvasClient extends Thread{
 				String line = inBuffer.readLine();
 				String[] code = line.split("\t");
 				if(code[0] == "0")
-					System.out.println("lol");
+					canvasGUI.listFriends(line);
 				else
 					canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
 
@@ -241,7 +241,7 @@ public class CanvasClient extends Thread{
 		//Getting response from the server
 		//String line = inBuffer.readLine();
 		//System.out.println("Server: " + line);
-		//canvasGUI.listFriends(line);
+		canvasGUI.listFriends("YO");
 
 
 
