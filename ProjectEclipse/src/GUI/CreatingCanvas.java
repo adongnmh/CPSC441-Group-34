@@ -43,7 +43,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	private String stringIP = "";
 	private JTextField addFriendTextField;
 	private JButton btnListFriends;
-	private JList list;
+	private JList friendsList;
 	private JButton btnAddFriend;
 	private JLabel lblAddFriend;
 
@@ -87,7 +87,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		btnListFriends = new JButton("List Friends");
 		btnListFriends.addActionListener(this);
 		
-		list = new JList();
+		friendsList = new JList();
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -100,7 +100,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 						.addComponent(btnCreateNewCanvas, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
 					.addGap(26)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(list, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(friendsList, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(lblAddFriend)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(addFriendTextField, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
@@ -129,7 +129,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 							.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
 							.addGap(255))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(list, GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+							.addComponent(friendsList, GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
 							.addContainerGap())))
 		);
 		contentPane.setLayout(gl_contentPane);
