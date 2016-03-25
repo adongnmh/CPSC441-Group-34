@@ -77,14 +77,12 @@ public class CanvasClient extends Thread{
 			try
 			{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				String line = inBuffer.readLine();
-				String[] code = line.split("\t");
-				if(code[0] == "0")
-					canvasGUI.listFriends(line);
-				else
-					canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
+				//String line = inBuffer.readLine();
+				//String[] code = line.split("\t");
+				//canvasGUI.listFriends(("hello"));
+				//canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
 
-				System.out.println("LOLOLOLOL: " + line);
+				//System.out.println("LOLOLOLOL: " + line);
 			}
 			catch(Exception ex)
 			{
@@ -239,12 +237,22 @@ public class CanvasClient extends Thread{
 		outBuffer.writeBytes(LIST_REQUEST + '\t' + this.username);
 
 		//Getting response from the server
-		//String line = inBuffer.readLine();
-		//System.out.println("Server: " + line);
-		canvasGUI.listFriends("YO");
+		String line = inBuffer.readLine();
+		System.out.println("Server: " + line);
+		canvasGUI.listFriends(line);
+	}
 
+	public void listFriendMain() throws  Exception
+	{
+		//Send request to the server
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outBuffer.writeBytes(LIST_REQUEST + '\t' + this.username);
 
-
+		//Getting response from the server
+		String line = inBuffer.readLine();
+		System.out.println("Server: " + line);
+		createCanvasGUI.listFriends(line);
 	}
 
 

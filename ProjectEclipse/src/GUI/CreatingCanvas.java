@@ -8,20 +8,14 @@ import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import Network.*;
 
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JList;
 
 /**
  * This Class will generate the create canvas page for the user. GUI was design in windows builder and 
@@ -46,6 +40,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	private JList list;
 	private JButton btnAddFriend;
 	private JLabel lblAddFriend;
+	private DefaultListModel model = new DefaultListModel();
 
 	/**
 	 * Create the frame.
@@ -87,7 +82,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		btnListFriends = new JButton("List Friends");
 		btnListFriends.addActionListener(this);
 		
-		list = new JList();
+		list = new JList(model);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -160,8 +155,26 @@ public class CreatingCanvas extends JFrame implements ActionListener
 			this.dispose();
 			SelectCanvasServer toJoinCanvas = new SelectCanvasServer(client);
 			toJoinCanvas.setVisible(true);
-			
+		}
+		else if(e.getSource() == btnListFriends)
+		{
+			try{
+				client.listFriendMain();
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
 		}
 		
+	}
+
+	//Populate the friends list array with string from server
+	public void listFriends(String list)
+	{
+		System.out.println(list);
+		String[] friendsList = list.split("\t");
+		for (String friend:friendsList)
+			model.addElement(friend);
 	}
 }

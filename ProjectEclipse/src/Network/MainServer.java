@@ -243,7 +243,7 @@ public class MainServer extends Thread{
 			case LIST_REQUEST:
 			{
 				responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
-				System.out.println(getFriendsList(code[1]));
+				System.out.println("In here");
 				cchannel.write(responseMessage);
 				break;
 			}
@@ -340,7 +340,7 @@ public class MainServer extends Thread{
 		{
 			friendString += friendList.get(i) + '\t';
 		}
-
+		friendString += '\n';
 
 		return friendString;
 	}

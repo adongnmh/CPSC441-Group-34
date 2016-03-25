@@ -86,6 +86,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	private JButton btnListFriends;
 	private JButton btnBanUser;
 	private JTextField textField;
+	private JList friendList;
+	private DefaultListModel model = new DefaultListModel();
 	private List<String> friendsList = new ArrayList<String>();
 	
 	private JTextArea friendsTextBox;
@@ -102,9 +104,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
      */
     public DrawingCanvas(CanvasClient c) 
     {
-		client = c;
+		this.client = c;
 		InitializeCanvas();
-		c.start();
+		this.client.start();
 		
 		// Listening for whenever the mouse is pressed. If the mouse is pressed,
         // when pressed we will know where on the canvas the line will start using
@@ -369,8 +371,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	textField = new JTextField();
 	    	textField.setColumns(10);
 	    	
-	    	friendsTextBox = new JTextArea();
-	    	friendsTextBox.setVisible(false);
+	    	friendList = new JList(model);
+	    	friendList.setVisible(false);
 	    	
 	    	GroupLayout gl_panel = new GroupLayout(panel);
 	    	gl_panel.setHorizontalGroup(
@@ -425,7 +427,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    			.addGroup(gl_panel.createSequentialGroup()
 	    				.addContainerGap()
 	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-	    					.addComponent(friendsTextBox, Alignment.LEADING)
+	    					.addComponent(friendList, Alignment.LEADING)
 	    					.addComponent(btnListFriends, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 	    				.addContainerGap(21, Short.MAX_VALUE))
 	    	);
@@ -471,7 +473,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    				.addPreferredGap(ComponentPlacement.RELATED)
 	    				.addComponent(btnListFriends)
 	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(friendsTextBox, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
 	    				.addContainerGap(96, Short.MAX_VALUE))
 	    	);
 	    	panel.setLayout(gl_panel);
@@ -524,24 +526,25 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		
 		else if(e.getSource() == btnListFriends)
 		{
-			try{
-				client.listFriends();
-			}
-			catch(Exception ex)
-			{
-				//ignore
-			}
-			
+			//Only grab list of friends if flag is false, otherwise the list just closes and clears list
 			if(friendsTextBoxFlag == false)
 			{
+				try{
+					client.listFriends();
+				}
+				catch(Exception ex)
+				{
+					//ignore
+				}
 				friendsTextBoxFlag = true;
-		    	friendsTextBox.setVisible(true);
+				friendList.setVisible(true);
 		    	
 			}
 			else
 			{
-		    	friendsTextBox.setVisible(false);
+		    	friendList.setVisible(false);
 		    	friendsTextBoxFlag = false;
+				model.clear();
 			}
 
 		}
@@ -580,10 +583,17 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	//Populate the friends list array with string from server
 	public void listFriends(String list)
 	{
-		friendsTextBox.setText("TAN");
-		System.out.println("YO");
+		System.out.println(list);
 		String[] friendsList = list.split("\t");
-		System.out.println(friendsList[0]);
+		for (String friend:friendsList)
+		{
+			model.addElement(friend);
+		}
+		//model.addElement(friendsList[0]);
+		//System.out.println(friendsList[0]);
+		//JPanel panel = new JPanel(new BorderLayout());
+		//ListModel model = new DefaultListModel();
+		//panel.add(new JScrollPane(new JList(friendsList)));
 		//ListModel model = new DefaultListModel();
 		//friendPanel.add(new JScrollPane(new JList(friendsList)));
 		//friendPanel.add(new JList(friendsList));
