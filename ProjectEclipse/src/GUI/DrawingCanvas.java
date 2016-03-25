@@ -585,9 +585,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	{
 		System.out.println(list);
 		String[] friendsList = list.split("\t");
-		for (String friend:friendsList)
+		for(int i = 1; i < friendsList.length; i++)
 		{
-			model.addElement(friend);
+			model.addElement(friendsList[i]);
 		}
 		//model.addElement(friendsList[0]);
 		//System.out.println(friendsList[0]);
