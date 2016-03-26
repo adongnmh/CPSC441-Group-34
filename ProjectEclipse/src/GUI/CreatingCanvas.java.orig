@@ -82,7 +82,11 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		btnListFriends = new JButton("List Friends");
 		btnListFriends.addActionListener(this);
 		
+<<<<<<< HEAD
+		friendsList = new JList();
+=======
 		list = new JList(model);
+>>>>>>> tan_branch
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
