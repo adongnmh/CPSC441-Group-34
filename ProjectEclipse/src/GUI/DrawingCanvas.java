@@ -523,7 +523,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		{
 			drawing.setPaint(Color.WHITE);
 		}
-		
+		else if(e.getSource() == btnAddFriend)
+		{
+			try{
+				client.addFriend(addFriendField.getText());
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
+		}
 		else if(e.getSource() == btnListFriends)
 		{
 			//Only grab list of friends if flag is false, otherwise the list just closes and clears list
@@ -591,7 +600,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	{
 		System.out.println(list);
 		String[] friendsList = list.split("\t");
-		for(int i = 1; i < friendsList.length; i++)
+		for(int i = 0; i < friendsList.length; i++)
 		{
 			model.addElement(friendsList[i]);
 		}

@@ -63,9 +63,11 @@ public class MainServer extends Thread{
 			userAccounts.put("2", "2");
 			userAccounts.put("3", "3");
 			List<String> testList1 = new ArrayList<>();
+			List<String> testList2 = new ArrayList<>();
 			testList1.add("bob");
 			testList1.add("jim");
 			userFriendsList.put("Tan", testList1);
+			userFriendsList.put("asdf", testList2);
 
 
 			while(true)
@@ -152,6 +154,8 @@ public class MainServer extends Thread{
 				if(checkUserAccount(code[1]))
 				{
 					userAccounts.put(code[1], code[2]);
+					List<String> friendsList = new ArrayList<>();
+					userFriendsList.put(code[1], friendsList);
 					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
 					cchannel.write(responseMessage);
 				}
@@ -254,13 +258,18 @@ public class MainServer extends Thread{
 			}
 			case FRIEND_REQUEST:
 			{
-
+				userFriendsList.get(code[1]).add(code[2]);
+				System.out.println(code[2]);
+				break;
 			}
 			case LIST_REQUEST:
 			{
-				responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
-				System.out.println("In here");
-				cchannel.write(responseMessage);
+				if(userFriendsList.get(code[1]).size() != 0)
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
+					System.out.println("In here");
+					cchannel.write(responseMessage);
+				}
 				break;
 			}
 			case DISCONNECT:
@@ -358,7 +367,7 @@ public class MainServer extends Thread{
 
 	private String getFriendsList(String username)
 	{
-		String friendString = "0 \t";
+		String friendString = LIST_REQUEST + '\t';
 		List<String> friendList = userFriendsList.get(username);
 		for(int i = 0; i < friendList.size(); i++)
 		{

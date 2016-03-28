@@ -28,6 +28,7 @@ public class CanvasClient extends Thread{
 	private static final String CREATE_CANVAS_REQUEST = "0x04";
 	private static final String EDIT_CANVAS = "0x11";
 	private static final String BAN_REQUEST = "0x13";
+	private static final String FRIEND_REQUEST = "0x16";
 	private static final String LIST_REQUEST = "0x18";
 	private static final String JOIN_REQUEST = "0x21";
 
@@ -80,13 +81,17 @@ public class CanvasClient extends Thread{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				String line = inBuffer.readLine();
 				System.out.println(line);
+				String[] code = line.split("\t", 2);
 				if(line.equals(BAN_REQUEST))
 				{
-					System.out.println("hello");
 					canvasGUI.closeApplication();
 					this.close();
 				}
-				String[] code = line.split("\t");
+				else if(code[0].equals(LIST_REQUEST))
+				{
+					System.out.println("blah" + code[1]);
+					canvasGUI.listFriends(code[1]);
+				}
 				//canvasGUI.listFriends(("hello"));
 				//canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
 
@@ -243,11 +248,11 @@ public class CanvasClient extends Thread{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outBuffer.writeBytes(LIST_REQUEST + '\t' + this.username);
-
+		System.out.println("hello");
 		//Getting response from the server
-		String line = inBuffer.readLine();
-		System.out.println("Server: " + line);
-		canvasGUI.listFriends(line);
+		//String line = inBuffer.readLine();
+		//System.out.println("Server: " + line);
+		//canvasGUI.listFriends(line);
 	}
 
 	public void listFriendMain() throws  Exception
@@ -271,6 +276,13 @@ public class CanvasClient extends Thread{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 
 		outBuffer.writeBytes(BAN_REQUEST + '\t' + this.username + '\t' + username);
+	}
+
+	public void addFriend(String username) throws Exception
+	{
+		//Send request to the server
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		outBuffer.writeBytes(FRIEND_REQUEST + '\t' + this.username + '\t' + username);
 	}
 
 
