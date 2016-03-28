@@ -28,7 +28,7 @@ public class MainServer extends Thread{
 	private static final String INVITE_FRIEND_REQUEST = "0x06";
 	private static final String CANVAS_ACCEPT = "0x09";
 	private static final String EDIT_CANVAS = "0x11";
-	private static final String BAN_REQUSET = "0x13";
+	private static final String BAN_REQUEST = "0x13";
 	private static final String FRIEND_REQUEST = "0x16";
 	private static final String LIST_REQUEST = "0x18";
 	private static final String DISCONNECT = "0x20";
@@ -54,6 +54,7 @@ public class MainServer extends Thread{
 			serverChannel.socket().bind(new InetSocketAddress(port));
 			serverChannel.register(selector, SelectionKey.OP_ACCEPT);
 			clientList = new HashMap<>();
+			userServer = new HashMap<>();
 			userAccounts = new HashMap<>();
 			userFriendsList = new HashMap<>();
 			userAccounts.put("Tan", "Quach");
@@ -62,9 +63,11 @@ public class MainServer extends Thread{
 			userAccounts.put("2", "2");
 			userAccounts.put("3", "3");
 			List<String> testList1 = new ArrayList<>();
+			List<String> testList2 = new ArrayList<>();
 			testList1.add("bob");
 			testList1.add("jim");
 			userFriendsList.put("Tan", testList1);
+			userFriendsList.put("asdf", testList2);
 
 
 			while(true)
@@ -151,6 +154,8 @@ public class MainServer extends Thread{
 				if(checkUserAccount(code[1]))
 				{
 					userAccounts.put(code[1], code[2]);
+					List<String> friendsList = new ArrayList<>();
+					userFriendsList.put(code[1], friendsList);
 					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
 					cchannel.write(responseMessage);
 				}
@@ -232,19 +237,39 @@ public class MainServer extends Thread{
 				System.out.println(code[1] + " " + code[2] + " " + code[3] + " " + code[4]);
 				break;
 			}
-			case BAN_REQUSET:
+			case BAN_REQUEST:
 			{
+				System.out.println("    " + code[1] + "   " + code[2]);
+				if(userServer.containsKey(code[1]) && userServer.containsKey(code[2]))
+				{
+					System.out.println("hello we in here");
+					banUser(code[2], userServer.get(code[1]));
+					SocketChannel client = clientList.get(code[2]);
+					responseMessage = encoder.encode(CharBuffer.wrap(BAN_REQUEST + '\n'));
+					client.write(responseMessage);
+				}
+				else
+				{
+					System.out.println("out");
+				}
+
+				break;
 
 			}
 			case FRIEND_REQUEST:
 			{
-
+				userFriendsList.get(code[1]).add(code[2]);
+				System.out.println(code[2]);
+				break;
 			}
 			case LIST_REQUEST:
 			{
-				responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
-				System.out.println("In here");
-				cchannel.write(responseMessage);
+				if(userFriendsList.get(code[1]).size() != 0)
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
+					System.out.println("In here");
+					cchannel.write(responseMessage);
+				}
 				break;
 			}
 			case DISCONNECT:
@@ -281,21 +306,25 @@ public class MainServer extends Thread{
 		if(server1.size() == 0)
 		{
 			server1.add(username);
+			userServer.put(username, "1");
 			return true;
 		}
 		else if(server2.size() == 0)
 		{
 			server2.add(username);
+			userServer.put(username, "2");
 			return true;
 		}
 		else if(server3.size() == 0)
 		{
 			server3.add(username);
+			userServer.put(username, "3");
 			return true;
 		}
 		else if(server4.size() == 0)
 		{
 			server4.add(username);
+			userServer.put(username, "4");
 			return true;
 		}
 		return false;
@@ -308,6 +337,7 @@ public class MainServer extends Thread{
 		if(serverNum.equals("1") && server1.size() < 4)
 		{
 			server1.add(username);
+			userServer.put(username, "1");
 			for(int i = 0; i < server1.size(); i++)
 			{
 				System.out.println(server1.get(i));
@@ -317,16 +347,19 @@ public class MainServer extends Thread{
 		else if(serverNum.equals("2") && server2.size() < 4)
 		{
 			server2.add(username);
+			userServer.put(username, "2");
 			return true;
 		}
 		else if(serverNum.equals("3") && server3.size() < 4)
 		{
 			server3.add(username);
+			userServer.put(username, "3");
 			return true;
 		}
 		else if(serverNum.equals("4") && server4.size() < 4)
 		{
 			server4.add(username);
+			userServer.put(username, "4");
 			return true;
 		}
 		return false;
@@ -334,7 +367,7 @@ public class MainServer extends Thread{
 
 	private String getFriendsList(String username)
 	{
-		String friendString = "0 \t";
+		String friendString = LIST_REQUEST + '\t';
 		List<String> friendList = userFriendsList.get(username);
 		for(int i = 0; i < friendList.size(); i++)
 		{
@@ -343,5 +376,20 @@ public class MainServer extends Thread{
 		friendString += '\n';
 
 		return friendString;
+	}
+
+	private void banUser(String username, String serverNum)
+	{
+		userServer.remove(username);
+		if(serverNum=="1")
+			server1.remove(username);
+		else if(serverNum=="2")
+			server2.remove(username);
+		else if(serverNum=="3")
+			server3.remove(username);
+		else if(serverNum=="4")
+			server4.remove(username);
+
+
 	}
 }

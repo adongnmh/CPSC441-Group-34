@@ -532,7 +532,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		{
 			drawing.setPaint(Color.WHITE);
 		}
-		
+		else if(e.getSource() == btnAddFriend)
+		{
+			try{
+				client.addFriend(addFriendField.getText());
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
+		}
 		else if(e.getSource() == btnListFriends)
 		{
 			//Only grab list of friends if flag is false, otherwise the list just closes and clears list
@@ -559,7 +568,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		}
 		else if(e.getSource() == btnBanUser)
 		{
-			
+			System.out.println(textField.getText());
+			try{
+				client.banUser(textField.getText());
+			}
+			catch(Exception ex) {
+				//ignore
+			}
 		}
 		else if(e.getSource() == btnUpload)
 		{
@@ -598,19 +613,15 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	{
 		System.out.println(list);
 		String[] friendsList = list.split("\t");
-		for(int i = 1; i < friendsList.length; i++)
+		for(int i = 0; i < friendsList.length; i++)
 		{
 			model.addElement(friendsList[i]);
 		}
-		//model.addElement(friendsList[0]);
-		//System.out.println(friendsList[0]);
-		//JPanel panel = new JPanel(new BorderLayout());
-		//ListModel model = new DefaultListModel();
-		//panel.add(new JScrollPane(new JList(friendsList)));
-		//ListModel model = new DefaultListModel();
-		//friendPanel.add(new JScrollPane(new JList(friendsList)));
-		//friendPanel.add(new JList(friendsList));
-
-
 	}
+
+	public void closeApplication()
+	{
+		System.exit(0);
+	}
+
 }
