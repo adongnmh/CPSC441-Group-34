@@ -597,8 +597,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		}
 	}
 
-	public void dispose()
+	public void closeApplication()
 	{
-		this.dispose();
+		System.exit(0);
 	}
+
 }

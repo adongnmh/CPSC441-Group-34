@@ -80,12 +80,12 @@ public class CanvasClient extends Thread{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				String line = inBuffer.readLine();
 				System.out.println(line);
-				/*if(line.equals(BAN_REQUEST))
+				if(line.equals(BAN_REQUEST))
 				{
 					System.out.println("hello");
-					//canvasGUI.dispose();
-					//this.close();
-				}*/
+					canvasGUI.closeApplication();
+					this.close();
+				}
 				String[] code = line.split("\t");
 				//canvasGUI.listFriends(("hello"));
 				//canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
