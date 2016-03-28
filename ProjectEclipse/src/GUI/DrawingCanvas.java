@@ -550,7 +550,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		}
 		else if(e.getSource() == btnBanUser)
 		{
-			
+			System.out.println(textField.getText());
+			try{
+				client.banUser(textField.getText());
+			}
+			catch(Exception ex) {
+				//ignore
+			}
 		}
 		else if(e.getSource() == btnUpload)
 		{
@@ -589,15 +595,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		{
 			model.addElement(friendsList[i]);
 		}
-		//model.addElement(friendsList[0]);
-		//System.out.println(friendsList[0]);
-		//JPanel panel = new JPanel(new BorderLayout());
-		//ListModel model = new DefaultListModel();
-		//panel.add(new JScrollPane(new JList(friendsList)));
-		//ListModel model = new DefaultListModel();
-		//friendPanel.add(new JScrollPane(new JList(friendsList)));
-		//friendPanel.add(new JList(friendsList));
+	}
 
-
+	public void dispose()
+	{
+		this.dispose();
 	}
 }

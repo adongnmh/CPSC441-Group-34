@@ -27,6 +27,7 @@ public class CanvasClient extends Thread{
 	private static final String LOGIN_REQUEST = "0x02";
 	private static final String CREATE_CANVAS_REQUEST = "0x04";
 	private static final String EDIT_CANVAS = "0x11";
+	private static final String BAN_REQUEST = "0x13";
 	private static final String LIST_REQUEST = "0x18";
 	private static final String JOIN_REQUEST = "0x21";
 
@@ -77,8 +78,15 @@ public class CanvasClient extends Thread{
 			try
 			{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				//String line = inBuffer.readLine();
-				//String[] code = line.split("\t");
+				String line = inBuffer.readLine();
+				System.out.println(line);
+				/*if(line.equals(BAN_REQUEST))
+				{
+					System.out.println("hello");
+					//canvasGUI.dispose();
+					//this.close();
+				}*/
+				String[] code = line.split("\t");
 				//canvasGUI.listFriends(("hello"));
 				//canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
 
@@ -253,6 +261,16 @@ public class CanvasClient extends Thread{
 		String line = inBuffer.readLine();
 		System.out.println("Server: " + line);
 		createCanvasGUI.listFriends(line);
+	}
+
+	//Get the username from textField and pass it to the server to see if
+	//user exists, if exists it will send message to the user
+	public void banUser(String username) throws Exception
+	{
+		//Send request to the server
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+
+		outBuffer.writeBytes(BAN_REQUEST + '\t' + this.username + '\t' + username);
 	}
 
 
