@@ -92,6 +92,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	
 	private JTextArea friendsTextBox;
     private boolean friendsTextBoxFlag = false;
+    private JButton btnExport;
 	
     /**
      * This method will first initialize the canvas and all the GUI components of the JPanel
@@ -221,9 +222,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
             // enable initializing - smoother Lines
             drawing.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // clear draw area
+
             clear();
         }
-
         g.drawImage(image, 0, 0, null);
         repaint();
     }
@@ -264,6 +265,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 
     	BufferedImage bi = new BufferedImage(this.getSize().width,this.getSize().height, BufferedImage.TYPE_INT_ARGB);	
     	drawing = bi.createGraphics();
+        drawing.setClip(122, 0, getSize().width, getSize().height);
     	drawing.drawImage(image, 0, 0, null);
         try {
 			ImageIO.write(bi, "PNG", new File("yourImageName.PNG"));
@@ -374,6 +376,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    	friendList = new JList(model);
 	    	friendList.setVisible(false);
 	    	
+	    	btnExport = new JButton("Export ");
+	    	btnExport.addActionListener(this);
+	    	btnExport.setFont(new Font("Tahoma", Font.BOLD, 6));
+	    	
 	    	GroupLayout gl_panel = new GroupLayout(panel);
 	    	gl_panel.setHorizontalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
@@ -403,33 +409,34 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    					.addComponent(penSlider, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
 	    				.addGap(20))
 	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGap(3)
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-	    					.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE)
-	    					.addComponent(btnUpload, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE))
-	    				.addGap(17))
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGap(3)
-	    				.addComponent(btnAddFriend)
-	    				.addContainerGap(43, Short.MAX_VALUE))
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGap(2)
-	    				.addComponent(addFriendField, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(50, Short.MAX_VALUE))
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGap(2)
-	    				.addComponent(btnBanUser)
-	    				.addContainerGap(54, Short.MAX_VALUE))
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGap(1)
-	    				.addComponent(textField, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(51, Short.MAX_VALUE))
-	    			.addGroup(gl_panel.createSequentialGroup()
 	    				.addContainerGap()
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-	    					.addComponent(friendList, Alignment.LEADING)
-	    					.addComponent(btnListFriends, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	    				.addContainerGap(21, Short.MAX_VALUE))
+	    				.addComponent(friendList)
+	    				.addContainerGap(125, Short.MAX_VALUE))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addGap(2)
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    							.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+	    							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+	    								.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE)
+	    								.addComponent(btnUpload, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE)))
+	    						.addGap(18))
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+	    							.addGroup(gl_panel.createSequentialGroup()
+	    								.addGap(2)
+	    								.addComponent(btnAddFriend, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	    							.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+	    								.addPreferredGap(ComponentPlacement.RELATED)
+	    								.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	    							.addComponent(textField, Alignment.LEADING)
+	    							.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+	    								.addGap(1)
+	    								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+	    									.addComponent(btnBanUser, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	    									.addComponent(addFriendField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))))
+	    						.addContainerGap())))
 	    	);
 	    	gl_panel.setVerticalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
@@ -458,11 +465,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    				.addComponent(lblPenSize)
 	    				.addPreferredGap(ComponentPlacement.RELATED)
 	    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-	    				.addGap(15)
+	    				.addGap(18)
 	    				.addComponent(btnClear)
 	    				.addPreferredGap(ComponentPlacement.RELATED)
 	    				.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-	    				.addGap(4)
+	    				.addPreferredGap(ComponentPlacement.RELATED)
+	    				.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+	    				.addGap(30)
 	    				.addComponent(btnAddFriend)
 	    				.addGap(5)
 	    				.addComponent(addFriendField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -474,7 +483,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    				.addComponent(btnListFriends)
 	    				.addPreferredGap(ComponentPlacement.RELATED)
 	    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(96, Short.MAX_VALUE))
+	    				.addContainerGap(44, Short.MAX_VALUE))
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
@@ -556,6 +565,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		{
 	    	uploadFrame = new UploadImageFrame(this);
 	    	uploadFrame.setVisible(true);
+		}
+		else if(e.getSource() == btnExport)
+		{ 
+			save();
 		}
 		
 	}

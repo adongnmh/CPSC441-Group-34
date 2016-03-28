@@ -143,6 +143,7 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	{
 		if(e.getSource() == btnJoin)
 		{
+			this.dispose();
 			System.out.println(radioGroup.getSelection().getActionCommand());
 			try
 			{
