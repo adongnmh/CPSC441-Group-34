@@ -31,6 +31,7 @@ public class CanvasClient extends Thread{
 	private static final String FRIEND_REQUEST = "0x16";
 	private static final String LIST_REQUEST = "0x18";
 	private static final String JOIN_REQUEST = "0x21";
+	private String[] code;
 
 	public CanvasClient () 
 	{
@@ -81,7 +82,7 @@ public class CanvasClient extends Thread{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				String line = inBuffer.readLine();
 				System.out.println(line);
-				String[] code = line.split("\t", 2);
+				code = line.split("\t", 2);
 				if(line.equals(BAN_REQUEST))
 				{
 					canvasGUI.closeApplication();
@@ -93,7 +94,7 @@ public class CanvasClient extends Thread{
 					canvasGUI.listFriends(code[1]);
 				}
 				//canvasGUI.listFriends(("hello"));
-				//canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
+				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
 
 				//System.out.println("LOLOLOLOL: " + line);
 			}
@@ -239,6 +240,7 @@ public class CanvasClient extends Thread{
 		System.out.println("original coords: " + oldX + " " + oldY + " " + newX + " " + newY);
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		outBuffer.write((EDIT_CANVAS + '\t' + oldX + '\t' + oldY + '\t' + newX + '\t' + newY + '\t').getBytes(Charset.forName("us-ascii")));
+		canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]));
 	}
 
 	//Retrieve a list of friends for the specific client from the server -- will display on the DrawingCanvas
