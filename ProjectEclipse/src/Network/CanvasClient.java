@@ -32,6 +32,8 @@ public class CanvasClient extends Thread{
 	private static final String LIST_REQUEST = "0x18";
 	private static final String JOIN_REQUEST = "0x21";
 	private String[] code;
+	private LoginScreenFrame f;
+	
 
 	public CanvasClient () 
 	{
@@ -82,7 +84,7 @@ public class CanvasClient extends Thread{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				String line = inBuffer.readLine();
 				System.out.println(line);
-				code = line.split("\t", 2);
+				code = line.split("\t");
 				if(line.equals(BAN_REQUEST))
 				{
 					canvasGUI.closeApplication();
@@ -112,8 +114,9 @@ public class CanvasClient extends Thread{
 
 	
 	//Send the username and password to the server for validation
-	public void loginRequest(String username, String password) throws IOException
+	public void loginRequest(String username, String password, LoginScreenFrame frame) throws IOException
 	{
+		f = frame;
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream()); 
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); 
 		outBuffer.writeBytes(LOGIN_REQUEST + '\t' + username + '\t' + password);
@@ -126,7 +129,7 @@ public class CanvasClient extends Thread{
         if(line.equals("0"))
 		{
 			this.username = username;
-			CreatingCanvas createDrawing = new CreatingCanvas(this);
+			CreatingCanvas createDrawing = new CreatingCanvas(this,f);
 			createDrawing.setVisible(true);
 		}
 		else if(line.equals("1"))

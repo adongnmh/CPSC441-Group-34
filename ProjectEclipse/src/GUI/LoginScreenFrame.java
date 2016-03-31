@@ -37,14 +37,17 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 	private JButton btnLogin;
 	private JButton btnBack;
 	private CanvasClient client;
+	private ApplicationMainScreen mainScreen;
 
 
 	/**
 	 * Create the frame.
+	 * @param frame 
 	 */
-	public LoginScreenFrame(CanvasClient c) {
+	public LoginScreenFrame(CanvasClient c, ApplicationMainScreen frame) {
 		initialize();
 		client = c;
+		mainScreen = frame;
 	}
 	
 	/**
@@ -129,7 +132,7 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 				//Get username and password
 				String username = usernameField.getText();
 				String password = passwordField.getText();
-				client.loginRequest(username, password);
+				client.loginRequest(username, password, this);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -138,8 +141,11 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == btnBack)
 		{
+			
 			this.dispose();
 			System.out.println("Going back to main Screen");
+			mainScreen.setVisible(true);
+
 		}
 	}
 }

@@ -40,13 +40,18 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	private JList list;
 	private JButton btnAddFriend;
 	private JLabel lblAddFriend;
+	private boolean friendsListBoolean = false;
 	private DefaultListModel model = new DefaultListModel();
+	private JLabel lblFriendsList;
+	private JButton btnBack;
+	private LoginScreenFrame frame;
 
 	/**
 	 * Create the frame.
+	 * @param f 
 	 */
-	public CreatingCanvas(CanvasClient c) {
-		
+	public CreatingCanvas(CanvasClient c, LoginScreenFrame f) {
+		frame = f;
 		client = c;
 		initialiaze();
 
@@ -83,25 +88,40 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		btnListFriends.addActionListener(this);
 		
 		list = new JList(model);
+		list.setVisible(false);
+		
+		lblFriendsList = new JLabel("FRIENDS LIST");
+		lblFriendsList.setFont(new Font("Tahoma", Font.BOLD, 9));
+		lblFriendsList.setVisible(false);
+		
+		btnBack = new JButton("Back");
+		btnBack.addActionListener(this);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnListFriends, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-						.addComponent(btnJoinExistingCanvas, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-						.addComponent(btnCreateNewCanvas, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnBack, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+						.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+						.addComponent(btnJoinExistingCanvas, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+						.addComponent(btnCreateNewCanvas, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
 					.addGap(26)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(list, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblAddFriend)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(addFriendTextField, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnAddFriend)))
-					.addGap(26))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblAddFriend)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(list, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(addFriendTextField, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(btnAddFriend))))
+							.addGap(26))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblFriendsList, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -111,20 +131,22 @@ public class CreatingCanvas extends JFrame implements ActionListener
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(btnCreateNewCanvas, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnJoinExistingCanvas, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnJoinExistingCanvas, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+							.addGap(183))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblAddFriend)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(addFriendTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnAddFriend))))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-							.addGap(255))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(list, GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+								.addComponent(btnAddFriend))
+							.addGap(18)
+							.addComponent(lblFriendsList, GroupLayout.PREFERRED_SIZE, 11, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(list, GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
 							.addContainerGap())))
 		);
 		contentPane.setLayout(gl_contentPane);
@@ -158,13 +180,31 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		}
 		else if(e.getSource() == btnListFriends)
 		{
-			try{
-				client.listFriendMain();
-			}
-			catch(Exception ex)
+
+			if(friendsListBoolean == false)
 			{
-				//ignore
+				list.setVisible(true);
+				lblFriendsList.setVisible(true);
+				try{
+					client.listFriendMain();
+				}
+				catch(Exception ex)
+				{
+					//ignore
+				}
+				friendsListBoolean = true;
 			}
+			else
+			{
+				lblFriendsList.setVisible(false);
+				list.setVisible(false);
+				friendsListBoolean = false;
+			}
+		}
+		else if(e.getSource() == btnBack)
+		{
+			this.dispose();
+			frame.setVisible(true);
 		}
 		
 	}

@@ -93,6 +93,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	private JTextArea friendsTextBox;
     private boolean friendsTextBoxFlag = false;
     private JButton btnExport;
+    
+    private String paintColor;
+    
+    
 	
     /**
      * This method will first initialize the canvas and all the GUI components of the JPanel
@@ -409,10 +413,6 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    					.addComponent(penSlider, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
 	    				.addGap(20))
 	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addContainerGap()
-	    				.addComponent(friendList)
-	    				.addContainerGap(125, Short.MAX_VALUE))
-	    			.addGroup(gl_panel.createSequentialGroup()
 	    				.addGap(2)
 	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 	    					.addGroup(gl_panel.createSequentialGroup()
@@ -423,20 +423,24 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	    								.addComponent(btnUpload, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE)))
 	    						.addGap(18))
 	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 	    							.addGroup(gl_panel.createSequentialGroup()
 	    								.addGap(2)
 	    								.addComponent(btnAddFriend, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	    							.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+	    							.addGroup(gl_panel.createSequentialGroup()
 	    								.addPreferredGap(ComponentPlacement.RELATED)
 	    								.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	    							.addComponent(textField, Alignment.LEADING)
-	    							.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+	    							.addComponent(textField)
+	    							.addGroup(gl_panel.createSequentialGroup()
 	    								.addGap(1)
 	    								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 	    									.addComponent(btnBanUser, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 	    									.addComponent(addFriendField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))))
 	    						.addContainerGap())))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addContainerGap()
+	    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(31, Short.MAX_VALUE))
 	    	);
 	    	gl_panel.setVerticalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
@@ -606,6 +610,16 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 				ChangePenSize(sliderNum);
 			}
 		}
+	}
+	
+	public void setColor(String colorToSet)
+	{
+		paintColor = colorToSet;
+	}
+	
+	public String getPaintColor()
+	{
+		return paintColor;
 	}
 
 	//Populate the friends list array with string from server

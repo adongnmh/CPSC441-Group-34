@@ -35,13 +35,18 @@ public class CreateAccountFrame extends JFrame implements ActionListener
 	private JButton btnRegister;
 	private JButton btnBack;
 	private CanvasClient client;
+	private ApplicationMainScreen mainFrame;
 
 	/**
 	 * Create the frame.
+	 * @param frame 
 	 */
-	public CreateAccountFrame(CanvasClient c) {
+	public CreateAccountFrame(CanvasClient c, ApplicationMainScreen frame) {
+		
 		initialize();
 		client = c;
+		mainFrame = frame;
+	
 	}
 	
 	/**
@@ -166,6 +171,7 @@ public class CreateAccountFrame extends JFrame implements ActionListener
 		{
 			System.out.println("Bring user back to the main screen");
 			this.dispose();
+			mainFrame.setVisible(true);
 		}
 	}
 
