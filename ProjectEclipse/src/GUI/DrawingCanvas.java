@@ -94,7 +94,8 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private boolean friendsTextBoxFlag = false;
     private JButton btnExport;
     
-    private String paintColor;
+    private String paintColor = "BLACK";
+    private String clientPaintColor;
     
     
 	
@@ -149,7 +150,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor());
 					}
 					catch(Exception ex)
 					{
@@ -164,7 +165,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor());
 					}
 					catch(Exception ex)
 					{
@@ -201,7 +202,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor());
 					}
 					catch(Exception ex)
 					{
@@ -253,9 +254,41 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     	System.out.println(doubleSizeOfPen);
     }
     
-    public void UpdatedLine(int oldX, int oldY, int newX, int newY)
+    public void UpdatedLine(int oldX, int oldY, int newX, int newY, String color)
     {
     	System.out.println("UPDATELINE");
+    	System.out.println("CLIENT COLOR:" +  color);
+    	switch(color)
+    	{
+	    	case "RED":
+	    		drawing.setPaint(Color.RED);
+	    		break;
+	    	case "BLUE":
+	    		drawing.setPaint(Color.BLUE);
+	    		break;
+	    	case "GREEN":
+	    		drawing.setPaint(Color.GREEN);
+	    		break;
+	    	case "YELLOW":
+	    		drawing.setPaint(Color.YELLOW);
+	    		break;
+	    	case "ORANGE":
+	    		drawing.setPaint(Color.ORANGE);
+	    		break;
+	    	case "MAGENTA":
+	    		drawing.setPaint(Color.MAGENTA);
+	    		break;
+	    	case "PINK":
+	    		drawing.setPaint(Color.PINK);
+	    		break;
+	    	case "WHITE":
+	    		drawing.setPaint(Color.WHITE);
+	    		break;
+	    	case "BLACK":
+	    		drawing.setPaint(Color.BLACK);
+	    		break;
+    	}
+    	
     	if(image != null)
     	{
 	        drawing.setStroke(new BasicStroke(intSizeOfPen));
@@ -498,35 +531,43 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	{
 		if(e.getSource() == btnBlack)
 		{
-			drawing.setPaint(Color.black);
+			drawing.setPaint(Color.BLACK);
+			setColor("BLACK");
 		}
 		else if(e.getSource()==btnRed)
 		{
-			drawing.setPaint(Color.red);
+			drawing.setPaint(Color.RED);
+			setColor("RED");
 		}
 		else if(e.getSource()==btnBlue)
 		{
-			drawing.setPaint(Color.blue);
+			drawing.setPaint(Color.BLUE);
+			setColor("BLUE");
 		}
 		else if(e.getSource()==btnYellow)
 		{
 			drawing.setPaint(Color.YELLOW);
+			setColor("YELLOW");
 		}
 		else if(e.getSource()==btnOrange)
 		{
-			drawing.setPaint(Color.orange);
+			drawing.setPaint(Color.ORANGE);
+			setColor("ORANGE");
 		}
 		else if(e.getSource()==btnMagenta)
 		{
-			drawing.setPaint(Color.magenta);
+			drawing.setPaint(Color.MAGENTA);
+			setColor("MAGENTA");
 		}
 		else if(e.getSource()==btnPink)
 		{
-			drawing.setPaint(Color.pink);
+			drawing.setPaint(Color.PINK);
+			setColor("PINK");
 		}
 		else if(e.getSource()==btnGreen)
 		{
-			drawing.setPaint(Color.green);
+			drawing.setPaint(Color.GREEN);
+			setColor("GREEN");
 		}
 		else if(e.getSource() == btnClear)
 		{
@@ -535,6 +576,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		else if(e.getSource() == btnEraser)
 		{
 			drawing.setPaint(Color.WHITE);
+			setColor("WHITE");
 		}
 		else if(e.getSource() == btnAddFriend)
 		{

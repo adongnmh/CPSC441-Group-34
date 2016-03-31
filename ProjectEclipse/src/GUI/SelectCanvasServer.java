@@ -37,15 +37,17 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	int dPort;
 	private CanvasClient client;
 	private ButtonGroup radioGroup;
-
+	private CreatingCanvas creatingCanvasFrame;
 
 	
 	/**
 	 * Method will initialize the canvas
 	 * @param c
+	 * @param creatingCanvas 
 	 */
-	public SelectCanvasServer(CanvasClient c)
+	public SelectCanvasServer(CanvasClient c, CreatingCanvas f)
 	{
+		creatingCanvasFrame = f;
 		client = c;
 		initialize();
 	}
@@ -180,7 +182,9 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == btnBack)
 		{
+
 			this.dispose();
+			creatingCanvasFrame.setVisible(true);
 		}
 		
 	}

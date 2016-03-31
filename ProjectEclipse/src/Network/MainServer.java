@@ -140,6 +140,9 @@ public class MainServer extends Thread{
 		request = cBuffer.toString();
 		//Parse the message code
 		String[] code = request.split("\t");
+		
+		System.out.println("CODE LENGTH:" + code.length);
+		
 		ByteBuffer responseMessage = ByteBuffer.allocate(BUFFERSIZE);
 		//TODO: SOMETIMES IT READS NOTHING SO IT CAUSES NULL REFERENCE -- NEED TO DEBUG (temporary fix)
 		if(code.length == 0)
@@ -228,13 +231,14 @@ public class MainServer extends Thread{
 			}
 			case EDIT_CANVAS:
 			{
-				if(code.length != 5)
+				System.out.println("OH WHAT WE IN THE EDIT CANVAS");
+				if(code.length != 6)
 					return;
-				responseMessage = encoder.encode(CharBuffer.wrap(code[1] + '\t' + code[2] + '\t' + code[3] + '\t' +  code[4] +'\n'));
+				responseMessage = encoder.encode(CharBuffer.wrap(code[1] + '\t' + code[2] + '\t' + code[3] + '\t' +  code[4] + '\t' + code[5] +'\n'));
 				SocketChannel channel1 = clientList.get("asdf");
 				channel1.write(responseMessage);
 				//cchannel.write(responseMessage);
-				System.out.println(code[1] + " " + code[2] + " " + code[3] + " " + code[4]);
+				System.out.println(code[1] + " " + code[2] + " " + code[3] + " " + code[4] + " " + code[5]);
 				break;
 			}
 			case BAN_REQUEST:
