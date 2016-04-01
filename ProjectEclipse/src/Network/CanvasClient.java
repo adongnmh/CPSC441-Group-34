@@ -96,7 +96,7 @@ public class CanvasClient extends Thread{
 					canvasGUI.listFriends(code[1]);
 				}
 				//canvasGUI.listFriends(("hello"));
-				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString());
+				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
 
 				//System.out.println("LOLOLOLOL: " + line);
 			}
@@ -238,12 +238,12 @@ public class CanvasClient extends Thread{
 		}
 	}
 
-	public void updateCanvas(int oldX, int oldY, int newX, int newY, String color) throws Exception
+	public void updateCanvas(int oldX, int oldY, int newX, int newY, String color, int penSize) throws Exception
 	{
 		System.out.println("original coords: " + oldX + " " + oldY + " " + newX + " " + newY + " " + color);
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
-		outBuffer.write((EDIT_CANVAS + '\t' + oldX + '\t' + oldY + '\t' + newX + '\t' + newY + '\t' + color + '\t').getBytes(Charset.forName("us-ascii")));
-		canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString());
+		outBuffer.write((EDIT_CANVAS + '\t' + oldX + '\t' + oldY + '\t' + newX + '\t' + newY + '\t' + color + '\t' + penSize + '\t').getBytes(Charset.forName("us-ascii")));
+		canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(), Integer.parseInt(code[5]));
 	}
 
 	//Retrieve a list of friends for the specific client from the server -- will display on the DrawingCanvas

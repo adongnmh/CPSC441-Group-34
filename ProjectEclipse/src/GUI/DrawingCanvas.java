@@ -150,7 +150,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor());
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
@@ -165,7 +165,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor());
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
@@ -202,7 +202,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor());
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
@@ -254,10 +254,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     	System.out.println(doubleSizeOfPen);
     }
     
-    public void UpdatedLine(int oldX, int oldY, int newX, int newY, String color)
+    public void UpdatedLine(int oldX, int oldY, int newX, int newY, String color, int penSize)
     {
-    	System.out.println("UPDATELINE");
-    	System.out.println("CLIENT COLOR:" +  color);
+    	// Switch statement will determine what color was used for the client side.
+    	// After the colors are set the image will painted on the client side.
     	switch(color)
     	{
 	    	case "RED":
@@ -291,12 +291,15 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     	
     	if(image != null)
     	{
-	        drawing.setStroke(new BasicStroke(intSizeOfPen));
+	        drawing.setStroke(new BasicStroke(penSize));
 	    	drawing.drawLine(oldX, oldY, newX, newY);
 	    	repaint();
     	}
     }
     
+    /**
+     * This method will save the current drawing on the user canvas and then save it in the project directory 
+     */
     public void save()
     {
 
@@ -314,7 +317,10 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
         repaint();
 
     }
-    //upload function
+    /**
+     * This image will take the passed in argument (File path to image) and then uploads the image.
+     * @param path
+     */
     public void upload(String path)
     {
     	ImageIcon img = new ImageIcon(path);
@@ -527,6 +533,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	 }
 
 	@Override
+	/**
+	 * Action listeners for all the buttons on the drawing canvas page.
+	 */
 	public void actionPerformed(ActionEvent e) 
 	{
 		if(e.getSource() == btnBlack)
@@ -635,6 +644,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 	}
 
 	@Override
+	/**
+	 * State change for the pen slider on the interface
+	 */
 	public void stateChanged(ChangeEvent e) 
 	{
 		JSlider source = (JSlider)e.getSource();
@@ -654,16 +666,30 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		}
 	}
 	
+	/**
+	 * The method will set the canvas paint color to the appropriate color depending on the button 
+	 * pressed.
+	 * @param colorToSet
+	 */
 	public void setColor(String colorToSet)
 	{
 		paintColor = colorToSet;
 	}
 	
+	/**
+	 * Return the current paint color of the canvas.
+	 * @return
+	 */
 	public String getPaintColor()
 	{
 		return paintColor;
 	}
 
+	
+	/**
+	 * The method will list all the online friends on the canvas screen.
+	 * @param list
+	 */
 	//Populate the friends list array with string from server
 	public void listFriends(String list)
 	{
