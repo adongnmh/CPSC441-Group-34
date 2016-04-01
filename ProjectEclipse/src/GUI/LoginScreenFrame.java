@@ -3,22 +3,17 @@ package GUI;
 
 
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import Network.CanvasClient;
 
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 
@@ -147,5 +142,23 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 			mainScreen.setVisible(true);
 
 		}
+	}
+
+	public void successMessage()
+	{
+		JFrame diaFrame = new JFrame();
+		JOptionPane.showMessageDialog(diaFrame,
+				"Login successful.",
+				"Success",
+				JOptionPane.WARNING_MESSAGE);
+	}
+
+	public void failMessage()
+	{
+		JFrame diaFrame = new JFrame();
+		JOptionPane.showMessageDialog(diaFrame,
+				"Login failed. Incorrect credentials",
+				"Error.",
+				JOptionPane.WARNING_MESSAGE);
 	}
 }

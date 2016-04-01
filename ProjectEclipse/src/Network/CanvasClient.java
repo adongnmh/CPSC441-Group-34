@@ -114,6 +114,12 @@ public class CanvasClient extends Thread{
 		clientSocket.close();
 	}
 
+	public void createLoginFrame(ApplicationMainScreen frame)
+	{
+		loginGUI = new LoginScreenFrame(this, frame);
+		loginGUI.setVisible(true);
+		frame.setVisible(false);
+	}
 	
 	//Send the username and password to the server for validation
 	public void loginRequest(String username, String password, LoginScreenFrame frame) throws IOException
@@ -131,11 +137,14 @@ public class CanvasClient extends Thread{
         if(line.equals("0"))
 		{
 			this.username = username;
+			loginGUI.successMessage();
+			loginGUI.setVisible(false);
 			CreatingCanvas createDrawing = new CreatingCanvas(this,f);
 			createDrawing.setVisible(true);
 		}
 		else if(line.equals("1"))
 		{
+			loginGUI.failMessage();
 			System.out.println("invalid credentials");
 			//SHOULD OUTPUT AN ERROR MESSAGE
 		}

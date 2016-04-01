@@ -150,6 +150,8 @@ public class MainServer extends Thread{
 		{
 			case CREATE_ACCOUNT:
 			{
+				if(code.length != 3)
+					return;
 				if(checkUserAccount(code[1]))
 				{
 					userAccounts.put(code[1], code[2]);

@@ -150,7 +150,7 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 		// Action taken for the Loginbtn button
 		else if(e.getSource() == loginBtn)
 		{
-
+			client.createLoginFrame(frame);
 			LoginScreenFrame newLoginScreen = new LoginScreenFrame(client,frame);
 			newLoginScreen.setVisible(true);
 			frame.setVisible(false);
