@@ -1,6 +1,7 @@
 package Network;
 import GUI.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
@@ -13,6 +14,7 @@ import java.util.List;
 public class CanvasClient extends Thread{
 
 	private ApplicationMainScreenPanel mainGUI;
+	private ApplicationMainScreen mainScreenFrame;
 	private LoginScreenFrame loginGUI;
 	private CreateAccountFrame createAccGUI;
 	private CreatingCanvas createCanvasGUI;
@@ -65,7 +67,7 @@ public class CanvasClient extends Thread{
 		createCanvasGUI = new CreatingCanvas(this);
 		canvasGUI = new DrawingCanvas(this);*/
 
-		ApplicationMainScreen mainScreenFrame = new ApplicationMainScreen();
+		mainScreenFrame = new ApplicationMainScreen();
 		mainGUI = new ApplicationMainScreenPanel(this,mainScreenFrame);
 		Container content = mainScreenFrame.getContentPane();
 		content.setLayout(new BorderLayout());
@@ -139,6 +141,13 @@ public class CanvasClient extends Thread{
 		}
 	}
 
+	public void createAccountFrame(ApplicationMainScreen frame)
+	{
+		createAccGUI = new CreateAccountFrame(this, frame);
+		createAccGUI.setVisible(true);
+		frame.setVisible(false);
+	}
+
 	//send message to server for account creation
 	public void createAccount(String username, String password) throws IOException
 	{
@@ -153,13 +162,18 @@ public class CanvasClient extends Thread{
 		//Check the response from the server
 		if(line.equals("0"))
 		{
-			mainGUI.setVisible(true);
+			mainScreenFrame.setVisible(true);
+			createAccGUI.successMessage();
+			createAccGUI.dispose();
+
 			//CreatingCanvas createDrawing = new CreatingCanvas();
 			//createDrawing.setVisible(true);
 		}
 		else if(line.equals("1"))
 		{
 			System.out.println("invalid credentials");
+			createAccGUI.createError();
+			//createAccGUI.createError();
 			//SHOULD OUTPUT AN ERROR MESSAGE
 		}
 	}

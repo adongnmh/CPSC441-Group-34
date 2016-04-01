@@ -144,7 +144,6 @@ public class MainServer extends Thread{
 		//TODO: SOMETIMES IT READS NOTHING SO IT CAUSES NULL REFERENCE -- NEED TO DEBUG (temporary fix)
 		if(code.length == 0)
 		{
-			System.out.println("outtaaa bounds");
 			return;
 		}
 		switch(code[0])

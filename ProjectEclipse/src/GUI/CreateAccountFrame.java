@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  * This Class will generate the create account page for the user. GUI was design in windows builder and 
@@ -165,7 +166,7 @@ public class CreateAccountFrame extends JFrame implements ActionListener
 				}
 			}
 			// Closes current frame, bring the user back to the main screen
-			this.dispose();
+			//this.dispose();
 		}
 		else if(e.getSource() == btnBack)
 		{
@@ -173,6 +174,24 @@ public class CreateAccountFrame extends JFrame implements ActionListener
 			this.dispose();
 			mainFrame.setVisible(true);
 		}
+	}
+
+	public void createError()
+	{
+		JFrame diaFrame = new JFrame();
+		JOptionPane.showMessageDialog(diaFrame,
+				"Username is taken.",
+				"Error",
+				JOptionPane.WARNING_MESSAGE);
+	}
+
+	public void successMessage()
+	{
+		JFrame diaFrame = new JFrame();
+		JOptionPane.showMessageDialog(diaFrame,
+				"Account created succesfully.",
+				"Success",
+				JOptionPane.WARNING_MESSAGE);
 	}
 
 }

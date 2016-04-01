@@ -1,24 +1,19 @@
 package GUI;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import Network.CanvasClient;
 import com.sun.security.ntlm.Client;
 
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -147,10 +142,10 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 		// Action taken for the CreateAccountBtn button
 		if(e.getSource() == createAccountbtn)
 		{
-
-			CreateAccountFrame newAccount = new CreateAccountFrame(client,frame);
-			newAccount.setVisible(true);
-			frame.setVisible(false);
+			client.createAccountFrame(frame);
+			//CreateAccountFrame newAccount = new CreateAccountFrame(client,frame);
+			//newAccount.setVisible(true);
+			//frame.setVisible(false);
 		}
 		// Action taken for the Loginbtn button
 		else if(e.getSource() == loginBtn)
