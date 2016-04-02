@@ -308,7 +308,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
         drawing.setClip(122, 0, getSize().width, getSize().height);
     	drawing.drawImage(image, 0, 0, null);
         try {
-			ImageIO.write(bi, "PNG", new File("yourImageName.PNG"));
+			ImageIO.write(bi, "PNG", new File("CollaborativeDrawingImage.PNG"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
