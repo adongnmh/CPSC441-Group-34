@@ -94,6 +94,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private boolean friendsTextBoxFlag = false;
     private JButton btnExport;
     
+    // Default Color is black
     private String paintColor = "BLACK";
     private String clientPaintColor;
     
