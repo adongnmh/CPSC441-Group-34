@@ -115,7 +115,7 @@ public class UploadImageFrame extends JFrame implements ActionListener{
 			
 			this.dispose();
 			
-			theCanvas.upload(filePath);
+			theCanvas.Upload(filePath);
 		}
 	}
 }

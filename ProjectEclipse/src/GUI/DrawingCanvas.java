@@ -322,13 +322,14 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
      * This image will take the passed in argument (File path to image) and then uploads the image.
      * @param path
      */
-    public void upload(String path)
+    public void Upload(String path)
     {
     	ImageIcon img = new ImageIcon(path);
 		imageToUpload = img.getImage();
 		drawing.drawImage(imageToUpload,450,0,null);
 		repaint();
     }
+    
 
     /**
      * Initializes canvas
