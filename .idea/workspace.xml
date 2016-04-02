@@ -25,8 +25,8 @@
       <file leaf-file-name="DrawingCanvas.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/DrawingCanvas.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="647">
-              <caret line="696" column="45" selection-start-line="696" selection-start-column="45" selection-end-line="696" selection-end-column="45" />
+            <state relative-caret-position="3860">
+              <caret line="702" column="0" selection-start-line="702" selection-start-column="0" selection-end-line="702" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -37,28 +37,28 @@
       <file leaf-file-name="ApplicationMainScreenPanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/ApplicationMainScreenPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1157">
+            <state relative-caret-position="2278">
               <caret line="152" column="43" selection-start-line="152" selection-start-column="43" selection-end-line="152" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/MainServer.java">
+      <file leaf-file-name="CreatingCanvas.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/CreatingCanvas.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="375" column="50" selection-start-line="375" selection-start-column="50" selection-end-line="375" selection-end-column="50" />
+            <state relative-caret-position="676">
+              <caret line="212" column="24" selection-start-line="212" selection-start-column="24" selection-end-line="212" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CanvasClient.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CanvasClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/CanvasClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
-              <caret line="316" column="1" selection-start-line="316" selection-start-column="1" selection-end-line="316" selection-end-column="1" />
+            <state relative-caret-position="705">
+              <caret line="315" column="34" selection-start-line="315" selection-start-column="34" selection-end-line="315" selection-end-column="35" />
               <folding>
                 <element signature="method#updateCanvas#0;class#CanvasClient#0" expanded="false" />
               </folding>
@@ -66,11 +66,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="MainServer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/MainServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1619">
+              <caret line="192" column="13" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="LoginScreenFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/LoginScreenFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1497">
-              <caret line="160" column="23" selection-start-line="160" selection-start-column="23" selection-end-line="160" selection-end-column="23" />
+            <state relative-caret-position="902">
+              <caret line="161" column="45" selection-start-line="157" selection-start-column="8" selection-end-line="161" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -89,9 +99,10 @@
         <option value="$PROJECT_DIR$/ProjectEclipse/src/GUI/CreateAccountFrame.java" />
         <option value="$PROJECT_DIR$/ProjectEclipse/src/GUI/ApplicationMainScreenPanel.java" />
         <option value="$PROJECT_DIR$/ProjectEclipse/src/GUI/LoginScreenFrame.java" />
-        <option value="$PROJECT_DIR$/ProjectEclipse/src/Network/MainServer.java" />
-        <option value="$PROJECT_DIR$/ProjectEclipse/src/Network/CanvasClient.java" />
         <option value="$PROJECT_DIR$/ProjectEclipse/src/GUI/DrawingCanvas.java" />
+        <option value="$PROJECT_DIR$/ProjectEclipse/src/GUI/CreatingCanvas.java" />
+        <option value="$PROJECT_DIR$/ProjectEclipse/src/Network/CanvasClient.java" />
+        <option value="$PROJECT_DIR$/ProjectEclipse/src/Network/MainServer.java" />
       </list>
     </option>
   </component>
@@ -126,7 +137,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -219,7 +230,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -555,6 +566,50 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/DrawingCanvas.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/ApplicationMainScreenPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2278">
+          <caret line="152" column="43" selection-start-line="152" selection-start-column="43" selection-end-line="152" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/MainServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4437">
+          <caret line="271" column="49" selection-start-line="271" selection-start-column="49" selection-end-line="271" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/CanvasClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4981">
+          <caret line="308" column="0" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
+          <folding>
+            <element signature="method#updateCanvas#0;class#CanvasClient#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/LoginScreenFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2550">
+          <caret line="161" column="45" selection-start-line="157" selection-start-column="8" selection-end-line="161" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/DrawingCanvas.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11118">
           <caret line="698" column="9" selection-start-line="698" selection-start-column="9" selection-end-line="698" selection-end-column="9" />
           <folding>
@@ -833,14 +888,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/CreatingCanvas.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1801">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/CollaborativeDrawing/CollaborativeDrawingController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -855,7 +902,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -869,47 +915,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/LoginScreenFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1497">
-          <caret line="160" column="23" selection-start-line="160" selection-start-column="23" selection-end-line="160" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/MainServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="375" column="50" selection-start-line="375" selection-start-column="50" selection-end-line="375" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/ApplicationMainScreenPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1157">
-          <caret line="152" column="43" selection-start-line="152" selection-start-column="43" selection-end-line="152" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/DrawingCanvas.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="647">
-          <caret line="696" column="45" selection-start-line="696" selection-start-column="45" selection-end-line="696" selection-end-column="45" />
+        <state relative-caret-position="3860">
+          <caret line="702" column="0" selection-start-line="702" selection-start-column="0" selection-end-line="702" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/LoginScreenFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="902">
+          <caret line="161" column="45" selection-start-line="157" selection-start-column="8" selection-end-line="161" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/CreatingCanvas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="676">
+          <caret line="212" column="24" selection-start-line="212" selection-start-column="24" selection-end-line="212" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/GUI/ApplicationMainScreenPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2278">
+          <caret line="152" column="43" selection-start-line="152" selection-start-column="43" selection-end-line="152" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/CanvasClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="316" column="1" selection-start-line="316" selection-start-column="1" selection-end-line="316" selection-end-column="1" />
+        <state relative-caret-position="705">
+          <caret line="315" column="34" selection-start-line="315" selection-start-column="34" selection-end-line="315" selection-end-column="35" />
           <folding>
             <element signature="method#updateCanvas#0;class#CanvasClient#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProjectEclipse/src/Network/MainServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1619">
+          <caret line="192" column="13" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>

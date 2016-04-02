@@ -169,6 +169,8 @@ public class MainServer extends Thread{
 			}
 			case LOGIN_REQUEST:
 			{
+				if(code.length != 3)
+					return;
 				//Do the login request
 				if(checkCredentials(code[1], code[2]))
 				{
@@ -260,8 +262,22 @@ public class MainServer extends Thread{
 			}
 			case FRIEND_REQUEST:
 			{
-				userFriendsList.get(code[1]).add(code[2]);
-				System.out.println(code[2]);
+				if(code.length != 3)
+					return;
+				if(checkUsernameExist(code[2]))
+				{
+					System.out.println("hello");
+					userFriendsList.get(code[1]).add(code[2]);
+					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
+					cchannel.write(responseMessage);
+				}
+				else
+				{
+					System.out.println("hello2");
+					responseMessage = encoder.encode(CharBuffer.wrap("1" + '\n'));
+					cchannel.write(responseMessage);
+				}
+
 				break;
 			}
 			case LIST_REQUEST:
@@ -269,16 +285,24 @@ public class MainServer extends Thread{
 				if(userFriendsList.get(code[1]).size() != 0)
 				{
 					responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
-					System.out.println("In here");
 					cchannel.write(responseMessage);
 				}
 				break;
 			}
 			case DISCONNECT:
 			{
-
+				clientList.remove(code[1]);
+				System.out.println(clientList.keySet());
+				break;
 			}
 		}
+	}
+
+	private boolean checkUsernameExist(String username)
+	{
+		if(userAccounts.containsKey(username))
+			return true;
+		return false;
 	}
 
 	//Check the username and password with the list of users

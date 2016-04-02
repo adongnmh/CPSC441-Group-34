@@ -43,7 +43,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	private boolean friendsListBoolean = false;
 	private DefaultListModel model = new DefaultListModel();
 	private JLabel lblFriendsList;
-	private JButton btnBack;
+	private JButton btnLogout;
 	private LoginScreenFrame frame;
 
 	/**
@@ -94,8 +94,8 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		lblFriendsList.setFont(new Font("Tahoma", Font.BOLD, 9));
 		lblFriendsList.setVisible(false);
 		
-		btnBack = new JButton("Back");
-		btnBack.addActionListener(this);
+		btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(this);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -103,7 +103,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnBack, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+						.addComponent(btnLogout, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
 						.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
 						.addComponent(btnJoinExistingCanvas, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
 						.addComponent(btnCreateNewCanvas, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
@@ -135,7 +135,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 							.addGap(183))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblAddFriend)
@@ -201,8 +201,19 @@ public class CreatingCanvas extends JFrame implements ActionListener
 				friendsListBoolean = false;
 			}
 		}
-		else if(e.getSource() == btnBack)
+		else if(e.getSource() == btnLogout)
 		{
+			//Should disconnect from main server
+			try
+			{
+				client.logout();
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
+
+
 			this.dispose();
 			frame.setVisible(true);
 		}

@@ -32,6 +32,7 @@ public class CanvasClient extends Thread{
 	private static final String BAN_REQUEST = "0x13";
 	private static final String FRIEND_REQUEST = "0x16";
 	private static final String LIST_REQUEST = "0x18";
+	private static final String DISCONNECT = "0x20";
 	private static final String JOIN_REQUEST = "0x21";
 	private String[] code;
 	private LoginScreenFrame f;
@@ -276,11 +277,6 @@ public class CanvasClient extends Thread{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outBuffer.writeBytes(LIST_REQUEST + '\t' + this.username);
-		System.out.println("hello");
-		//Getting response from the server
-		//String line = inBuffer.readLine();
-		//System.out.println("Server: " + line);
-		//canvasGUI.listFriends(line);
 	}
 
 	public void listFriendMain() throws  Exception
@@ -302,7 +298,6 @@ public class CanvasClient extends Thread{
 	{
 		//Send request to the server
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
-
 		outBuffer.writeBytes(BAN_REQUEST + '\t' + this.username + '\t' + username);
 	}
 
@@ -311,6 +306,14 @@ public class CanvasClient extends Thread{
 		//Send request to the server
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		outBuffer.writeBytes(FRIEND_REQUEST + '\t' + this.username + '\t' + username);
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	}
+
+	public void logout() throws Exception
+	{
+		//Send request to the server
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		outBuffer.writeBytes(DISCONNECT + '\t' + this.username);
 	}
 
 
