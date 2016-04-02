@@ -33,6 +33,8 @@ public class MainServer extends Thread{
 	private static final String LIST_REQUEST = "0x18";
 	private static final String DISCONNECT = "0x20";
 	private static final String JOIN_REQUEST = "0x21";
+	private static final String UPLOAD_REQUEST = "0x22";
+	
 
 
 	//Canvas Servers
