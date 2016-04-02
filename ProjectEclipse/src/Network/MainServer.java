@@ -373,7 +373,7 @@ public class MainServer extends Thread{
 		List<String> friendList = userFriendsList.get(username);
 		for(int i = 0; i < friendList.size(); i++)
 		{
-			friendString += friendList.get(i) + '\t';
+			friendString += friendList.get(i) + '.';
 		}
 		friendString += '\n';
 
