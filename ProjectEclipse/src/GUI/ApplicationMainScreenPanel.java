@@ -37,20 +37,6 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 	public ApplicationMainScreenPanel(CanvasClient c, ApplicationMainScreen mainScreenFrame) 
 	{
 		frame = mainScreenFrame;
-		
-		// This will grab the file path to the the background image of the JPanel
-		// if you want to update the background image, just change the file path to the image
-		try 
-		{                
-		   File sourceimage = new File("doge.jpg");
-		
-		   img = ImageIO.read(sourceimage);
-        } 
-		catch (IOException ex) 
-		{
-             // handle exception...
-        }
-       	repaint();
 	       
 		// Initializes the MainScreenPanel using the code generated from windows builder.
 		initializeMainScreenPanel();
@@ -59,15 +45,6 @@ public class ApplicationMainScreenPanel extends JPanel implements ActionListener
 
 	}
     
-	/**
-	 * Paint method to paint the image onto the JPanel. Image is from the constructor method from above.
-	 */
-	public void paintComponent(Graphics g)
-	{
-	    super.paintComponent(g);
-	    g.drawImage(img, 0, 0, null );
-	}
-	
 	/**
 	 * This method will generate all the required components for the Application Main screen
 	 * code is generated from the windowsBuilder GUI builder pluggin
