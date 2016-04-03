@@ -16,6 +16,7 @@ import Network.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
 
 /**
  * This Class will generate the create canvas page for the user. GUI was design in windows builder and 
@@ -58,41 +59,55 @@ public class CreatingCanvas extends JFrame implements ActionListener
 	private void initialiaze() 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 556, 538);
+		setBounds(100, 100, 940, 637);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		btnCreateNewCanvas = new JButton("Create New Canvas");
+		btnCreateNewCanvas.setForeground(Color.WHITE);
+		btnCreateNewCanvas.setBackground(Color.DARK_GRAY);
+		btnCreateNewCanvas.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
 		btnCreateNewCanvas.addActionListener(this);
 		 
 		btnJoinExistingCanvas = new JButton("Join Existing Canvas");
+		btnJoinExistingCanvas.setBackground(Color.DARK_GRAY);
+		btnJoinExistingCanvas.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+		btnJoinExistingCanvas.setForeground(Color.WHITE);
 		btnJoinExistingCanvas.addActionListener(this);
 		
 		btnLogout = new JButton("Logout");
+		btnLogout.setBackground(Color.DARK_GRAY);
+		btnLogout.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+		btnLogout.setForeground(Color.WHITE);
 		btnLogout.addActionListener(this);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(179)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnLogout, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-						.addComponent(btnJoinExistingCanvas, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-						.addComponent(btnCreateNewCanvas, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-					.addGap(171))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap(257, Short.MAX_VALUE)
+							.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 425, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGap(257)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnJoinExistingCanvas, GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+								.addComponent(btnCreateNewCanvas, GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))))
+					.addGap(216))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(114)
+					.addGap(123)
 					.addComponent(btnCreateNewCanvas, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnJoinExistingCanvas, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(71)
 					.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(180, Short.MAX_VALUE))
+					.addContainerGap(134, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		

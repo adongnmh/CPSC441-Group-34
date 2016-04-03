@@ -33,6 +33,7 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 	private JButton btnBack;
 	private CanvasClient client;
 	private ApplicationMainScreen mainScreen;
+	private JLabel lblLoginToYour;
 
 
 	/**
@@ -51,62 +52,83 @@ public class LoginScreenFrame extends JFrame implements ActionListener{
 	public void initialize()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 502, 430);
+		setBounds(100, 100, 507, 519);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		btnLogin = new JButton("Login");
+		btnLogin.setBackground(Color.DARK_GRAY);
+		btnLogin.setForeground(Color.WHITE);
+		btnLogin.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
 		btnLogin.addActionListener(this);
 		
 		JLabel usernameLabel = new JLabel("Username:");
-		usernameLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+		usernameLabel.setFont(new Font("Letter Gothic Std", Font.BOLD, 20));
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblPassword.setFont(new Font("Letter Gothic Std", Font.BOLD, 20));
 		
 		usernameField = new JTextField();
+		usernameField.setFont(new Font("Letter Gothic Std", Font.PLAIN, 20));
 		usernameField.setColumns(10);
 		
 		passwordField = new JTextField();
+		passwordField.setFont(new Font("Letter Gothic Std", Font.PLAIN, 22));
 		passwordField.setColumns(10);
 		
 		btnBack = new JButton("Back");
+		btnBack.setBackground(Color.DARK_GRAY);
+		btnBack.setForeground(Color.WHITE);
+		btnBack.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
 		btnBack.addActionListener(this);
+		
+		lblLoginToYour = new JLabel("Login to your account");
+		lblLoginToYour.setFont(new Font("Letter Gothic Std", Font.BOLD, 27));
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(32)
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(58, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblPassword)
+						.addComponent(usernameLabel))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(49)
-							.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
-							.addGap(46)
-							.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)
-						.addComponent(usernameLabel, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)
 						.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
 						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(109, Short.MAX_VALUE))
+					.addGap(53))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(60)
+					.addComponent(lblLoginToYour)
+					.addContainerGap(247, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(124)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(296, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addGap(28)
-					.addComponent(usernameLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(50)
+					.addComponent(lblLoginToYour)
+					.addGap(52)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
-					.addGap(45))
+						.addComponent(usernameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(usernameLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+					.addGap(36)
+					.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+					.addGap(44))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

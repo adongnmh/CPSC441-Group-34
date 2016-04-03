@@ -373,203 +373,219 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
      */
     public void InitializeCanvas()
     {
-	    	
-	    	panel = new JPanel();
-	    	panel.setBackground(Color.LIGHT_GRAY);
-	    	GroupLayout groupLayout = new GroupLayout(this);
-	    	groupLayout.setHorizontalGroup(
-	    		groupLayout.createParallelGroup(Alignment.LEADING)
-	    			.addGroup(groupLayout.createSequentialGroup()
-	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(854, Short.MAX_VALUE))
-	    	);
-	    	groupLayout.setVerticalGroup(
-	    		groupLayout.createParallelGroup(Alignment.LEADING)
-	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-	    	);
-	    	
-	    	btnBlack = new JButton("");
-	    	btnBlack.addActionListener(this);
-	    	btnBlack.setBackground(Color.BLACK);
-	    	
-	    	btnRed = new JButton("");
-	    	btnRed.addActionListener(this);
-	    	btnRed.setBackground(Color.RED);
-	    	
-	    	btnGreen = new JButton("");
-	    	btnGreen.addActionListener(this);
-	    	btnGreen.setBackground(Color.GREEN);
-	    	
-	    	btnYellow = new JButton("");
-	    	btnYellow.addActionListener(this);
-	    	btnYellow.setBackground(Color.YELLOW);
-	    	
-	    	btnBlue = new JButton("");
-	    	btnBlue.addActionListener(this);
-	    	btnBlue.setBackground(Color.BLUE);
-	    	
-	    	btnMagenta = new JButton("");
-	    	btnMagenta.addActionListener(this);
-	    	btnMagenta.setBackground(Color.MAGENTA);
-	    	
-	    	btnOrange = new JButton("");
-	    	btnOrange.addActionListener(this);
-	    	btnOrange.setBackground(Color.ORANGE);
-	    	
-	    	btnPink = new JButton("");
-	    	btnPink.addActionListener(this);
-	    	btnPink.setBackground(Color.PINK);
-	    	
-	    	penSlider = new JSlider();
-	    	penSlider.addChangeListener(this);
-	    	
-	    	JLabel lblPenSize = new JLabel("Pen Size");
-	    	lblPenSize.setFont(new Font("Tahoma", Font.BOLD, 10));
-	    	
-	    	btnEraser = new JButton("");
-	    	btnEraser.addActionListener(this);
-	    	btnEraser.setIcon(new ImageIcon("Eraser-512.png"));
-	    	btnEraser.setFont(new Font("Tahoma", Font.BOLD, 7));
-	    	
-	    	btnClear = new JButton("CLEAR");
-	    	btnClear.addActionListener(this);
-	    	btnClear.setFont(new Font("Tahoma", Font.BOLD, 6));
-	    	
-	    	btnUpload = new JButton("UPLOAD");
-	    	btnUpload.addActionListener(this);
-	    	btnUpload.setFont(new Font("Tahoma", Font.BOLD, 6));
-	    	
-	    	addFriendField = new JTextField();
-	    	addFriendField.setColumns(10);
-	    	
-	    	btnAddFriend = new JButton("Add Friend:");
-	    	btnAddFriend.addActionListener(this);
-	    	
-	    	btnListFriends = new JButton("List Friends:");
-	    	btnListFriends.addActionListener(this);
-	    	
-	    	btnBanUser = new JButton("Ban User:");
-	    	btnBanUser.addActionListener(this);
-	    	
-	    	
-	    	textField = new JTextField();
-	    	textField.setColumns(10);
-	    	
-	    	friendList = new JList(model);
-	    	friendList.setVisible(false);
-	    	
-	    	btnExport = new JButton("Export ");
-	    	btnExport.addActionListener(this);
-	    	btnExport.setFont(new Font("Tahoma", Font.BOLD, 6));
-	    	
-	    	GroupLayout gl_panel = new GroupLayout(panel);
-	    	gl_panel.setHorizontalGroup(
-	    		gl_panel.createParallelGroup(Alignment.LEADING)
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addContainerGap()
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnOrange, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-	    				.addPreferredGap(ComponentPlacement.UNRELATED)
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    							.addComponent(btnYellow, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-	    							.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-	    							.addComponent(btnPink, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-	    						.addGap(7)
-	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))
-	    				.addContainerGap(11, Short.MAX_VALUE))
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addGap(25)
-	    						.addComponent(lblPenSize, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-	    					.addComponent(penSlider, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
-	    				.addGap(20))
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGap(2)
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    							.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-	    							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-	    								.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE)
-	    								.addComponent(btnUpload, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 115, Short.MAX_VALUE)))
-	    						.addGap(18))
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-	    							.addGroup(gl_panel.createSequentialGroup()
-	    								.addGap(2)
-	    								.addComponent(btnAddFriend, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	    							.addGroup(gl_panel.createSequentialGroup()
-	    								.addPreferredGap(ComponentPlacement.RELATED)
-	    								.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	    							.addComponent(textField)
-	    							.addGroup(gl_panel.createSequentialGroup()
-	    								.addGap(1)
-	    								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-	    									.addComponent(btnBanUser, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	    									.addComponent(addFriendField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))))
-	    						.addContainerGap())))
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addContainerGap()
-	    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(31, Short.MAX_VALUE))
-	    	);
-	    	gl_panel.setVerticalGroup(
-	    		gl_panel.createParallelGroup(Alignment.LEADING)
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnYellow, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnPink, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnOrange, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addGap(55)
-	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
-	    				.addPreferredGap(ComponentPlacement.UNRELATED)
-	    				.addComponent(lblPenSize)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-	    				.addGap(18)
-	    				.addComponent(btnClear)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-	    				.addGap(30)
-	    				.addComponent(btnAddFriend)
-	    				.addGap(5)
-	    				.addComponent(addFriendField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addGap(4)
-	    				.addComponent(btnBanUser)
-	    				.addGap(4)
-	    				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(btnListFriends)
-	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(44, Short.MAX_VALUE))
-	    	);
-	    	panel.setLayout(gl_panel);
-	    	setLayout(groupLayout);
-	 }
+    	panel = new JPanel();
+    	panel.setBackground(Color.DARK_GRAY);
+    	GroupLayout groupLayout = new GroupLayout(this);
+    	groupLayout.setHorizontalGroup(
+    		groupLayout.createParallelGroup(Alignment.LEADING)
+    			.addGroup(groupLayout.createSequentialGroup()
+    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE)
+    				.addContainerGap(848, Short.MAX_VALUE))
+    	);
+    	groupLayout.setVerticalGroup(
+    		groupLayout.createParallelGroup(Alignment.LEADING)
+    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+    	);
+    	
+    	btnBlack = new JButton("");
+    	btnBlack.addActionListener(this);
+    	btnBlack.setBackground(Color.BLACK);
+    	
+    	btnRed = new JButton("");
+    	btnRed.addActionListener(this);
+    	btnRed.setBackground(Color.RED);
+    	
+    	btnGreen = new JButton("");
+    	btnGreen.addActionListener(this);
+    	btnGreen.setBackground(Color.GREEN);
+    	
+    	btnYellow = new JButton("");
+    	btnYellow.addActionListener(this);
+    	btnYellow.setBackground(Color.YELLOW);
+    	
+    	btnBlue = new JButton("");
+    	btnBlue.addActionListener(this);
+    	btnBlue.setBackground(Color.BLUE);
+    	
+    	btnMagenta = new JButton("");
+    	btnMagenta.addActionListener(this);
+    	btnMagenta.setBackground(Color.MAGENTA);
+    	
+    	btnOrange = new JButton("");
+    	btnOrange.addActionListener(this);
+    	btnOrange.setBackground(Color.ORANGE);
+    	
+    	btnPink = new JButton("");
+    	btnPink.addActionListener(this);
+    	btnPink.setBackground(Color.PINK);
+    	
+    	penSlider = new JSlider();
+    	penSlider.addChangeListener(this);
+    	
+    	JLabel lblPenSize = new JLabel("Pen Size");
+    	lblPenSize.setForeground(Color.WHITE);
+    	lblPenSize.setFont(new Font("Letter Gothic Std", Font.BOLD, 20));
+    	
+    	btnEraser = new JButton("");
+    	btnEraser.addActionListener(this);
+    	btnEraser.setIcon(new ImageIcon("Eraser-512.png"));
+    	btnEraser.setFont(new Font("Tahoma", Font.BOLD, 7));
+    	
+    	btnClear = new JButton("Clear");
+    	btnClear.setForeground(Color.WHITE);
+    	btnClear.setBackground(Color.LIGHT_GRAY);
+    	btnClear.addActionListener(this);
+    	btnClear.setFont(new Font("Letter Gothic Std", Font.PLAIN, 17));
+    	
+    	btnUpload = new JButton("Upload");
+    	btnUpload.setForeground(Color.WHITE);
+    	btnUpload.setBackground(Color.LIGHT_GRAY);
+    	btnUpload.addActionListener(this);
+    	btnUpload.setFont(new Font("Letter Gothic Std", Font.PLAIN, 17));
+    	
+    	addFriendField = new JTextField();
+    	addFriendField.setColumns(10);
+    	
+    	btnAddFriend = new JButton("Add Friend");
+    	btnAddFriend.setForeground(Color.WHITE);
+    	btnAddFriend.setBackground(Color.LIGHT_GRAY);
+    	btnAddFriend.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+    	btnAddFriend.addActionListener(this);
+    	
+    	btnListFriends = new JButton("List Friends:");
+    	btnListFriends.setForeground(Color.WHITE);
+    	btnListFriends.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+    	btnListFriends.setBackground(Color.LIGHT_GRAY);
+    	btnListFriends.addActionListener(this);
+    	
+    	btnBanUser = new JButton("Ban User");
+    	btnBanUser.setForeground(Color.WHITE);
+    	btnBanUser.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+    	btnBanUser.setBackground(Color.LIGHT_GRAY);
+    	btnBanUser.addActionListener(this);
+    	
+    	
+    	textField = new JTextField();
+    	textField.setColumns(10);
+    	
+    	friendList = new JList(model);
+    	friendList.setVisible(false);
+    	
+    	btnExport = new JButton("Export ");
+    	btnExport.setForeground(Color.WHITE);
+    	btnExport.setBackground(Color.LIGHT_GRAY);
+    	btnExport.addActionListener(this);
+    	btnExport.setFont(new Font("Letter Gothic Std", Font.PLAIN, 17));
+    	
+    	GroupLayout gl_panel = new GroupLayout(panel);
+    	gl_panel.setHorizontalGroup(
+    		gl_panel.createParallelGroup(Alignment.LEADING)
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addContainerGap()
+    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+    					.addGroup(gl_panel.createSequentialGroup()
+    						.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+    						.addPreferredGap(ComponentPlacement.UNRELATED)
+    						.addComponent(btnOrange, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+    					.addGroup(gl_panel.createSequentialGroup()
+    						.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+    						.addGap(35)
+    						.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+    						.addPreferredGap(ComponentPlacement.UNRELATED)
+    						.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)))
+    				.addGap(36)
+    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+    					.addComponent(btnYellow, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+    					.addComponent(btnPink, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+    				.addContainerGap(78, Short.MAX_VALUE))
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addComponent(penSlider, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+    				.addGap(20))
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addGap(2)
+    				.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+    				.addContainerGap())
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addGap(2)
+    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+    					.addGroup(gl_panel.createSequentialGroup()
+    						.addGap(1)
+    						.addComponent(btnBanUser, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+    					.addGroup(gl_panel.createSequentialGroup()
+    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+    							.addGroup(gl_panel.createSequentialGroup()
+    								.addPreferredGap(ComponentPlacement.RELATED)
+    								.addComponent(addFriendField, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))
+    							.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 249, Short.MAX_VALUE)
+    							.addComponent(btnExport, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+    							.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 249, Short.MAX_VALUE)
+    							.addComponent(btnAddFriend, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))
+    						.addGap(18)))
+    				.addGap(37))
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addContainerGap()
+    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+    				.addContainerGap(109, Short.MAX_VALUE))
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addContainerGap()
+    				.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+    				.addContainerGap(275, Short.MAX_VALUE))
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addComponent(textField, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+    				.addGap(53))
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addComponent(lblPenSize, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+    				.addContainerGap())
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addContainerGap()
+    				.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+    				.addContainerGap(254, Short.MAX_VALUE))
+    	);
+    	gl_panel.setVerticalGroup(
+    		gl_panel.createParallelGroup(Alignment.LEADING)
+    			.addGroup(gl_panel.createSequentialGroup()
+    				.addContainerGap()
+    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+    					.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+    					.addComponent(btnYellow, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+    				.addPreferredGap(ComponentPlacement.RELATED)
+    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+    					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+    						.addComponent(btnPink, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+    						.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+    						.addComponent(btnOrange, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+    				.addGap(18)
+    				.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+    				.addGap(56)
+    				.addComponent(lblPenSize)
+    				.addGap(8)
+    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+    				.addPreferredGap(ComponentPlacement.UNRELATED)
+    				.addComponent(btnClear)
+    				.addPreferredGap(ComponentPlacement.RELATED)
+    				.addComponent(btnUpload)
+    				.addGap(6)
+    				.addComponent(btnExport)
+    				.addPreferredGap(ComponentPlacement.UNRELATED)
+    				.addComponent(btnAddFriend)
+    				.addGap(7)
+    				.addComponent(addFriendField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+    				.addGap(18)
+    				.addComponent(btnBanUser)
+    				.addGap(6)
+    				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+    				.addGap(38)
+    				.addComponent(btnListFriends)
+    				.addGap(2)
+    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+    				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    	);
+    	panel.setLayout(gl_panel);
+    	setLayout(groupLayout);
+    }
 
 	@Override
 	/**
