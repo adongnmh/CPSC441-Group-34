@@ -19,6 +19,7 @@ public class CanvasClient extends Thread{
 	private CreateAccountFrame createAccGUI;
 	private CreatingCanvas createCanvasGUI;
 	private DrawingCanvas canvasGUI;
+	private SelectCanvasServer selectGUI;
 	private String username;
 
 	private int port = 9000;
@@ -225,6 +226,13 @@ public class CanvasClient extends Thread{
 		}
 	}
 
+	public void createJoinFrame(CreatingCanvas frame)
+	{
+		selectGUI = new SelectCanvasServer(this, frame);
+		selectGUI.setVisible(true);
+		frame.setVisible(false);
+	}
+
 	public void joinRequest(String serverNumber) throws Exception
 	{
 		//Send request to the server
@@ -237,6 +245,7 @@ public class CanvasClient extends Thread{
 		System.out.println("Server: " + line);
 		if(line.equals("0"))
 		{
+			selectGUI.dispose();
 			System.out.println("joining canvas");
 			DrawingScreenFrame newFrame = new DrawingScreenFrame();
 
@@ -257,6 +266,7 @@ public class CanvasClient extends Thread{
 		}
 		else if(line.equals("1"))
 		{
+			selectGUI.emptyMessage();
 			//TODO: ADD MESSAGE SAYING THAT SERVER IS FULL
 			System.out.println("Server is full");
 		}

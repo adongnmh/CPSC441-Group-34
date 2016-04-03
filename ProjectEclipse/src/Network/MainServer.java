@@ -360,7 +360,7 @@ public class MainServer extends Thread{
 	//TODO: add a limit to each server so there will be a check for number of users
 	private boolean joinServer(String serverNum, String username)
 	{
-		if(serverNum.equals("1") && server1.size() < 4)
+		if(serverNum.equals("1") && server1.size() < 4 && server1.size() != 0)
 		{
 			server1.add(username);
 			userServer.put(username, "1");
@@ -370,19 +370,19 @@ public class MainServer extends Thread{
 			}
 			return true;
 		}
-		else if(serverNum.equals("2") && server2.size() < 4)
+		else if(serverNum.equals("2") && server2.size() < 4 && server2.size() != 0)
 		{
 			server2.add(username);
 			userServer.put(username, "2");
 			return true;
 		}
-		else if(serverNum.equals("3") && server3.size() < 4)
+		else if(serverNum.equals("3") && server3.size() < 4 && server3.size() != 0)
 		{
 			server3.add(username);
 			userServer.put(username, "3");
 			return true;
 		}
-		else if(serverNum.equals("4") && server4.size() < 4)
+		else if(serverNum.equals("4") && server4.size() < 4 && server4.size() != 0)
 		{
 			server4.add(username);
 			userServer.put(username, "4");
