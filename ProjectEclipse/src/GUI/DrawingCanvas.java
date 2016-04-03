@@ -2,7 +2,7 @@ package GUI;
 
 
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -26,21 +26,21 @@ import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 
 import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 
-import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.JSlider;
 
 import Network.*;
+
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DrawingCanvas extends JPanel implements ActionListener, ChangeListener {
 	
@@ -57,16 +57,6 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private int oldYCoord;
     private int currentXCoord;
     private int currentYCoord;
-    private JButton btnRed;
-    private JButton btnBlue;
-    private JButton btnGreen;
-    private JButton btnBlack; //black button
-    private JButton btnMagenta; //purple button
-    private JButton btnClear;
-    private JButton btnEraser;
-    private JSlider penSlider;
-    private JButton btnExport;
-    private JButton btnUpload; //upload button
     private int intSizeOfPen = 5;
     private double doubleSizeOfPen;
     
@@ -76,25 +66,54 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     private String imageToUploadPath;
 
 	private CanvasClient client;
-	private JButton btnInviteFriends;
+	private JPanel panel;
+	
+	//Declaring button variables
+	private JButton btnRed;
+	private JButton btnBlack;
+	private JButton btnGreen;
+	private JButton btnYellow;
+	private JButton btnBlue;
+	private JButton btnMagenta;
+	private JButton btnOrange;
+	private JButton btnPink;
+	private JSlider penSlider;
+	private JButton btnEraser;
+	private JButton btnClear;
+	private JButton btnUpload;
+	private JTextField addFriendField;
+	private JButton btnAddFriend;
 	private JButton btnListFriends;
-	private JButton btnBanPeople;
-
+	private JButton btnBanUser;
+	private JTextField textField;
+	private JList friendList;
+	private DefaultListModel model = new DefaultListModel();
+	private List<String> friendsList = new ArrayList<String>();
+	
+	private JTextArea friendsTextBox;
+    private boolean friendsTextBoxFlag = false;
+    private JButton btnExport;
     
+    // Default Color is black
+    private String paintColor = "BLACK";
+    private String clientPaintColor;
+    
+    
+	
     /**
      * This method will first initialize the canvas and all the GUI components of the JPanel
      * such as the Buttons, slider,etc. The method will also initialize all the ActionListener and 
      * ChangeListener for all the mouse events and all the action events.
-     * @param dstPort 
-     * @param srcPort 
-     * @param stringIP 
+     * @param dstPort
+     * @param srcPort
+     * @param stringIP
      * @throws Exception 
      */
     public DrawingCanvas(CanvasClient c) 
     {
-		client = c;
+		this.client = c;
 		InitializeCanvas();
-		c.start();
+		this.client.start();
 		
 		// Listening for whenever the mouse is pressed. If the mouse is pressed,
         // when pressed we will know where on the canvas the line will start using
@@ -132,7 +151,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
@@ -147,12 +166,13 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
 						//ignore
 					}
+					repaint();
                 }
             }
         });
@@ -183,7 +203,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
+						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
@@ -208,9 +228,9 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
             // enable initializing - smoother Lines
             drawing.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // clear draw area
+
             clear();
         }
-
         g.drawImage(image, 0, 0, null);
         repaint();
     }
@@ -235,25 +255,61 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     	System.out.println(doubleSizeOfPen);
     }
     
-    public void UpdatedLine(int oldX, int oldY, int newX, int newY)
+    public void UpdatedLine(int oldX, int oldY, int newX, int newY, String color, int penSize)
     {
-    	System.out.println("UPDATELINE");
+    	// Switch statement will determine what color was used for the client side.
+    	// After the colors are set the image will painted on the client side.
+    	switch(color)
+    	{
+	    	case "RED":
+	    		drawing.setPaint(Color.RED);
+	    		break;
+	    	case "BLUE":
+	    		drawing.setPaint(Color.BLUE);
+	    		break;
+	    	case "GREEN":
+	    		drawing.setPaint(Color.GREEN);
+	    		break;
+	    	case "YELLOW":
+	    		drawing.setPaint(Color.YELLOW);
+	    		break;
+	    	case "ORANGE":
+	    		drawing.setPaint(Color.ORANGE);
+	    		break;
+	    	case "MAGENTA":
+	    		drawing.setPaint(Color.MAGENTA);
+	    		break;
+	    	case "PINK":
+	    		drawing.setPaint(Color.PINK);
+	    		break;
+	    	case "WHITE":
+	    		drawing.setPaint(Color.WHITE);
+	    		break;
+	    	case "BLACK":
+	    		drawing.setPaint(Color.BLACK);
+	    		break;
+    	}
+    	
     	if(image != null)
     	{
-	        drawing.setStroke(new BasicStroke(intSizeOfPen));
+	        drawing.setStroke(new BasicStroke(penSize));
 	    	drawing.drawLine(oldX, oldY, newX, newY);
 	    	repaint();
     	}
     }
     
+    /**
+     * This method will save the current drawing on the user canvas and then save it in the project directory 
+     */
     public void save()
     {
 
     	BufferedImage bi = new BufferedImage(this.getSize().width,this.getSize().height, BufferedImage.TYPE_INT_ARGB);	
     	drawing = bi.createGraphics();
+        drawing.setClip(122, 0, getSize().width, getSize().height);
     	drawing.drawImage(image, 0, 0, null);
         try {
-			ImageIO.write(bi, "PNG", new File("yourImageName.PNG"));
+			ImageIO.write(bi, "PNG", new File("CollaborativeDrawingImage.PNG"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -262,205 +318,354 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
         repaint();
 
     }
-    //upload function
-    public void upload(String path)
+    /**
+     * This image will take the passed in argument (File path to image) and then uploads the image.
+     * @param path
+     */
+    public void Upload(String path)
     {
     	ImageIcon img = new ImageIcon(path);
 		imageToUpload = img.getImage();
 		drawing.drawImage(imageToUpload,450,0,null);
 		repaint();
     }
+    
 
     /**
      * Initializes canvas
      */
     public void InitializeCanvas()
     {
-
-		 	// Initializing the header bar
-	    	JPanel panel = new JPanel();
-	    	panel.setBackground(Color.LIGHT_GRAY);
+	    	
+	    	panel = new JPanel();
+	    	panel.setBackground(Color.DARK_GRAY);
 	    	GroupLayout groupLayout = new GroupLayout(this);
 	    	groupLayout.setHorizontalGroup(
-	    		groupLayout.createParallelGroup(Alignment.TRAILING)
-	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+	    		groupLayout.createParallelGroup(Alignment.LEADING)
+	    			.addGroup(groupLayout.createSequentialGroup()
+	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(848, Short.MAX_VALUE))
 	    	);
 	    	groupLayout.setVerticalGroup(
 	    		groupLayout.createParallelGroup(Alignment.LEADING)
-	    			.addGroup(groupLayout.createSequentialGroup()
-	    				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    				.addContainerGap(380, Short.MAX_VALUE))
+	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
 	    	);
 	    	
-	    	// Initializing Buttons and adding an actionListener to the corresponding button
-			btnRed = new JButton("");
-			btnRed.setBackground(Color.RED);
-			btnRed.addActionListener(this);
-			
-			btnBlue = new JButton("");
-			btnBlue.setBackground(Color.BLUE);
-			btnBlue.addActionListener(this);
-			
-			btnGreen = new JButton("");
-			btnGreen.setBackground(Color.GREEN);
-			btnGreen.addActionListener(this);
-			
-			//black
-			btnBlack = new JButton("");
-			btnBlack.setBackground(Color.BLACK);
-			btnBlack.addActionListener(this);
-			
-			//Magenta
-			btnMagenta = new JButton("");
-			btnMagenta.setBackground(Color.MAGENTA);
-			btnMagenta.addActionListener(this);	
-			
-			btnClear = new JButton("Clear");
-			btnClear.addActionListener(this);
+	    	btnBlack = new JButton("");
+	    	btnBlack.addActionListener(this);
+	    	btnBlack.setBackground(Color.BLACK);
 	    	
-	    	btnEraser = new JButton("Eraser");
-	    	btnEraser.addActionListener(this);
+	    	btnRed = new JButton("");
+	    	btnRed.addActionListener(this);
+	    	btnRed.setBackground(Color.RED);
+	    	
+	    	btnGreen = new JButton("");
+	    	btnGreen.addActionListener(this);
+	    	btnGreen.setBackground(Color.GREEN);
+	    	
+	    	btnYellow = new JButton("");
+	    	btnYellow.addActionListener(this);
+	    	btnYellow.setBackground(Color.YELLOW);
+	    	
+	    	btnBlue = new JButton("");
+	    	btnBlue.addActionListener(this);
+	    	btnBlue.setBackground(Color.BLUE);
+	    	
+	    	btnMagenta = new JButton("");
+	    	btnMagenta.addActionListener(this);
+	    	btnMagenta.setBackground(Color.MAGENTA);
+	    	
+	    	btnOrange = new JButton("");
+	    	btnOrange.addActionListener(this);
+	    	btnOrange.setBackground(Color.ORANGE);
+	    	
+	    	btnPink = new JButton("");
+	    	btnPink.addActionListener(this);
+	    	btnPink.setBackground(Color.PINK);
 	    	
 	    	penSlider = new JSlider();
 	    	penSlider.addChangeListener(this);
 	    	
-	    	btnExport = new JButton("Export");
-	    	btnExport.addActionListener(this);
+	    	JLabel lblPenSize = new JLabel("Pen Size");
+	    	lblPenSize.setForeground(Color.WHITE);
+	    	lblPenSize.setFont(new Font("Letter Gothic Std", Font.BOLD, 20));
 	    	
-	    	//upload
+	    	btnEraser = new JButton("");
+	    	btnEraser.addActionListener(this);
+	    	btnEraser.setIcon(new ImageIcon("Eraser-512.png"));
+	    	btnEraser.setFont(new Font("Tahoma", Font.BOLD, 7));
+	    	
+	    	btnClear = new JButton("Clear");
+	    	btnClear.setForeground(Color.WHITE);
+	    	btnClear.setBackground(Color.LIGHT_GRAY);
+	    	btnClear.addActionListener(this);
+	    	btnClear.setFont(new Font("Letter Gothic Std", Font.PLAIN, 17));
+	    	
 	    	btnUpload = new JButton("Upload");
+	    	btnUpload.setForeground(Color.WHITE);
+	    	btnUpload.setBackground(Color.LIGHT_GRAY);
 	    	btnUpload.addActionListener(this);
+	    	btnUpload.setFont(new Font("Letter Gothic Std", Font.PLAIN, 17));
 	    	
-	    	btnInviteFriends = new JButton("Invite Friends");
-	    	btnInviteFriends.addActionListener(this);
+	    	addFriendField = new JTextField();
+	    	addFriendField.setColumns(10);
 	    	
-	    	btnListFriends = new JButton("List Friends");
+	    	btnAddFriend = new JButton("Add Friend");
+	    	btnAddFriend.setForeground(Color.WHITE);
+	    	btnAddFriend.setBackground(Color.LIGHT_GRAY);
+	    	btnAddFriend.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+	    	btnAddFriend.addActionListener(this);
+	    	
+	    	btnListFriends = new JButton("List Friends:");
+	    	btnListFriends.setForeground(Color.WHITE);
+	    	btnListFriends.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+	    	btnListFriends.setBackground(Color.LIGHT_GRAY);
 	    	btnListFriends.addActionListener(this);
 	    	
-	    	btnBanPeople = new JButton("Ban People");
-	    	btnBanPeople.addActionListener(this);
-			
-			
+	    	btnBanUser = new JButton("Ban User");
+	    	btnBanUser.setForeground(Color.WHITE);
+	    	btnBanUser.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+	    	btnBanUser.setBackground(Color.LIGHT_GRAY);
+	    	btnBanUser.addActionListener(this);
+	    	
+	    	
+	    	textField = new JTextField();
+	    	textField.setColumns(10);
+	    	
+	    	friendList = new JList(model);
+	    	friendList.setVisible(false);
+	    	
+	    	btnExport = new JButton("Export ");
+	    	btnExport.setBackground(Color.LIGHT_GRAY);
+	    	btnExport.addActionListener(this);
+	    	btnExport.setFont(new Font("Letter Gothic Std", Font.PLAIN, 17));
+	    	
 	    	GroupLayout gl_panel = new GroupLayout(panel);
 	    	gl_panel.setHorizontalGroup(
+	    		gl_panel.createParallelGroup(Alignment.TRAILING)
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addContainerGap()
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.UNRELATED)
+	    						.addComponent(btnOrange, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+	    						.addGap(35)
+	    						.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+	    						.addPreferredGap(ComponentPlacement.UNRELATED)
+	    						.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)))
+	    				.addGap(36)
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+	    					.addComponent(btnYellow, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(btnPink, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+	    				.addContainerGap(46, Short.MAX_VALUE))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addComponent(penSlider, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+	    				.addGap(20))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addGap(2)
+	    				.addComponent(btnListFriends, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+	    				.addContainerGap())
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addGap(2)
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addGap(1)
+	    						.addComponent(btnBanUser, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    							.addGroup(gl_panel.createSequentialGroup()
+	    								.addPreferredGap(ComponentPlacement.RELATED)
+	    								.addComponent(addFriendField, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))
+	    							.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 249, Short.MAX_VALUE)
+	    							.addComponent(btnExport, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+	    							.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 249, Short.MAX_VALUE)
+	    							.addComponent(btnAddFriend, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))
+	    						.addGap(18)))
+	    				.addGap(37))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addContainerGap()
+	    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(93, Short.MAX_VALUE))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addContainerGap()
+	    				.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(259, Short.MAX_VALUE))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addContainerGap(173, Short.MAX_VALUE)
+	    				.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+	    				.addGap(91))
+	    			.addGroup(gl_panel.createSequentialGroup()
+	    				.addComponent(textField, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+	    				.addGap(53))
+	    			.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+	    				.addComponent(lblPenSize, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap())
+	    	);
+	    	gl_panel.setVerticalGroup(
 	    		gl_panel.createParallelGroup(Alignment.LEADING)
 	    			.addGroup(gl_panel.createSequentialGroup()
 	    				.addContainerGap()
 	    				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-	    					.addComponent(btnBanPeople, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    							.addGroup(gl_panel.createSequentialGroup()
-	    								.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-	    								.addPreferredGap(ComponentPlacement.RELATED)
-	    								.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-	    								.addPreferredGap(ComponentPlacement.RELATED)
-	    								.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-	    								.addPreferredGap(ComponentPlacement.RELATED)
-	    								.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-	    								.addPreferredGap(ComponentPlacement.RELATED)
-	    								.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-	    								.addGap(18)
-	    								.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-	    							.addGroup(gl_panel.createSequentialGroup()
-	    								.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
-	    								.addGap(18)
-	    								.addComponent(btnExport)))
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    							.addGroup(gl_panel.createSequentialGroup()
-	    								.addPreferredGap(ComponentPlacement.RELATED)
-	    								.addComponent(btnClear, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-	    							.addGroup(gl_panel.createSequentialGroup()
-	    								.addGap(47)
-	    								.addComponent(btnUpload)))
-	    						.addGap(36)
-	    						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-	    							.addComponent(btnListFriends, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-	    							.addComponent(btnInviteFriends))))
-	    				.addGap(455))
-	    	);
-	    	gl_panel.setVerticalGroup(
-	    		gl_panel.createParallelGroup(Alignment.TRAILING)
-	    			.addGroup(gl_panel.createSequentialGroup()
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-	    					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-	    						.addComponent(btnEraser)
-	    						.addComponent(btnClear)
-	    						.addComponent(btnInviteFriends)))
-	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    						.addGroup(gl_panel.createSequentialGroup()
-	    							.addGap(18)
-	    							.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-	    						.addGroup(gl_panel.createSequentialGroup()
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    								.addComponent(btnUpload)
-	    								.addComponent(btnExport))))
-	    					.addGroup(gl_panel.createSequentialGroup()
-	    						.addPreferredGap(ComponentPlacement.RELATED)
-	    						.addComponent(btnListFriends)))
+	    					.addComponent(btnBlack, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(btnGreen, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(btnYellow, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(btnRed, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
 	    				.addPreferredGap(ComponentPlacement.RELATED)
-	    				.addComponent(btnBanPeople)
-	    				.addGap(8))
+	    				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    					.addGroup(gl_panel.createSequentialGroup()
+	    						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    							.addComponent(btnPink, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+	    							.addComponent(btnBlue, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
+	    							.addComponent(btnOrange, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+	    						.addGap(38)
+	    						.addComponent(btnEraser, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(btnMagenta, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+	    				.addGap(36)
+	    				.addComponent(lblPenSize)
+	    				.addGap(8)
+	    				.addComponent(penSlider, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+	    				.addPreferredGap(ComponentPlacement.UNRELATED)
+	    				.addComponent(btnClear)
+	    				.addPreferredGap(ComponentPlacement.RELATED)
+	    				.addComponent(btnUpload)
+	    				.addGap(6)
+	    				.addComponent(btnExport)
+	    				.addPreferredGap(ComponentPlacement.UNRELATED)
+	    				.addComponent(btnAddFriend)
+	    				.addGap(7)
+	    				.addComponent(addFriendField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addGap(18)
+	    				.addComponent(btnBanUser)
+	    				.addGap(6)
+	    				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addGap(38)
+	    				.addComponent(btnListFriends)
+	    				.addGap(2)
+	    				.addComponent(friendList, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+	    				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 	    	);
 	    	panel.setLayout(gl_panel);
 	    	setLayout(groupLayout);
 	 }
 
 	@Override
+	/**
+	 * Action listeners for all the buttons on the drawing canvas page.
+	 */
 	public void actionPerformed(ActionEvent e) 
 	{
-		// TODO Auto-generated method stub
-		if(e.getSource() == btnRed)
+		if(e.getSource() == btnBlack)
 		{
-	        drawing.setPaint(Color.RED);
+			drawing.setPaint(Color.BLACK);
+			setColor("BLACK");
 		}
-		else if(e.getSource() == btnBlue)
+		else if(e.getSource()==btnRed)
 		{
-	        drawing.setPaint(Color.BLUE);
+			drawing.setPaint(Color.RED);
+			setColor("RED");
 		}
-		else if(e.getSource() == btnGreen)
+		else if(e.getSource()==btnBlue)
 		{
-	        drawing.setPaint(Color.GREEN);
+			drawing.setPaint(Color.BLUE);
+			setColor("BLUE");
 		}
-		//black
-		else if(e.getSource() == btnBlack)
+		else if(e.getSource()==btnYellow)
 		{
-	        drawing.setPaint(Color.BLACK);
+			drawing.setPaint(Color.YELLOW);
+			setColor("YELLOW");
 		}
-		//magenta
-		else if(e.getSource() == btnMagenta)
+		else if(e.getSource()==btnOrange)
 		{
-	        drawing.setPaint(Color.MAGENTA);
+			drawing.setPaint(Color.ORANGE);
+			setColor("ORANGE");
 		}
-		else if(e.getSource() == btnEraser)
+		else if(e.getSource()==btnMagenta)
 		{
-			drawing.setPaint(Color.WHITE);
+			drawing.setPaint(Color.MAGENTA);
+			setColor("MAGENTA");
+		}
+		else if(e.getSource()==btnPink)
+		{
+			drawing.setPaint(Color.PINK);
+			setColor("PINK");
+		}
+		else if(e.getSource()==btnGreen)
+		{
+			drawing.setPaint(Color.GREEN);
+			setColor("GREEN");
 		}
 		else if(e.getSource() == btnClear)
 		{
 			clear();
 		}
-		else if(e.getSource() == btnExport)
+		else if(e.getSource() == btnEraser)
 		{
-			save();
+			drawing.setPaint(Color.WHITE);
+			setColor("WHITE");
+		}
+		else if(e.getSource() == btnAddFriend)
+		{
+			try{
+				client.addFriend(addFriendField.getText());
+			}
+			catch(Exception ex)
+			{
+				//ignore
+			}
+		}
+		else if(e.getSource() == btnListFriends)
+		{
+			//Only grab list of friends if flag is false, otherwise the list just closes and clears list
+			if(friendsTextBoxFlag == false)
+			{
+				try{
+					client.listFriends();
+				}
+				catch(Exception ex)
+				{
+					//ignore
+				}
+				friendsTextBoxFlag = true;
+				friendList.setVisible(true);
+		    	
+			}
+			else
+			{
+		    	friendList.setVisible(false);
+		    	friendsTextBoxFlag = false;
+				model.clear();
+			}
+
+		}
+		else if(e.getSource() == btnBanUser)
+		{
+			System.out.println(textField.getText());
+			try{
+				client.banUser(textField.getText());
+			}
+			catch(Exception ex) {
+				//ignore
+			}
 		}
 		else if(e.getSource() == btnUpload)
 		{
 	    	uploadFrame = new UploadImageFrame(this);
 	    	uploadFrame.setVisible(true);
 		}
-		
+		else if(e.getSource() == btnExport)
+		{ 
+			save();
+		}
 		
 	}
 
 	@Override
+	/**
+	 * State change for the pen slider on the interface
+	 */
 	public void stateChanged(ChangeEvent e) 
 	{
 		JSlider source = (JSlider)e.getSource();
@@ -478,7 +683,46 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 				ChangePenSize(sliderNum);
 			}
 		}
-
-		
 	}
+	
+	/**
+	 * The method will set the canvas paint color to the appropriate color depending on the button 
+	 * pressed.
+	 * @param colorToSet
+	 */
+	public void setColor(String colorToSet)
+	{
+		paintColor = colorToSet;
+	}
+	
+	/**
+	 * Return the current paint color of the canvas.
+	 * @return
+	 */
+	public String getPaintColor()
+	{
+		return paintColor;
+	}
+
+	
+	/**
+	 * The method will list all the online friends on the canvas screen.
+	 * @param list
+	 */
+	//Populate the friends list array with string from server
+	public void listFriends(String list)
+	{
+		System.out.println(list);
+		String[] friendsList = list.split("\\.");
+		for(int i = 0; i < friendsList.length; i++)
+		{
+			model.addElement(friendsList[i]);
+		}
+	}
+
+	public void closeApplication()
+	{
+		System.exit(0);
+	}
+
 }
