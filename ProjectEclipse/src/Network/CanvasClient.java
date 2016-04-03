@@ -87,7 +87,7 @@ public class CanvasClient extends Thread{
 			{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				String line = inBuffer.readLine();
-				System.out.println(line);
+				System.out.println("THE LINE" +line);
 				code = line.split("\t");
 				if(line.equals(BAN_REQUEST))
 				{
@@ -98,6 +98,10 @@ public class CanvasClient extends Thread{
 				{
 					System.out.println("blah" + code[1]);
 					canvasGUI.listFriends(code[1]);
+				}
+				else if(code[0].equals(UPLOAD_REQUEST))
+				{
+					System.out.println("WHATS UP!!!");
 				}
 				//canvasGUI.listFriends(("hello"));
 				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
@@ -315,6 +319,13 @@ public class CanvasClient extends Thread{
 		//Send request to the server
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		outBuffer.writeBytes(DISCONNECT + '\t' + this.username);
+	}
+	public void uploadImage(String path) throws IOException 
+	{
+		System.out.println(path);
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outBuffer.writeBytes(UPLOAD_REQUEST + '\t' + path);
 	}
 
 

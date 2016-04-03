@@ -14,6 +14,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 /**
@@ -111,11 +112,15 @@ public class UploadImageFrame extends JFrame implements ActionListener{
 		else if(e.getSource() == btnUpload)
 		{
 			filePath = imageFilePath.getText();
-			System.out.println(filePath);
 			
 			this.dispose();
 			
-			theCanvas.Upload(filePath);
+			try {
+				theCanvas.Upload(filePath);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 }

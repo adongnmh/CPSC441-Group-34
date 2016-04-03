@@ -297,6 +297,14 @@ public class MainServer extends Thread{
 				System.out.println(clientList.keySet());
 				break;
 			}
+			
+			case UPLOAD_REQUEST:
+			{
+				System.out.println("YES WE UPLOADING");
+				responseMessage = encoder.encode(CharBuffer.wrap(code[1]));
+				cchannel.write(responseMessage);
+				
+			}
 		}
 	}
 
