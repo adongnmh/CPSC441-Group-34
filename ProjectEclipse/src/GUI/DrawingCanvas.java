@@ -229,7 +229,12 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
             drawing.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // clear draw area
 
-            clear();
+            try {
+				clear();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
         g.drawImage(image, 0, 0, null);
         repaint();
@@ -238,8 +243,19 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
     /**
      * Clear method will clear the whole canvas. This will be implemented with
      * the clear button Date Last Modified: 02/07/2016
+     * @throws IOException 
      */
-    public void clear()
+    public void clear() throws IOException
+    {
+        drawing.setPaint(Color.white);
+        // draw white on entire draw area to clear
+        drawing.fillRect(0, 0, getSize().width, getSize().height);
+        drawing.setPaint(Color.black);
+        client.clearCanvas();
+        repaint();
+    }
+    
+    public void clearOther()
     {
         drawing.setPaint(Color.white);
         // draw white on entire draw area to clear
@@ -589,7 +605,12 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		}
 		else if(e.getSource() == btnClear)
 		{
-			clear();
+			try {
+				clear();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		else if(e.getSource() == btnEraser)
 		{

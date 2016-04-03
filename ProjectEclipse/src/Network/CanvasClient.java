@@ -35,6 +35,8 @@ public class CanvasClient extends Thread{
 	private static final String DISCONNECT = "0x20";
 	private static final String JOIN_REQUEST = "0x21";
 	private static final String UPLOAD_REQUEST = "0x22";
+	private static final String CLEAR_REQUEST = "0x23";
+	
 	private String[] code;
 	private LoginScreenFrame f;
 	
@@ -87,7 +89,7 @@ public class CanvasClient extends Thread{
 			{
 				BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				String line = inBuffer.readLine();
-				System.out.println("THE LINE" +line);
+				System.out.println("THE LINE:" +line);
 				code = line.split("\t");
 				if(line.equals(BAN_REQUEST))
 				{
@@ -103,8 +105,17 @@ public class CanvasClient extends Thread{
 				{
 					System.out.println("WHATS UP!!!");
 				}
-				//canvasGUI.listFriends(("hello"));
-				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
+				else if(line.equals(CLEAR_REQUEST))
+				{
+					System.out.println("Ok WE CLEAR!");
+					canvasGUI.clearOther();
+				}
+				else
+				{
+					//canvasGUI.listFriends(("hello"));
+					System.out.println("HELLO");
+					canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
+				}
 
 				//System.out.println("LOLOLOLOL: " + line);
 			}
@@ -326,6 +337,14 @@ public class CanvasClient extends Thread{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outBuffer.writeBytes(UPLOAD_REQUEST + '\t' + path);
+	}
+	
+	public void clearCanvas() throws IOException 
+	{
+		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
+		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outBuffer.writeBytes(CLEAR_REQUEST);
+		
 	}
 
 

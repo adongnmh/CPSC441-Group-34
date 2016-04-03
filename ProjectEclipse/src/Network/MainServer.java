@@ -34,6 +34,7 @@ public class MainServer extends Thread{
 	private static final String DISCONNECT = "0x20";
 	private static final String JOIN_REQUEST = "0x21";
 	private static final String UPLOAD_REQUEST = "0x22";
+	private static final String CLEAR_REQUEST = "0x23";
 	
 
 
@@ -303,6 +304,16 @@ public class MainServer extends Thread{
 				System.out.println("YES WE UPLOADING");
 				responseMessage = encoder.encode(CharBuffer.wrap(code[1]));
 				cchannel.write(responseMessage);
+				break;
+				
+			}
+			
+			case CLEAR_REQUEST:
+			{
+				System.out.println("HMMM CLEARING");
+				responseMessage = encoder.encode(CharBuffer.wrap(CLEAR_REQUEST + '\n'));
+				cchannel.write(responseMessage);
+				break;
 				
 			}
 		}
