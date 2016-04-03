@@ -230,7 +230,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
             // clear draw area
 
             try {
-				clear();
+				NewClear();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -252,6 +252,20 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
         drawing.fillRect(0, 0, getSize().width, getSize().height);
         drawing.setPaint(Color.black);
         client.clearCanvas();
+        repaint();
+    }
+    
+    /**
+     * Clear method will clear the whole canvas. This will be implemented with
+     * the clear button Date Last Modified: 02/07/2016
+     * @throws IOException 
+     */
+    public void NewClear() throws IOException
+    {
+        drawing.setPaint(Color.white);
+        // draw white on entire draw area to clear
+        drawing.fillRect(0, 0, getSize().width, getSize().height);
+        drawing.setPaint(Color.black);
         repaint();
     }
     
@@ -345,12 +359,12 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
 		imageToUpload = img.getImage();
 		drawing.drawImage(imageToUpload,450,0,null);
 		repaint();
-		SendUploadImage(path);
+		SendUploadImage(imageToUpload);
     }
     
-    public void SendUploadImage(String path) throws IOException
+    public void SendUploadImage(Image imageToUpload2) throws IOException
     {
-    	client.uploadImage(path);
+    	client.uploadImage(imageToUpload2);
     }
     
 

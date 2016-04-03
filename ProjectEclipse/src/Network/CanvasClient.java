@@ -1,8 +1,10 @@
 package Network;
 import GUI.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
@@ -331,12 +333,12 @@ public class CanvasClient extends Thread{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		outBuffer.writeBytes(DISCONNECT + '\t' + this.username);
 	}
-	public void uploadImage(String path) throws IOException 
+	public void uploadImage(Image upImage) throws IOException 
 	{
-		System.out.println(path);
+		System.out.println(upImage);
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		outBuffer.writeBytes(UPLOAD_REQUEST + '\t' + path);
+		outBuffer.writeBytes(UPLOAD_REQUEST + '\t' + upImage);
 	}
 	
 	public void clearCanvas() throws IOException 
@@ -344,6 +346,7 @@ public class CanvasClient extends Thread{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		outBuffer.writeBytes(CLEAR_REQUEST);
+
 		
 	}
 

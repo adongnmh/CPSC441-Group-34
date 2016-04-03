@@ -301,8 +301,10 @@ public class MainServer extends Thread{
 			
 			case UPLOAD_REQUEST:
 			{
+				String fileToSendPath = code[1];
 				System.out.println("YES WE UPLOADING");
-				responseMessage = encoder.encode(CharBuffer.wrap(code[1]));
+				System.out.println(fileToSendPath);
+				responseMessage = encoder.encode(CharBuffer.wrap(code[0] + '\t'+ code[1]+'\n'));
 				cchannel.write(responseMessage);
 				break;
 				
@@ -312,7 +314,8 @@ public class MainServer extends Thread{
 			{
 				System.out.println("HMMM CLEARING");
 				responseMessage = encoder.encode(CharBuffer.wrap(CLEAR_REQUEST + '\n'));
-				cchannel.write(responseMessage);
+				SocketChannel channel1 = clientList.get("asdf");
+				channel1.write(responseMessage);
 				break;
 				
 			}
