@@ -15,7 +15,14 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
+/**
+ * This class will upload the image to the canvas
+ * @author Group 34
+ * Last Modified: March 24th 2016
+ *
+ */
 public class UploadImageFrame extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
@@ -24,6 +31,7 @@ public class UploadImageFrame extends JFrame implements ActionListener{
 	private JButton btnUpload;
 	private String filePath;
 	private DrawingCanvas theCanvas;
+	private JLabel lblThatYouWant;
 
 	/**
 	 * Create the frame.
@@ -43,54 +51,68 @@ public class UploadImageFrame extends JFrame implements ActionListener{
 	public void initialize()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 470, 310);
+		setBounds(100, 100, 580, 366);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		btnBack = new JButton("Back");
+		btnBack.setForeground(Color.WHITE);
+		btnBack.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
+		btnBack.setBackground(Color.DARK_GRAY);
 		btnBack.addActionListener(this);
 		
 		btnUpload = new JButton("Upload");
+		btnUpload.setForeground(Color.WHITE);
+		btnUpload.setBackground(Color.DARK_GRAY);
+		btnUpload.setFont(new Font("Letter Gothic Std", Font.PLAIN, 27));
 		btnUpload.addActionListener(this);
 
 		
 		imageFilePath = new JTextField();
+		imageFilePath.setFont(new Font("Letter Gothic Std", Font.PLAIN, 20));
 		imageFilePath.setColumns(10);
 		
-		JLabel lblEnterTheFile = new JLabel("Enter the file path of the  image source that you want to upload to the canvas");
-		lblEnterTheFile.setFont(new Font("Tahoma", Font.BOLD, 10));
+		JLabel lblEnterTheFile = new JLabel("Enter the file path of the  image source");
+		lblEnterTheFile.setFont(new Font("Letter Gothic Std", Font.PLAIN, 20));
+		
+		lblThatYouWant = new JLabel("that you want to upload to the canvas");
+		lblThatYouWant.setFont(new Font("Letter Gothic Std", Font.PLAIN, 20));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(136)
-					.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(148, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(22)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblEnterTheFile, GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
-							.addContainerGap())
+							.addGap(22)
+							.addComponent(lblEnterTheFile))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(imageFilePath, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
-							.addGap(30))))
+							.addGap(37)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblThatYouWant)
+								.addComponent(imageFilePath, GroupLayout.PREFERRED_SIZE, 462, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(90)
+							.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
+							.addGap(53)
+							.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(36, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(49)
 					.addComponent(lblEnterTheFile, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(2)
+					.addComponent(lblThatYouWant)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(imageFilePath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(54)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnBack)
 						.addComponent(btnUpload))
-					.addContainerGap(91, Short.MAX_VALUE))
+					.addContainerGap(117, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -109,7 +131,7 @@ public class UploadImageFrame extends JFrame implements ActionListener{
 			
 			this.dispose();
 			
-			theCanvas.upload(filePath);
+			theCanvas.Upload(filePath);
 		}
 	}
 }
