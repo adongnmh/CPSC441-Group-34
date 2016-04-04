@@ -349,7 +349,7 @@ public class MainServer extends Thread{
 				if(userFriendsList.get(code[1]).size() != 0)
 				{
 					responseMessage = encoder.encode(CharBuffer.wrap(getFriendsList(code[1])));
-					cchannel.write(responseMessage);
+					
 				}
 				break;
 			}

@@ -104,6 +104,12 @@ public class CanvasClient extends Thread{
 					System.out.println("blah" + code[1]);
 					canvasGUI.listFriends(code[1]);
 				}
+				else if(line.equals(CLEAR_REQUEST))
+				{
+					System.out.println("Ok WE CLEAR!");
+					canvasGUI.clearOther();
+				}
+
 				else
 				{
 					System.out.println("helloooooo!!");
