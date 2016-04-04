@@ -86,16 +86,12 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap(257, Short.MAX_VALUE)
-							.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 425, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addGap(257)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnJoinExistingCanvas, GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-								.addComponent(btnCreateNewCanvas, GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(257)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnLogout, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+						.addComponent(btnJoinExistingCanvas, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+						.addComponent(btnCreateNewCanvas, GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
 					.addGap(216))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -107,7 +103,7 @@ public class CreatingCanvas extends JFrame implements ActionListener
 					.addComponent(btnJoinExistingCanvas, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 					.addGap(71)
 					.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(134, Short.MAX_VALUE))
+					.addContainerGap(200, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		
