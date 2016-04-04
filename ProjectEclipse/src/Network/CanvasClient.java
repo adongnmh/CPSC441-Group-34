@@ -110,11 +110,9 @@ public class CanvasClient extends Thread{
 					canvasGUI.clearOther();
 				}
 
-				else
-				{
-					System.out.println("helloooooo!!");
-					canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
-				}
+				System.out.println("helloooooo!!");
+				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
+			
 				//canvasGUI.listFriends(("hello"));
 				//canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
 
