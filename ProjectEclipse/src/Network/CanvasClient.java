@@ -44,7 +44,7 @@ public class CanvasClient extends Thread{
 	private LoginScreenFrame f;
 	
 
-	public CanvasClient () 
+	public CanvasClient (String IP, String port)
 	{
 		InetAddress addr = null;
 		try {
@@ -58,7 +58,7 @@ public class CanvasClient extends Thread{
 
 		
 		try {
-			clientSocket = new Socket(currentMachineIP, 9000);
+			clientSocket = new Socket(IP, Integer.parseInt(port));
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,8 +109,7 @@ public class CanvasClient extends Thread{
 					System.out.println("Ok WE CLEAR!");
 					canvasGUI.clearOther();
 				}
-
-				System.out.println("helloooooo!!");
+				
 				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
 			
 				//canvasGUI.listFriends(("hello"));

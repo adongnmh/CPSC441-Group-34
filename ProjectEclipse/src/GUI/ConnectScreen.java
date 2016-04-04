@@ -10,11 +10,14 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import Network.CanvasClient;
 
-public class ConnectScreen extends JFrame {
+public class ConnectScreen extends JFrame  implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField ipField;
@@ -48,6 +51,7 @@ public class ConnectScreen extends JFrame {
 		
 		btnConnect = new JButton("CONNECT");
 		btnConnect.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnConnect.addActionListener(this);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -78,4 +82,16 @@ public class ConnectScreen extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == btnConnect)
+		{
+			this.dispose();
+			CanvasClient client = new CanvasClient(ipField.getText(), portField.getText());
+		}
+	}
+
+
 }

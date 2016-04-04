@@ -26,9 +26,10 @@ public class CollaborativeDrawingController
     	System.out.println("available");
     	MainServer server = new MainServer();
     	server.start();
-
+		ConnectScreen connect = new ConnectScreen();
+		connect.setVisible(true);
 		//Connect the client to the server -- does not mean that the client is "logged" in
-		CanvasClient client = new CanvasClient();
+		//CanvasClient client = new CanvasClient();
     }
 
 
