@@ -170,7 +170,10 @@ public class MainServer extends Thread{
 			case LOGIN_REQUEST:
 			{
 				if(code.length != 3)
-					return;
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("2" + '\n'));
+					cchannel.write(responseMessage);
+				}
 				//Do the login request
 				if(checkCredentials(code[1], code[2]))
 				{
@@ -191,6 +194,11 @@ public class MainServer extends Thread{
 			}
 			case CREATE_CANVAS_REQUEST:
 			{
+				if(code.length != 2)
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("2" + '\n'));
+					cchannel.write(responseMessage);
+				}
 				//Create a new canvas
 				//Check available 4 canvas servers
 				if(checkServers(code[1]))
@@ -209,6 +217,11 @@ public class MainServer extends Thread{
 			//TODO: check if joining is available
 			case JOIN_REQUEST:
 			{
+				if(code.length != 3)
+				{
+					responseMessage = encoder.encode(CharBuffer.wrap("2" + '\n'));
+					cchannel.write(responseMessage);
+				}
 				if(joinServer(code[1], code[2]))
 				{
 					responseMessage = encoder.encode(CharBuffer.wrap("0" + '\n'));
@@ -231,14 +244,62 @@ public class MainServer extends Thread{
 			}
 			case EDIT_CANVAS:
 			{
-				System.out.println("OH WHAT WE IN THE EDIT CANVAS");
-				if(code.length != 7)
+				//SocketChannel channelToSend;
+				if(code.length != 8)
 					return;
-				responseMessage = encoder.encode(CharBuffer.wrap(code[1] + '\t' + code[2] + '\t' + code[3] + '\t' +  code[4] + '\t' + code[5] +'\t' + code[6] +'\n'));
+				String serverToCheck = userServer.get(code[1]);
+				System.out.println("USER" + code[1]);
+				System.out.println("WEEEE" + serverToCheck);
+				responseMessage = encoder.encode(CharBuffer.wrap(code[2] + '\t' + code[3] + '\t' + code[4] + '\t' +  code[5] + '\t' + code[6] +'\t' + code[7] +'\n'));
+				if(serverToCheck=="1")
+				{
+					for(int i = 0; i < server1.size(); i++)
+					{
+						System.out.println(server1.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server1.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				else if(serverToCheck=="2")
+				{
+					for(int i = 0; i < server2.size(); i++)
+					{
+						System.out.println(server2.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server2.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				else if(serverToCheck=="3")
+				{
+					for(int i = 0; i < server3.size(); i++)
+					{
+						System.out.println(server3.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server3.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				else if(serverToCheck=="2")
+				{
+					for(int i = 0; i < server4.size(); i++)
+					{
+						System.out.println(server4.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server4.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				/*responseMessage = encoder.encode(CharBuffer.wrap(code[2] + '\t' + code[3] + '\t' + code[4] + '\t' +  code[5] + '\t' + code[6] +'\t' + code[7] +'\n'));
 				SocketChannel channel1 = clientList.get("asdf");
 				channel1.write(responseMessage);
 				//cchannel.write(responseMessage);
-				System.out.println(code[1] + " " + code[2] + " " + code[3] + " " + code[4] + " " + code[5] + " "  + code[6]);
+				System.out.println(code[1] + " " + code[2] + " " + code[3] + " " + code[4] + " " + code[5] + " "  + code[6]);*/
 				break;
 			}
 			case BAN_REQUEST:
