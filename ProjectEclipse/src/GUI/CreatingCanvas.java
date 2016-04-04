@@ -135,8 +135,9 @@ public class CreatingCanvas extends JFrame implements ActionListener
 		else if(e.getSource() == btnJoinExistingCanvas)
 		{
 			this.dispose();
-			SelectCanvasServer toJoinCanvas = new SelectCanvasServer(client,this);
-			toJoinCanvas.setVisible(true);
+			client.createJoinFrame(this);
+			//SelectCanvasServer toJoinCanvas = new SelectCanvasServer(client,this);
+			//toJoinCanvas.setVisible(true);
 		}
 		else if(e.getSource() == btnLogout)
 		{

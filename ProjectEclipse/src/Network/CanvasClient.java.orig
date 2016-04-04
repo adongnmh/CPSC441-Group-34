@@ -104,6 +104,23 @@ public class CanvasClient extends Thread{
 					System.out.println("blah" + code[1]);
 					canvasGUI.listFriends(code[1]);
 				}
+<<<<<<< HEAD
+				else if(code[0].equals(UPLOAD_REQUEST))
+				{
+					System.out.println("WHATS UP!!!");
+				}
+				else if(line.equals(CLEAR_REQUEST))
+				{
+					System.out.println("Ok WE CLEAR!");
+					canvasGUI.clearOther();
+				}
+				else
+				{
+					//canvasGUI.listFriends(("hello"));
+					System.out.println("HELLO");
+					canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
+				}
+=======
 				else
 				{
 					System.out.println("helloooooo!!");
@@ -111,6 +128,7 @@ public class CanvasClient extends Thread{
 				}
 				//canvasGUI.listFriends(("hello"));
 				//canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
+>>>>>>> bug_fixes
 
 				//System.out.println("LOLOLOLOL: " + line);
 			}

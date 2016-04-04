@@ -159,7 +159,6 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 	{
 		if(e.getSource() == btnJoin)
 		{
-			this.dispose();
 			System.out.println(radioGroup.getSelection().getActionCommand());
 			try
 			{
@@ -201,6 +200,15 @@ public class SelectCanvasServer extends JFrame implements ActionListener{
 			creatingCanvasFrame.setVisible(true);
 		}
 		
+	}
+
+	public void emptyMessage()
+	{
+		JFrame diaFrame = new JFrame();
+		JOptionPane.showMessageDialog(diaFrame,
+				"Server has not been created yet",
+				"Error",
+				JOptionPane.WARNING_MESSAGE);
 	}
 
 }

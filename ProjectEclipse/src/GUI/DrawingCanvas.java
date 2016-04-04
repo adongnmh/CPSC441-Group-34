@@ -151,7 +151,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                 	drawing.drawLine(oldXCoord, oldYCoord, currentXCoord, currentYCoord);
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
+						client.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
@@ -166,7 +166,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
+						client.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
@@ -203,7 +203,7 @@ public class DrawingCanvas extends JPanel implements ActionListener, ChangeListe
                     oldYCoord = currentYCoord;
 					try
 					{
-						c.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
+						client.updateCanvas(oldXCoord, oldYCoord, currentXCoord, currentYCoord,getPaintColor(),intSizeOfPen);
 					}
 					catch(Exception ex)
 					{
