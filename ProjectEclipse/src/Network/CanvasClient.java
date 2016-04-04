@@ -46,14 +46,14 @@ public class CanvasClient extends Thread{
 
 	public CanvasClient (String IP, String port)
 	{
-		InetAddress addr = null;
+		/*InetAddress addr = null;
 		try {
 			addr = InetAddress.getLocalHost();
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		currentMachineIP = addr.getHostAddress();
+		currentMachineIP = addr.getHostAddress();*/
 		
 
 		
@@ -109,7 +109,7 @@ public class CanvasClient extends Thread{
 					System.out.println("Ok WE CLEAR!");
 					canvasGUI.clearOther();
 				}
-				
+
 				canvasGUI.UpdatedLine(Integer.parseInt(code[0]), Integer.parseInt(code[1]), Integer.parseInt(code[2]), Integer.parseInt(code[3]), code[4].toString(),Integer.parseInt(code[5]));
 			
 				//canvasGUI.listFriends(("hello"));
@@ -349,7 +349,7 @@ public class CanvasClient extends Thread{
 	{
 		DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream());
 		BufferedReader inBuffer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		outBuffer.writeBytes(CLEAR_REQUEST);
+		outBuffer.writeBytes(CLEAR_REQUEST + '\t' + this.username);
 
 		
 	}

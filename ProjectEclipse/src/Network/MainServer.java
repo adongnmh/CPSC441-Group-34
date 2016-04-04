@@ -287,7 +287,7 @@ public class MainServer extends Thread{
 						channelToSend = null;
 					}
 				}
-				else if(serverToCheck=="2")
+				else if(serverToCheck=="4")
 				{
 					for(int i = 0; i < server4.size(); i++)
 					{
@@ -373,10 +373,60 @@ public class MainServer extends Thread{
 			
 			case CLEAR_REQUEST:
 			{
-				System.out.println("HMMM CLEARING");
+
+				//SocketChannel channelToSend;
+				String serverToCheck = userServer.get(code[1]);
+				System.out.println("USER" + code[1]);
+				System.out.println("WEEEE" + serverToCheck);
+				responseMessage = encoder.encode(CharBuffer.wrap(CLEAR_REQUEST + '\n'));
+				if(serverToCheck=="1")
+				{
+					for(int i = 0; i < server1.size(); i++)
+					{
+						System.out.println(server1.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server1.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				else if(serverToCheck=="2")
+				{
+					for(int i = 0; i < server2.size(); i++)
+					{
+						System.out.println(server2.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server2.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				else if(serverToCheck=="3")
+				{
+					for(int i = 0; i < server3.size(); i++)
+					{
+						System.out.println(server3.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server3.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				else if(serverToCheck=="4")
+				{
+					for(int i = 0; i < server4.size(); i++)
+					{
+						System.out.println(server4.get(i) + "user");
+						System.out.println("sent");
+						SocketChannel channelToSend = clientList.get(server4.get(i));
+						channelToSend.write(responseMessage);
+						channelToSend = null;
+					}
+				}
+				/*System.out.println("HMMM CLEARING");
 				responseMessage = encoder.encode(CharBuffer.wrap(CLEAR_REQUEST + '\n'));
 				SocketChannel channel1 = clientList.get("asdf");
-				channel1.write(responseMessage);
+				channel1.write(responseMessage);*/
 				break;
 				
 			}
